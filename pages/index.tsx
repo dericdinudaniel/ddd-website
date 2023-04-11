@@ -11,7 +11,7 @@ export default function Home() {
         <title>Create Next App</title>
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <p className="text-4xl font-bold"> Welcome to Next.js! </p>
+        <p className="text-4xl font-bold"> Hi Daniel Kang </p>
       </main>
     </>
   );
