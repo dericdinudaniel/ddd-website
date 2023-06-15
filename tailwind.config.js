@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const { fontFamily } = require("tailwindcss/defaultTheme");
+
 module.exports = {
   darkMode: "class",
   content: [
@@ -12,7 +15,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        neon_sans: "Neon_Sans, sans-serif",
+        jetbrains_mono: ["var(--font-jetbrains_mono)", ...fontFamily.mono],
       },
     },
   },

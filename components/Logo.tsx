@@ -27,7 +27,7 @@ const Logo = ({ currentTheme, className }: LogoProps) => {
           <polyline points="4 17 10 11 4 5"></polyline>
           <line x1="12" y1="19" x2="20" y2="19"></line>
         </svg>
-        <h1 className="text-3xl ml-2 font-mono self-center">DDD</h1>
+        <h1 className="text-3xl ml-2  font-jetbrains_mono">DDD</h1>
       </div>
     </Link>
   );
