@@ -6,4 +6,13 @@
   body {
     @apply antialiased bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 leading-normal tracking-normal;
   }
+
+  @font-face {
+    font-family: "Neon_Sans";
+    src: url(/public/fonts/neon_sans/NeonSans.otf) format("opentype"),
+      url(/fonts/neon_sans/NeonSans.ttf) format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
 }

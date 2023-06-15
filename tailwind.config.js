@@ -10,7 +10,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        neon_sans: "Neon_Sans, sans-serif",
+      },
+    },
   },
   plugins: [],
 };

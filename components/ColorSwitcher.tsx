@@ -6,6 +6,13 @@ interface IconProps {
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
 
+interface ColorSwitcherProps {
+  className?: string;
+}
+
+// create a variable to hold icon size
+const iconSize = "w-8 h-8";
+
 function SunIcon({ selected, ...props }: IconProps) {
   return (
     <svg
@@ -87,23 +94,23 @@ function PcIcon({ selected, ...props }: IconProps) {
   );
 }
 
-const ColorSwitcher = () => {
+const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
   const { resolvedTheme, theme, systemTheme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   return (
-    <div className="">
+    <div className={className}>
       {currentTheme === "dark" ? (
         <Button onClick={() => setTheme("light")}>
-          <MoonIcon className="w-6 h-6" selected={theme !== "system"} />
+          <MoonIcon className={iconSize} selected={theme !== "system"} />
         </Button>
       ) : (
         <Button onClick={() => setTheme("dark")}>
-          <SunIcon className="w-6 h-6" selected={theme !== "system"} />
+          <SunIcon className={iconSize} selected={theme !== "system"} />
         </Button>
       )}
       <Button onClick={() => setTheme("system")}>
-        <PcIcon className="w-6 h-6" selected={theme === "system"} />
+        <PcIcon className={iconSize} selected={theme === "system"} />
       </Button>
     </div>
   );
