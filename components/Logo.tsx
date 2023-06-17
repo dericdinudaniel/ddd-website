@@ -14,12 +14,13 @@ const Logo = ({ currentTheme, className }: LogoProps) => {
     <Link href="/">
       <div className={className}>
         <svg
-          className=""
+          className={
+            currentTheme === "dark" ? "stroke-slate-100" : "stroke-slate-900"
+          }
           width="40"
           height="40"
           viewBox="0 0 24 24"
           fill="none"
-          stroke={currentTheme === "dark" ? "#f1f5f9" : "#0f172a"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
