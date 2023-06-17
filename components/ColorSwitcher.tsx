@@ -1,5 +1,6 @@
 import { useTheme } from "next-themes";
 import Button from "./Button";
+import { useState, useEffect } from "react";
 
 interface IconProps {
   selected: boolean;
@@ -97,6 +98,11 @@ function PcIcon({ selected, ...props }: IconProps) {
 const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
   const { resolvedTheme, theme, systemTheme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
 
   return (
     <div className={className}>
