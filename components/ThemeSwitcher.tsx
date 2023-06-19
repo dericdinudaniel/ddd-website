@@ -1,42 +1,30 @@
 import { useTheme } from "next-themes";
 import Button from "./Button";
 import { useState, useEffect } from "react";
-import ThemeSwitcher from "./ThemeSwitcher";
+
 interface IconProps {
   selected: boolean;
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
 
-interface ColorSwitcherProps {
-  className?: string;
-}
-
-// create a variable to hold icon size
-const iconSize = "w-8 h-8";
-
 function SunIcon({ selected, ...props }: IconProps) {
   return (
     <svg
-      viewBox="0 0 24 24"
       fill="none"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className={
+        "w-8 h-8 " +
+        (selected
+          ? "fill-sky-400/20 stroke-sky-500"
+          : "stroke-slate-400 dark:stroke-slate-500")
+      }
     >
       <path
-        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        className={
-          selected
-            ? "fill-sky-400/20 stroke-sky-500"
-            : "stroke-slate-400 dark:stroke-slate-500"
-        }
-      />
-      <path
-        d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836"
-        className={
-          selected ? "stroke-sky-500" : "stroke-slate-400 dark:stroke-slate-500"
-        }
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
       />
     </svg>
   );
@@ -44,7 +32,7 @@ function SunIcon({ selected, ...props }: IconProps) {
 
 function MoonIcon({ selected, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -71,7 +59,7 @@ function MoonIcon({ selected, ...props }: IconProps) {
 
 function PcIcon({ selected, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <svg fill="none" viewBox="0 0 24 24" className="w-8 h-8" {...props}>
       <path
         d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6Z"
         strokeWidth="2"
@@ -95,7 +83,11 @@ function PcIcon({ selected, ...props }: IconProps) {
   );
 }
 
-const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
+const themeList = [{ name: "Light" }, { name: "Dark" }, { name: "System" }];
+
+const ThemeSwitcher = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const { theme, systemTheme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
@@ -104,23 +96,44 @@ const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
 
   if (!mounted) return null;
 
+  const renderMainIcon = () => {
+    switch (theme) {
+      case "light":
+        return <SunIcon selected={true} />;
+      case "dark":
+        return <MoonIcon selected={true} />;
+      case "system":
+        return <PcIcon selected={true} />;
+      default:
+        return null;
+    }
+  };
+
+  const selected = true;
+
   return (
-    <div className={className}>
-      {/* {currentTheme === "dark" ? (
-        <Button onClick={() => setTheme("light")}>
-          <MoonIcon className={iconSize} selected={theme !== "system"} />
-        </Button>
-      ) : (
-        <Button onClick={() => setTheme("dark")}>
-          <SunIcon className={iconSize} selected={theme !== "system"} />
-        </Button>
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="rounded-lg active:bg-slate-200 active:dark:bg-slate-800 duration-100 p-1"
+      >
+        {renderMainIcon()}
+      </button>
+
+      {isOpen && (
+        <div className="bg-slate-700 absolute flex flex-col items-start rounded-lg p-2 w-full">
+          {themeList.map((item, i) => (
+            <div
+              key={i}
+              className="flex w-full hover:bg-blue-300 p-1 cursor-pointer rounded-r-lg border-l-transparent hover:border-l-white border-l-4"
+            >
+              <h3 className="font-jetbrains_mono">{item.name}</h3>
+            </div>
+          ))}
+        </div>
       )}
-      <Button onClick={() => setTheme("system")}>
-        <PcIcon className={iconSize} selected={theme === "system"} />
-      </Button> */}
-      <ThemeSwitcher />
     </div>
   );
 };
 
-export default ColorSwitcher;
+export default ThemeSwitcher;

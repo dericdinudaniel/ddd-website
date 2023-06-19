@@ -1,18 +1,12 @@
-import { useTheme } from "next-themes";
+import React from "react";
 import Button from "./Button";
 import { useState, useEffect } from "react";
-import ThemeSwitcher from "./ThemeSwitcher";
+import { useTheme } from "next-themes";
+
 interface IconProps {
   selected: boolean;
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
-
-interface ColorSwitcherProps {
-  className?: string;
-}
-
-// create a variable to hold icon size
-const iconSize = "w-8 h-8";
 
 function SunIcon({ selected, ...props }: IconProps) {
   return (
@@ -95,32 +89,13 @@ function PcIcon({ selected, ...props }: IconProps) {
   );
 }
 
-const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
-  const { theme, systemTheme, setTheme } = useTheme();
-  const currentTheme = theme === "system" ? systemTheme : theme;
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
-
+const ColorSwitcher2 = () => {
   return (
-    <div className={className}>
-      {/* {currentTheme === "dark" ? (
-        <Button onClick={() => setTheme("light")}>
-          <MoonIcon className={iconSize} selected={theme !== "system"} />
-        </Button>
-      ) : (
-        <Button onClick={() => setTheme("dark")}>
-          <SunIcon className={iconSize} selected={theme !== "system"} />
-        </Button>
-      )}
-      <Button onClick={() => setTheme("system")}>
-        <PcIcon className={iconSize} selected={theme === "system"} />
-      </Button> */}
-      <ThemeSwitcher />
+    <div>
+      <Button></Button>
     </div>
   );
 };
 
-export default ColorSwitcher;
+export default ColorSwitcher2;
