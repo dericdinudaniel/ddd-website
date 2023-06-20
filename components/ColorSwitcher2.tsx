@@ -126,6 +126,17 @@ const ThemeSwitcher = () => {
     setSelectedOption(selected || null);
   }, [options, theme]);
 
+  // const handleThemeChange = (value: string | null) => {
+  //   setSelectedOption(value);
+  //   setTheme(value || "light");
+  // };
+
+  useEffect(() => {
+    if (selectedOption) {
+      setTheme(selectedOption.theme);
+    }
+  }, [selectedOption, setTheme]);
+
   if (!mounted) return null;
 
   const test = true;
@@ -161,7 +172,7 @@ const ThemeSwitcher = () => {
                         : "text-gray-700 dark:text-slate-100"
                     }`
                   }
-                  value={selectedOption}
+                  value={option}
                 >
                   {({ selected }) => (
                     <>
@@ -172,12 +183,11 @@ const ThemeSwitcher = () => {
                       >
                         {option.label}
                       </span>
-                      {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
-                          {option.icon}
-                        </span>
-                      ) : null}
+
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                        {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
+                        {option.icon}
+                      </span>
                     </>
                   )}
                 </Listbox.Option>
