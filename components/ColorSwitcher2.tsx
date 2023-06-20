@@ -1,36 +1,38 @@
-import React from "react";
-import Button from "./Button";
-import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import Button from "./Button";
+import { useState, useEffect, useMemo, Fragment } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface IconProps {
   selected: boolean;
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
 
+interface ThemeOption {
+  theme: string;
+  label: string;
+  icon: JSX.Element;
+}
+
 function SunIcon({ selected, ...props }: IconProps) {
   return (
     <svg
-      viewBox="0 0 24 24"
       fill="none"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className={
+        "w-8 h-8 " +
+        (selected
+          ? "fill-sky-400/20 stroke-sky-500"
+          : "stroke-slate-400 dark:stroke-slate-500")
+      }
     >
       <path
-        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        className={
-          selected
-            ? "fill-sky-400/20 stroke-sky-500"
-            : "stroke-slate-400 dark:stroke-slate-500"
-        }
-      />
-      <path
-        d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836"
-        className={
-          selected ? "stroke-sky-500" : "stroke-slate-400 dark:stroke-slate-500"
-        }
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
       />
     </svg>
   );
@@ -38,7 +40,7 @@ function SunIcon({ selected, ...props }: IconProps) {
 
 function MoonIcon({ selected, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -65,7 +67,7 @@ function MoonIcon({ selected, ...props }: IconProps) {
 
 function PcIcon({ selected, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <svg fill="none" viewBox="0 0 24 24" className="w-8 h-8" {...props}>
       <path
         d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6Z"
         strokeWidth="2"
@@ -89,13 +91,103 @@ function PcIcon({ selected, ...props }: IconProps) {
   );
 }
 
+const themeList = [{ name: "Light" }, { name: "Dark" }, { name: "System" }];
 
-const ColorSwitcher2 = () => {
+const ThemeSwitcher = () => {
+  const { theme, systemTheme, setTheme } = useTheme();
+  const currentTheme = theme === "system" ? systemTheme : theme;
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const [selectedOption, setSelectedOption] = useState<ThemeOption | null>(
+    null
+  );
+
+  const options = useMemo(
+    () => [
+      { theme: "light", label: "Light", icon: <SunIcon /> },
+      { theme: "dark", label: "Dark", icon: <MoonIcon /> },
+      { theme: "system", label: "System", icon: <PcIcon /> },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    // Get the currently used theme from your application's storage or context
+    const currentlyUsedTheme = theme;
+
+    // Find the corresponding option for the currently used theme
+    const selected = options.find(
+      (option) => option.theme === currentlyUsedTheme
+    );
+
+    // Set the selected option
+    setSelectedOption(selected || null);
+  }, [options, theme]);
+
+  if (!mounted) return null;
+
+  const test = true;
+
   return (
-    <div>
-      <Button></Button>
+    <div className="w-28">
+      <Listbox value={selectedOption} onChange={setSelectedOption}>
+        <div className="relative mt-1">
+          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white dark:bg-slate-800 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+            {/* <span className="block truncate">{selectedOption?.label}</span> */}
+            {selectedOption?.icon}
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <ChevronUpDownIcon
+                className="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {options.map((option) => (
+                <Listbox.Option
+                  key={option.label}
+                  className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      active
+                        ? "bg-amber-100 text-amber-900"
+                        : "text-gray-700 dark:text-slate-100"
+                    }`
+                  }
+                  value={selectedOption}
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate font-jetbrains_mono ${
+                          selected ? "font-medium" : "font-normal"
+                        }`}
+                      >
+                        {option.label}
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                          {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
+                          {option.icon}
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
     </div>
   );
 };
 
-export default ColorSwitcher2;
+export default ThemeSwitcher;

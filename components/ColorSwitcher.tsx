@@ -11,6 +11,12 @@ interface ColorSwitcherProps {
   className?: string;
 }
 
+interface themeOptions {
+  id: number;
+  label: string;
+  icon: JSX.Element;
+}
+
 // create a variable to hold icon size
 const iconSize = "w-8 h-8";
 
@@ -101,12 +107,11 @@ const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
   if (!mounted) return null;
 
   return (
     <div className={className}>
-      {/* {currentTheme === "dark" ? (
+      {currentTheme === "dark" ? (
         <Button onClick={() => setTheme("light")}>
           <MoonIcon className={iconSize} selected={theme !== "system"} />
         </Button>
@@ -117,8 +122,8 @@ const ColorSwitcher = ({ className }: ColorSwitcherProps) => {
       )}
       <Button onClick={() => setTheme("system")}>
         <PcIcon className={iconSize} selected={theme === "system"} />
-      </Button> */}
-      <ThemeSwitcher />
+      </Button>
+      {/* <ThemeSwitcher /> */}
     </div>
   );
 };
