@@ -146,7 +146,7 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
   const test = true;
 
   return (
-    <div className={"" + className}>
+    <div className={"z-10" + className}>
       <Listbox value={selectedOption} onChange={setSelectedOption}>
         <div className="relative mt-0">
           <Listbox.Button className="relative rounded-lg bg-white dark:bg-slate-800 py-2 px-2 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-900 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-500 sm:text-sm">
@@ -180,7 +180,7 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
                   value={option}
                 >
                   {({ selected }) => (
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-start px-2">
                       <span className="pr-2">{option.icon}</span>
                       <span
                         className={`font-jetbrains_mono pr-1 ${
