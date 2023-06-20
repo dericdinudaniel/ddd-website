@@ -15,6 +15,10 @@ interface ThemeOption {
   icon: JSX.Element;
 }
 
+interface ThemeSwitcherProps {
+  className?: string;
+}
+
 function SunIcon({ selected, ...props }: IconProps) {
   return (
     <svg
@@ -93,7 +97,7 @@ function PcIcon({ selected, ...props }: IconProps) {
 
 const themeList = [{ name: "Light" }, { name: "Dark" }, { name: "System" }];
 
-const ThemeSwitcher = () => {
+const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
   const { theme, systemTheme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
@@ -142,18 +146,19 @@ const ThemeSwitcher = () => {
   const test = true;
 
   return (
-    <div className="w-28">
+    <div className={"" + className}>
       <Listbox value={selectedOption} onChange={setSelectedOption}>
-        <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white dark:bg-slate-800 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            {/* <span className="block truncate">{selectedOption?.label}</span> */}
-            {selectedOption?.icon}
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </span>
+        <div className="relative mt-0">
+          <Listbox.Button className="relative rounded-lg bg-white dark:bg-slate-800 py-2 px-2 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-900 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-500 sm:text-sm">
+            <div className="">
+              {selectedOption?.icon}
+              {/* <span className="flex items-center">
+                <ChevronUpDownIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </span> */}
+            </div>
           </Listbox.Button>
           <Transition
             as={Fragment}
@@ -161,34 +166,30 @@ const ThemeSwitcher = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute mt-1 max-h-60 rounded-md right-0 bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.label}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                    `relative cursor-default select-none py-2 px-1 ${
                       active
-                        ? "bg-amber-100 text-amber-900"
+                        ? "bg-indigo-100 text-indigo-900"
                         : "text-gray-700 dark:text-slate-100"
                     }`
                   }
                   value={option}
                 >
                   {({ selected }) => (
-                    <>
+                    <div className="flex items-center justify-center">
+                      <span className="pr-2">{option.icon}</span>
                       <span
-                        className={`block truncate font-jetbrains_mono ${
-                          selected ? "font-medium" : "font-normal"
+                        className={`font-jetbrains_mono pr-1 ${
+                          selected ? "font-extrabold" : "font-normal"
                         }`}
                       >
                         {option.label}
                       </span>
-
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                        {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
-                        {option.icon}
-                      </span>
-                    </>
+                    </div>
                   )}
                 </Listbox.Option>
               ))}

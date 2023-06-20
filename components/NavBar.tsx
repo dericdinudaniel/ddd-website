@@ -13,8 +13,8 @@ const NavBar = () => {
       {/* flex justify-between m-8 mt-5 */}
       <nav className="flex justify-between m-8 mt-5">
         <Logo className="flex self-center" currentTheme={currentTheme} />
-        <ColorSwitcher className="self-center" />
-        <ColorSwitcher2 />
+        {/* <ColorSwitcher className="self-center" /> */}
+        <ColorSwitcher2 className="" />
       </nav>
     </>
   );
