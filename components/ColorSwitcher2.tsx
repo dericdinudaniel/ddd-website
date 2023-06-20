@@ -110,9 +110,9 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
 
   const options = useMemo(
     () => [
-      { theme: "light", label: "Light", icon: <SunIcon /> },
-      { theme: "dark", label: "Dark", icon: <MoonIcon /> },
-      { theme: "system", label: "System", icon: <PcIcon /> },
+      { theme: "light", label: "Light", icon: <SunIcon selected={true} /> },
+      { theme: "dark", label: "Dark", icon: <MoonIcon selected={true} /> },
+      { theme: "system", label: "System", icon: <PcIcon selected={true} /> },
     ],
     []
   );
