@@ -22,6 +22,7 @@ export default function Home() {
           Software Engineer. Music Producer.
         </p>
         <SocialLinks className="mt-6" />
+        <h1 className="text-center text-2xl sm:text-yellow-500">test</h1>
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface IconProps {
   selected: boolean;
+  size?: string;
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
 
@@ -19,7 +20,7 @@ interface ThemeSwitcherProps {
   className?: string;
 }
 
-function SunIcon({ selected, ...props }: IconProps) {
+function SunIcon({ selected, size, ...props }: IconProps) {
   return (
     <svg
       fill="none"
@@ -27,7 +28,8 @@ function SunIcon({ selected, ...props }: IconProps) {
       strokeWidth={2}
       stroke="currentColor"
       className={
-        "w-8 h-8 " +
+        size +
+        " " +
         (selected
           ? "fill-sky-400/20 stroke-sky-500"
           : "stroke-slate-400 dark:stroke-slate-500")
@@ -42,9 +44,9 @@ function SunIcon({ selected, ...props }: IconProps) {
   );
 }
 
-function MoonIcon({ selected, ...props }: IconProps) {
+function MoonIcon({ selected, size, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" {...props}>
+    <svg viewBox="0 0 24 24" className={size} fill="none" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -69,9 +71,9 @@ function MoonIcon({ selected, ...props }: IconProps) {
   );
 }
 
-function PcIcon({ selected, ...props }: IconProps) {
+function PcIcon({ selected, size, ...props }: IconProps) {
   return (
-    <svg fill="none" viewBox="0 0 24 24" className="w-8 h-8" {...props}>
+    <svg fill="none" viewBox="0 0 24 24" className={size} {...props}>
       <path
         d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6Z"
         strokeWidth="2"
@@ -110,9 +112,21 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
 
   const options = useMemo(
     () => [
-      { theme: "light", label: "Light", icon: <SunIcon selected={true} /> },
-      { theme: "dark", label: "Dark", icon: <MoonIcon selected={true} /> },
-      { theme: "system", label: "System", icon: <PcIcon selected={true} /> },
+      {
+        theme: "light",
+        label: "Light",
+        icon: <SunIcon selected={true} size="w-8 h-8" />,
+      },
+      {
+        theme: "dark",
+        label: "Dark",
+        icon: <MoonIcon selected={true} size="w-8 h-8" />,
+      },
+      {
+        theme: "system",
+        label: "System",
+        icon: <PcIcon selected={true} size="w-8 h-8" />,
+      },
     ],
     []
   );
@@ -146,25 +160,38 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
   const test = true;
 
   return (
-    <div className={"z-10" + className}>
+    <div className={"z-10 " + className}>
       <Listbox value={selectedOption} onChange={setSelectedOption}>
         <div className="relative mt-0">
           <Listbox.Button className="relative rounded-lg bg-white dark:bg-slate-800 py-2 px-2 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-900 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-500 sm:text-sm">
-            <div className="">
-              {selectedOption?.icon}
-              {/* <span className="flex items-center">
+            <div className="flex">
+              {selectedOption?.icon && (
+                <selectedOption.icon.type
+                  selected={true}
+                  size="h-6 w-6" // Specify the desired size here
+                />
+              )}
+              <span className="flex items-center">
                 <ChevronUpDownIcon
                   className="h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />
-              </span> */}
+              </span>
             </div>
           </Listbox.Button>
-          <Transition
+          {/* <Transition
             as={Fragment}
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
+          > */}
+          <Transition
+            enter="transition duration-100 ease-out"
+            enterFrom="transform scale-95 opacity-0"
+            enterTo="transform scale-100 opacity-100"
+            leave="transition duration-75 ease-out"
+            leaveFrom="transform scale-100 opacity-100"
+            leaveTo="transform scale-95 opacity-0"
           >
             <Listbox.Options className="absolute mt-1 max-h-60 rounded-md right-0 bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {options.map((option) => (
@@ -173,7 +200,7 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 px-1 ${
                       active
-                        ? "bg-indigo-100 text-indigo-900"
+                        ? "bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100"
                         : "text-gray-700 dark:text-slate-100"
                     }`
                   }
@@ -181,9 +208,16 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
                 >
                   {({ selected }) => (
                     <div className="flex items-center justify-start px-2">
-                      <span className="pr-2">{option.icon}</span>
+                      <span className="pr-2">
+                        {option?.icon && (
+                          <option.icon.type
+                            selected={selectedOption?.theme === option.theme}
+                            size="h-5 w-5" // Specify the desired size here
+                          />
+                        )}
+                      </span>
                       <span
-                        className={`font-jetbrains_mono pr-1 ${
+                        className={`font-jetbrains_mono pr-1' ${
                           selected ? "font-extrabold" : "font-normal"
                         }`}
                       >

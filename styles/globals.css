@@ -4,6 +4,6 @@
 
 @layer base {
   body {
-    @apply antialiased bg-gray-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 leading-normal tracking-normal;
+    @apply antialiased bg-gray-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100;
   }
 }
