@@ -217,8 +217,8 @@ const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
                         )}
                       </span>
                       <span
-                        className={`font-jetbrains_mono pr-1' ${
-                          selected ? "font-extrabold" : "font-normal"
+                        className={`font-jetbrains_mono pr-1 text-xs sm:text-base ' ${
+                          selected ? " font-extrabold" : " font-normal"
                         }`}
                       >
                         {option.label}
