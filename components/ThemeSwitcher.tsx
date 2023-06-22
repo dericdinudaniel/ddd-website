@@ -1,13 +1,26 @@
 import { useTheme } from "next-themes";
 import Button from "./Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, Fragment } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface IconProps {
   selected: boolean;
+  size?: string;
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
 
-function SunIcon({ selected, ...props }: IconProps) {
+interface ThemeOption {
+  theme: string;
+  label: string;
+  icon: JSX.Element;
+}
+
+interface ThemeSwitcherProps {
+  className?: string;
+}
+
+function SunIcon({ selected, size, ...props }: IconProps) {
   return (
     <svg
       fill="none"
@@ -15,7 +28,8 @@ function SunIcon({ selected, ...props }: IconProps) {
       strokeWidth={2}
       stroke="currentColor"
       className={
-        "w-8 h-8 " +
+        size +
+        " " +
         (selected
           ? "fill-sky-400/20 stroke-sky-500"
           : "stroke-slate-400 dark:stroke-slate-500")
@@ -30,9 +44,9 @@ function SunIcon({ selected, ...props }: IconProps) {
   );
 }
 
-function MoonIcon({ selected, ...props }: IconProps) {
+function MoonIcon({ selected, size, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" {...props}>
+    <svg viewBox="0 0 24 24" className={size} fill="none" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -57,9 +71,9 @@ function MoonIcon({ selected, ...props }: IconProps) {
   );
 }
 
-function PcIcon({ selected, ...props }: IconProps) {
+function PcIcon({ selected, size, ...props }: IconProps) {
   return (
-    <svg fill="none" viewBox="0 0 24 24" className="w-8 h-8" {...props}>
+    <svg fill="none" viewBox="0 0 24 24" className={size} {...props}>
       <path
         d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6Z"
         strokeWidth="2"
@@ -85,53 +99,143 @@ function PcIcon({ selected, ...props }: IconProps) {
 
 const themeList = [{ name: "Light" }, { name: "Dark" }, { name: "System" }];
 
-const ThemeSwitcher = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
   const { theme, systemTheme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const [selectedOption, setSelectedOption] = useState<ThemeOption | null>(
+    null
+  );
+
+  const options = useMemo(
+    () => [
+      {
+        theme: "light",
+        label: "Light",
+        icon: <SunIcon selected={true} size="w-8 h-8" />,
+      },
+      {
+        theme: "dark",
+        label: "Dark",
+        icon: <MoonIcon selected={true} size="w-8 h-8" />,
+      },
+      {
+        theme: "system",
+        label: "System",
+        icon: <PcIcon selected={true} size="w-8 h-8" />,
+      },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    // Get the currently used theme from your application's storage or context
+    const currentlyUsedTheme = theme;
+
+    // Find the corresponding option for the currently used theme
+    const selected = options.find(
+      (option) => option.theme === currentlyUsedTheme
+    );
+
+    // Set the selected option
+    setSelectedOption(selected || null);
+  }, [options, theme]);
+
+  // const handleThemeChange = (value: string | null) => {
+  //   setSelectedOption(value);
+  //   setTheme(value || "light");
+  // };
+
+  useEffect(() => {
+    if (selectedOption) {
+      setTheme(selectedOption.theme);
+    }
+  }, [selectedOption, setTheme]);
+
   if (!mounted) return null;
 
-  const renderMainIcon = () => {
-    switch (theme) {
-      case "light":
-        return <SunIcon selected={true} />;
-      case "dark":
-        return <MoonIcon selected={true} />;
-      case "system":
-        return <PcIcon selected={true} />;
-      default:
-        return null;
-    }
-  };
-
-  const selected = true;
+  const test = true;
 
   return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="rounded-lg active:bg-slate-200 active:dark:bg-slate-800 duration-100 p-1"
-      >
-        {renderMainIcon()}
-      </button>
-
-      {isOpen && (
-        <div className="bg-slate-700 absolute flex flex-col items-start rounded-lg p-2 w-full">
-          {themeList.map((item, i) => (
-            <div
-              key={i}
-              className="flex w-full hover:bg-blue-300 p-1 cursor-pointer rounded-r-lg border-l-transparent hover:border-l-white border-l-4"
+    <div className={"z-10 " + className}>
+      <Listbox value={selectedOption} onChange={setSelectedOption}>
+        {({ open }) => (
+          <div className="relative mt-0">
+            <Listbox.Button className="relative rounded-lg bg-white dark:bg-slate-800 py-2 px-2 shadow-md hover:bg-slate-50 hover:dark:bg-opacity-80 active:bg-slate-100 active:dark:bg-opacity-60 focus:outline-none focus-visible:border-slate-300 focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-500 sm:text-sm">
+              <div className="flex">
+                {selectedOption?.icon && (
+                  <selectedOption.icon.type
+                    selected={true}
+                    size="h-6 w-6" // Specify the desired size here
+                  />
+                )}
+                <span className="flex items-center">
+                  <ChevronUpDownIcon
+                    className={
+                      "h-5 w-5 text-gray-400 " +
+                      (open ? "fill-slate-800 dark:fill-slate-100" : "")
+                    }
+                    aria-hidden="true"
+                  />
+                </span>
+              </div>
+            </Listbox.Button>
+            {/* <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          > */}
+            <Transition
+              enter="transition duration-100 ease-out"
+              enterFrom="transform scale-95 opacity-0"
+              enterTo="transform scale-100 opacity-100"
+              leave="transition duration-75 ease-out"
+              leaveFrom="transform scale-100 opacity-100"
+              leaveTo="transform scale-95 opacity-0"
             >
-              <h3 className="font-jetbrains_mono">{item.name}</h3>
-            </div>
-          ))}
-        </div>
-      )}
+              <Listbox.Options className="absolute mt-1 max-h-60 rounded-md right-0 bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                {options.map((option) => (
+                  <Listbox.Option
+                    key={option.label}
+                    className={({ active }) =>
+                      `relative cursor-default select-none py-2 px-1 bg-opacity-90 active:bg-opacity-60 active:dark:bg-opacity-60 ${
+                        active
+                          ? "bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-slate-100"
+                          : "text-gray-700 dark:text-slate-100"
+                      }`
+                    }
+                    value={option}
+                  >
+                    {({ selected }) => (
+                      <div className="flex items-center justify-start px-2">
+                        <span className="pr-2">
+                          {option?.icon && (
+                            <option.icon.type
+                              selected={selectedOption?.theme === option.theme}
+                              size="h-5 w-5" // Specify the desired size here
+                            />
+                          )}
+                        </span>
+                        <span
+                          className={`font-jetbrains_mono pr-1 text-xs sm:text-base ' ${
+                            selected ? " font-extrabold" : " font-normal"
+                          }`}
+                        >
+                          {option.label}
+                        </span>
+                      </div>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          </div>
+        )}
+      </Listbox>
     </div>
   );
 };
