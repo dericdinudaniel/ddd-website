@@ -75,16 +75,33 @@ const ResumeLink = ({ currentTheme, className }: SocialLinksProps) => {
   );
 };
 
+// make an array that returns the icons
+const icons = [
+  {
+    name: "GitHub",
+    icon: GitHubIcon,
+  },
+  {
+    name: "Email",
+    icon: EmailIcon,
+  },
+  {
+    name: "LinkedIn",
+    icon: LinkedInIcon,
+  },
+  {
+    name: "Resume",
+    icon: ResumeLink,
+  },
+];
+
 const SocialLinks = ({ currentTheme, className }: SocialLinksProps) => {
   return (
-    <>
-      <div className={className + " flex justify-center gap-5"}>
-        <GitHubIcon currentTheme={currentTheme} />
-        <LinkedInIcon />
-        <EmailIcon />
-        <ResumeLink />
-      </div>
-    </>
+    <div className={className + " flex justify-center gap-5 w-full"}>
+      {icons.map((link) => {
+        return <link.icon key={link.name} className="" />;
+      })}
+    </div>
   );
 };
 
