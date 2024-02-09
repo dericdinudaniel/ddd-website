@@ -1,5 +1,4 @@
 import { useTheme } from "next-themes";
-import Button from "./Button";
 import { useState, useEffect, useMemo, Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";

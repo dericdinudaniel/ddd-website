@@ -6,4 +6,16 @@
   body {
     @apply antialiased bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100;
   }
+
+  h1 {
+    @apply font-jetbrains_mono;
+  }
+
+  p {
+    @apply font-jetbrains_mono;
+  }
+
+  a {
+    @apply font-jetbrains_mono;
+  }
 }
