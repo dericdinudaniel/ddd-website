@@ -1,5 +1,4 @@
 import React from "react";
-import Router from "next/router";
 import Link from "next/link";
 
 interface LogoProps {
@@ -8,16 +7,11 @@ interface LogoProps {
 }
 
 const Logo = ({ currentTheme, className }: LogoProps) => {
-  const router = Router;
-
   return (
     <Link href="/">
       <div className={className}>
         <svg
-          className={
-            "self-center " +
-            (currentTheme === "dark" ? "stroke-slate-100" : "stroke-slate-900")
-          }
+          className={"self-center stroke-slate-900 dark:stroke-slate-100"}
           width="40"
           height="40"
           viewBox="0 0 24 24"
