@@ -13,7 +13,7 @@ export default function Home() {
           Deric Dinu Daniel
         </h1>
         <p className="p-0 mt-2 text-center text-gray-500 sm:text-lg lg:text-xl">
-          Software Engineer. Music Producer.
+          Software Engineer (Intern) @ Bose. Music Producer.
         </p>
         <SocialLinks className="mt-6" />
       </div>
