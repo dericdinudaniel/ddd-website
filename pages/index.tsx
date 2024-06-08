@@ -1,5 +1,6 @@
 import Head from "next/head";
 import SocialLinks from "@/components/SocialLinks";
+import Companies from "@/components/Companies";
 
 export default function Home() {
   return (
@@ -13,9 +14,10 @@ export default function Home() {
           Deric Dinu Daniel
         </h1>
         <p className="p-0 mt-2 text-center text-gray-500 sm:text-lg lg:text-xl">
-          Software Engineer (Intern) @ Bose. Music Producer.
+          Software Engineer. Music Producer.
         </p>
         <SocialLinks className="mt-6" />
+        <Companies className="mt-6" />
       </div>
     </>
   );

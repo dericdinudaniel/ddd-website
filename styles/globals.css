@@ -11,6 +11,10 @@
     @apply font-jetbrains_mono;
   }
 
+  h3 {
+    @apply font-jetbrains_mono;
+  }
+
   p {
     @apply font-jetbrains_mono;
   }
