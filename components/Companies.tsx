@@ -104,10 +104,13 @@ const companies: Company[] = [
 
 const Companies = ({ className }: CompaniesProps) => {
   return (
-    <div className={`${className} space-y-4`}>
+    <div className={`${className} space-y-0`}>
       {companies.map((company) => (
-        <div key={company.name} className="flex items-center">
-          <div className="w-40 h-28 flex-shrink-0">
+        <div
+          key={company.name}
+          className="flex items-center p-3 pl-4 relative group"
+        >
+          <div className="w-20 h-22 md:w-36 md:h-28 flex-shrink-0">
             {/* <Image
               src={company.logo}
               alt={company.name}
@@ -119,14 +122,15 @@ const Companies = ({ className }: CompaniesProps) => {
           </div>
           <div className=" ml-8">
             <a
-              className="font-bold text-xl hover:underline"
+              className="font-bold underline-fade text-md"
               href={company.site}
               target="_blank"
             >
               {company.name}
             </a>
-            <h3 className="">{company.position}</h3>
+            <h3 className="text-sm">{company.position}</h3>
           </div>
+          <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-slate-900 dark:group-hover:border-slate-100 transition duration-[400ms] pointer-events-none"></div>
         </div>
       ))}
     </div>
