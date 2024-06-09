@@ -10,7 +10,7 @@ export default function Home() {
       </Head>
 
       <div className="relative max-w-5xl mx-auto pt-20 sm:pt-24 lg:pt-32">
-        <h1 className="text-5xl font-bold lg:text-7xl tracking-tight text-center">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-center">
           Deric Dinu Daniel
         </h1>
         <p className="p-0 mt-2 text-center text-gray-500 sm:text-lg lg:text-2xl">

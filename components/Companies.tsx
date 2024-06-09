@@ -110,7 +110,7 @@ const Companies = ({ className }: CompaniesProps) => {
           key={company.name}
           className="flex items-center p-3 pl-4 relative group"
         >
-          <div className="w-20 h-22 md:w-36 md:h-28 flex-shrink-0">
+          <div className="w-20 h-22 md:w-32 md:h-24 lg:w-36 lg:h-28 flex-shrink-0">
             {/* <Image
               src={company.logo}
               alt={company.name}
@@ -122,13 +122,13 @@ const Companies = ({ className }: CompaniesProps) => {
           </div>
           <div className=" ml-8">
             <a
-              className="font-bold underline-fade text-md"
+              className="font-bold underline-fade text-md md:text-xl"
               href={company.site}
               target="_blank"
             >
               {company.name}
             </a>
-            <h3 className="text-sm">{company.position}</h3>
+            <h3 className="text-sm md:text-lg">{company.position}</h3>
           </div>
           <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-slate-900 dark:group-hover:border-slate-100 transition duration-[400ms] pointer-events-none"></div>
         </div>
