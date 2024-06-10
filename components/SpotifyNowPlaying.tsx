@@ -98,7 +98,7 @@ export default function SpotifyNowPlaying() {
           </div>
           <div className="flex md:flex-row flex-col md:font-medium md:pl-0 pl-3">
             <a
-              className="text-gray-800 dark:text-gray-200  hover:underline"
+              className="text-gray-800 dark:text-gray-200  underline-fade"
               href={data.songUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -116,7 +116,7 @@ export default function SpotifyNowPlaying() {
                     rel="noopener noreferrer"
                   >
                     <p className="md:text-base text-sm">
-                      <span className="hover:underline">{artist.name}</span>
+                      <span className="underline-fade">{artist.name}</span>
                       {index < array.length - 1 && (
                         <>
                           {/* hidden md:inline-block */}
@@ -166,7 +166,7 @@ export default function SpotifyNowPlaying() {
 //     <div className="flex md:flex-row flex-col md:pl-4">
 //       {data?.songUrl ? (
 //         <a
-//           className="text-gray-800 dark:text-gray-200  hover:underline"
+//           className="text-gray-800 dark:text-gray-200  underline-fade"
 //           href={data.songUrl}
 //           target="_blank"
 //           rel="noopener noreferrer"
@@ -183,7 +183,7 @@ export default function SpotifyNowPlaying() {
 //           {data?.artists?.map((artist, index, array) => (
 //             <React.Fragment key={artist.url}>
 //               <a
-//                 className="text-gray-800 dark:text-gray-200 hover:underline"
+//                 className="text-gray-800 dark:text-gray-200 underline-fade"
 //                 href={artist.url}
 //                 target="_blank"
 //                 rel="noopener noreferrer"
@@ -207,3 +207,5 @@ export default function SpotifyNowPlaying() {
 //     </div>
 //   </div>
 // );
+
+// <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-slate-900 dark:group-hover:border-slate-100 transition duration-[400ms] pointer-events-none"></div>

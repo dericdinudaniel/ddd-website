@@ -3,15 +3,15 @@ import React from "react";
 
 interface SocialLinksProps {
   className?: string;
-  currentTheme?: string;
+  // currentTheme?: string;
 }
 
 interface IconProps {
-  currentTheme?: string;
+  // currentTheme?: string;
   [key: string]: any; // Allows other props to be passed to the SVG element
 }
 
-function GitHubIcon({ currentTheme, ...props }: IconProps) {
+function GitHubIcon({ ...props }: IconProps) {
   return (
     <Link href="https://github.com/dericdinudaniel" target="_blank">
       <svg
@@ -28,7 +28,7 @@ function GitHubIcon({ currentTheme, ...props }: IconProps) {
   );
 }
 
-function EmailIcon({ currentTheme, ...props }: IconProps) {
+function EmailIcon({ ...props }: IconProps) {
   return (
     <Link href="mailto:dericdd@umich.edu" target="_blank">
       <svg
@@ -48,7 +48,7 @@ function EmailIcon({ currentTheme, ...props }: IconProps) {
   );
 }
 
-function LinkedInIcon({ currentTheme, ...props }: IconProps) {
+function LinkedInIcon({ ...props }: IconProps) {
   return (
     <Link href="https://www.linkedin.com/in/dericdinudaniel/" target="_blank">
       <svg
@@ -61,7 +61,7 @@ function LinkedInIcon({ currentTheme, ...props }: IconProps) {
   );
 }
 
-const ResumeLink = ({ currentTheme, className }: SocialLinksProps) => {
+const ResumeLink = ({ className }: SocialLinksProps) => {
   return (
     <Link
       href="/Deric_Dinu_Daniel_Resume.pdf"
@@ -95,7 +95,7 @@ const icons = [
   },
 ];
 
-const SocialLinks = ({ currentTheme, className }: SocialLinksProps) => {
+const SocialLinks = ({ className }: SocialLinksProps) => {
   return (
     <div className={className + " flex justify-center gap-5 w-full"}>
       {icons.map((link) => {

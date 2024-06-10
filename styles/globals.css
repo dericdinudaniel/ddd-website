@@ -11,6 +11,10 @@
     @apply font-jetbrains_mono;
   }
 
+  h3 {
+    @apply font-jetbrains_mono;
+  }
+
   p {
     @apply font-jetbrains_mono;
   }
@@ -18,4 +22,28 @@
   a {
     @apply font-jetbrains_mono;
   }
+}
+
+.underline-fade {
+  position: relative;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.underline-fade::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.2s ease;
+}
+
+.underline-fade:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
