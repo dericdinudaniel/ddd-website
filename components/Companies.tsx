@@ -104,7 +104,7 @@ const companies: Company[] = [
 
 const Companies = ({ className }: CompaniesProps) => {
   return (
-    <div className={`${className} space-y-0`}>
+    <div className={`${className} px-8 md:px-28 space-y-0`}>
       {companies.map((company) => (
         <div
           key={company.name}
