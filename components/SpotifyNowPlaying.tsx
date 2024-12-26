@@ -85,13 +85,15 @@ export default function SpotifyNowPlaying() {
       {data?.songUrl ? (
         <div className="flex items-center">
           <div className="flex items-center">
-            <Image
-              src={data.albumImageUrl}
-              alt="Album Art"
-              className="rounded-xl"
-              height={64}
-              width={64}
-            />
+            <a href={data.songUrl} target="_blank">
+              <Image
+                src={data.albumImageUrl}
+                alt="Album Art"
+                className="rounded-xl"
+                height={64}
+                width={64}
+              />
+            </a>
             <div className="md:block hidden px-5">
               <AnimatedBars />
             </div>

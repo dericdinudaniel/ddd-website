@@ -9,8 +9,6 @@ interface Company {
   name: string;
   site: string;
   logo: () => JSX.Element;
-  // height: number;
-  // width: number;
   position: string;
   description: string;
 }
@@ -19,21 +17,40 @@ const companyImageClasses = "w-full h-full object-contain ";
 
 const companies: Company[] = [
   {
+    name: "Apple",
+    site: "https://www.apple.com",
+    logo: () => {
+      return (
+        <div className="w-20 h-20">
+          <Image
+            src="/company-logos/apple-logo.svg"
+            alt="Apple"
+            height={10}
+            width={10}
+            className={companyImageClasses + "dark:invert"} // Hidden in dark mode
+          />
+        </div>
+      );
+    },
+    position: "Incoming SoC Embedded Software Engineer",
+    description: "Company A is a leading tech company specializing in...",
+  },
+  {
     name: "Microsoft - Data Security and Privacy",
     site: "https://www.microsoft.com",
     logo: () => {
       return (
-        <Image
-          src="/company-logos/microsoft-logo.svg"
-          alt="Microsoft"
-          height={30}
-          width={30}
-          className={companyImageClasses}
-        />
+        <div className="w-20">
+          <Image
+            src="/company-logos/microsoft-logo.svg"
+            alt="Microsoft"
+            height={20}
+            width={20}
+            className={companyImageClasses}
+          />
+        </div>
       );
     },
-    // height: 30,
-    // width: 30,
     position: "Software Engineering Intern",
     description: "Company A is a leading tech company specializing in...",
   },
@@ -42,7 +59,7 @@ const companies: Company[] = [
     site: "https://www.bose.com",
     logo: () => {
       return (
-        <>
+        <div className="w-20">
           <Image
             src="/company-logos/bose-logo.svg"
             alt="Bose Logo"
@@ -57,11 +74,9 @@ const companies: Company[] = [
             width={100}
             className={companyImageClasses + "hidden dark:block filter invert"} // Visible in dark mode with color inverted
           />
-        </>
+        </div>
       );
     },
-    // height: 100,
-    // width: 500,
     position: "Systems Software Engineering Intern",
     description: "Company B is a global software development firm...",
   },
@@ -70,13 +85,15 @@ const companies: Company[] = [
     site: "https://www.shade.inc",
     logo: () => {
       return (
-        <Image
-          src="/company-logos/shade-logo.svg"
-          alt="Shade Logo"
-          height={100}
-          width={100}
-          className={companyImageClasses}
-        />
+        <div className="w-20">
+          <Image
+            src="/company-logos/shade-logo.svg"
+            alt="Shade Logo"
+            height={100}
+            width={100}
+            className={companyImageClasses}
+          />
+        </div>
       );
     },
     position: "Audio/Music Production Consultant",
@@ -87,40 +104,29 @@ const companies: Company[] = [
     site: "https://www.sw.siemens.com/en-US/",
     logo: () => {
       return (
-        <Image
-          src="/company-logos/siemens-logo.svg"
-          alt="Siemens Logo"
-          height={100}
-          width={100}
-          className={companyImageClasses}
-        />
+        <div className="w-20">
+          <Image
+            src="/company-logos/siemens-logo.svg"
+            alt="Siemens Logo"
+            height={100}
+            width={100}
+            className={companyImageClasses}
+          />
+        </div>
       );
     },
     position: "Software Engineering Intern",
     description: "Company C is a software development firm specializing in...",
   },
-  // Add more companies here
 ];
 
 const Companies = ({ className }: CompaniesProps) => {
   return (
     <div className={`${className} px-8 md:px-28 space-y-0`}>
       {companies.map((company) => (
-        <div
-          key={company.name}
-          className="flex items-center p-3 pl-4 relative group"
-        >
-          <div className="w-20 h-22 md:w-32 md:h-24 lg:w-32 lg:h-28 flex-shrink-0">
-            {/* <Image
-              src={company.logo}
-              alt={company.name}
-              height={company.height}
-              width={company.width}
-              className="w-full h-full object-contain"
-            /> */}
-            {company.logo()}
-          </div>
-          <div className=" ml-8">
+        <div key={company.name} className="flex items-center p-3">
+          <div>{company.logo()}</div>
+          <div className="ml-8">
             <a
               className="font-bold underline-fade text-md md:text-xl"
               href={company.site}

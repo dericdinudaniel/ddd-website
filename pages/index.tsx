@@ -9,8 +9,8 @@ export default function Home() {
         <title>Deric Dinu Daniel</title>
       </Head>
 
-      <div className="relative max-w-5xl mx-auto pt-10 sm:pt-10 lg:pt-16">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-center">
+      <div className="relative max-w-5xl mx-auto pt-6 justify-items-center">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center">
           Deric Dinu Daniel
         </h1>
         <p className="p-0 mt-2 text-center text-gray-500 sm:text-lg lg:text-2xl">

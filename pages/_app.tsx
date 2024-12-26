@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider enableSystem={true} attribute="class">
         <LayoutWrapper>
           <Component {...pageProps} />
-        </LayoutWrapper> 
+        </LayoutWrapper>
       </ThemeProvider>
     </main>
   );
