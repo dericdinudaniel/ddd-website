@@ -17,7 +17,7 @@ const companyImageClasses = "w-full h-full object-contain ";
 
 const companies: Company[] = [
   {
-    name: "Apple",
+    name: "Apple - Silicon Engineering Group",
     site: "https://www.apple.com",
     logo: () => {
       return (
