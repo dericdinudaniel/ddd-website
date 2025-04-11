@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme inline {
+  --font-header: var(--font-instrument-serif);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-sans: var(--font-geist-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-shadow: var(--shadow);
+  --color-header: var(--header);
+  --color-pill: var(--pill);
+}
+
+@layer base {
+  :root {
+    --background: hsl(0 0% 95%);
+    --foreground: hsl(0 0% 0%);
+    --primary: hsl(222, 100%, 84%);
+    --secondary: hsl(0 0% 0%);
+    --accent: hsl(0 0% 0%);
+    --muted: hsl(0, 0%, 29%);
+    --border: color-mix(in hsl, var(--foreground) 46%, white);
+    --shadow: color-mix(in hsl, var(--foreground) 38%, white);
+    --header: hsl(0 0% 95% / 0.646);
+    --pill: hsl(0 0% 90% / 0.546);
+  }
+  html[data-theme="dark"] {
+    --background: hsl(0, 0%, 5%);
+    --foreground: hsl(0 0% 100%);
+    --primary: hsl(221, 100%, 50%);
+    --secondary: hsl(0 0% 100%);
+    --accent: hsl(0 0% 100%);
+    --muted: hsl(0, 0%, 64%);
+    --border: color-mix(in hsl, var(--foreground) 35%, black);
+    --shadow: color-mix(in hsl, var(--foreground) 30%, black);
+    --header: hsl(0 0% 5% / 0.646);
+    --pill: hsl(0 0% 23.9% / 0.346);
+  }
+
+  html[data-theme="light_blue"] {
+    --background: hsl(239, 100%, 73%);
+    --foreground: hsl(0, 0%, 7%);
+    --primary: hsl(221, 100%, 50%);
+    --secondary: hsl(0 0% 100%);
+    --accent: hsl(0 0% 100%);
+    --muted: hsl(0, 0%, 20%);
+    --border: color-mix(in hsl, var(--foreground) 35%, black);
+    --shadow: color-mix(in hsl, var(--foreground) 30%, black);
+    --header: hsl(239, 100%, 73% / 0.646);
+    --pill: hsla(227, 100%, 75%, 0.346);
+  }
+  html[data-theme="dark_blue"] {
+    --background: hsl(239, 100%, 11%);
+    --foreground: hsl(0 0% 100%);
+    --primary: hsl(221, 100%, 50%);
+    --secondary: hsl(0 0% 100%);
+    --accent: hsl(0 0% 100%);
+    --muted: hsl(0, 0%, 64%);
+    --border: color-mix(in hsl, var(--foreground) 35%, black);
+    --shadow: color-mix(in hsl, var(--foreground) 30%, black);
+    --header: hsl(239, 100%, 11% / 0.646);
+    --pill: hsl(0 0% 23.9% / 0.346);
+  }
+
+  html[data-theme="light_red"] {
+    --background: hsl(0, 100%, 80%);
+    --foreground: hsl(0, 0%, 7%);
+    --primary: hsl(221, 100%, 50%);
+    --secondary: hsl(0 0% 100%);
+    --accent: hsl(0 0% 100%);
+    --muted: hsl(0, 0%, 20%);
+    --border: color-mix(in hsl, var(--foreground) 35%, black);
+    --shadow: color-mix(in hsl, var(--foreground) 30%, black);
+    --header: hsl(239, 100%, 73% / 0.646);
+    --pill: hsla(227, 100%, 75%, 0.346);
+  }
+  html[data-theme="dark_red"] {
+    --background: hsl(0, 97%, 15%);
+    --foreground: hsl(0 0% 100%);
+    --primary: hsl(221, 100%, 50%);
+    --secondary: hsl(0 0% 100%);
+    --accent: hsl(0 0% 100%);
+    --muted: hsl(0, 0%, 64%);
+    --border: color-mix(in hsl, var(--foreground) 35%, black);
+    --shadow: color-mix(in hsl, var(--foreground) 30%, black);
+    --header: hsl(239, 100%, 11% / 0.646);
+    --pill: hsl(0 0% 23.9% / 0.346);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-jetbrains-mono), monospace, Arial, Helvetica,
+    sans-serif;
+
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar class */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.no-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar-button {
+  display: none; /* Chrome */
+}
