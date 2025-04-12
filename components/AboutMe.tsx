@@ -39,9 +39,7 @@ const AboutMe = () => {
           <p>I&apos;m also into audio SW & ML.</p>
         </SlideFadeIn>
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
-          <p>
-            Despite the beauty of this website, I&apos;m not a frontend dev.
-          </p>
+          <p>I am not a frontend dev.</p>
         </SlideFadeIn>
       </div>
     </div>
