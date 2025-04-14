@@ -9,7 +9,7 @@ type SectionProps = {
 const Section2 = ({ className = "" }: SectionProps) => {
   return (
     <Section className={`${className} border-t`}>
-      <div className="flex flex-col w-full md:flex-row justify-center gap-x-10 gap-y-16 px-2">
+      <div className="flex flex-col w-full md:flex-row justify-center gap-x-10 gap-y-10 px-4">
         <Experience />
         <AboutMe />
       </div>

@@ -40,10 +40,10 @@ export default function TopArtists() {
 
   return (
     <div className="flex flex-col items-center space-y-3">
-      <h2 className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
+      <h2 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
         Top Artists
       </h2>
-      <div className="mt-3 grid grid-cols-1 gap-2">
+      <div className="mt-1 sm:mt-3 grid grid-cols-1 gap-y-1 sm:gap-y-2">
         {data.map((artist: any) => (
           <SlideFadeIn key={artist.name} direction={direction}>
             <MemoizedArtistDisplay

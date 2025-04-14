@@ -6,7 +6,7 @@ import Section3 from "./Sections/Section3";
 
 export default function MainContent() {
   return (
-    <main className="min-h-[300vh]">
+    <main>
       <Section1 />
       <Section2 />
       <Section3 />
