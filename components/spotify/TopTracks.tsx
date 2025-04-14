@@ -11,7 +11,7 @@ import { useResponsiveMaxWidth } from "@/lib/hooks/useResponsiveWidth";
 const breakpoints = [0.5, 0.39, 0.35, 0.345, 0.65];
 const MemoizedSongDisplay = memo(SongDisplay);
 
-export default function TopTracks() {
+export default function TopTracks({ className = "" }: { className?: string }) {
   const { data, isLoading } = useTopTracks();
 
   const maxWidth = useResponsiveMaxWidth(breakpoints);
@@ -27,7 +27,7 @@ export default function TopTracks() {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-3">
+    <div className={`${className} flex flex-col items-center space-y-3`}>
       <h2 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
         Top Tracks
       </h2>

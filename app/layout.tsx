@@ -30,13 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="no-scrollbar" suppressHydrationWarning>
-      {/* <head>
-        <script
-          crossOrigin="anonymous"
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-        />
-      </head> */}
-      <body className={`${fontVariables} antialiased bg-background`}>
+      <body
+        className={`${fontVariables} antialiased bg-background scroll-smooth snap-y snap-mandatory`}
+      >
         <ThemeProvider enableSystem={true} disableTransitionOnChange={true}>
           <Header />
           {children}

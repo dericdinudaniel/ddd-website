@@ -11,7 +11,7 @@ import { useResponsiveMaxWidth } from "@/lib/hooks/useResponsiveWidth";
 const breakpoints = [0.5, 0.39, 0.35, 0.345, 0.65];
 const MemoizedArtistDisplay = memo(ArtistDisplay);
 
-export default function TopArtists() {
+export default function TopArtists({ className = "" }: { className?: string }) {
   const { data, isLoading } = useTopArtists();
 
   const [direction, setDirection] = useState<"left" | "right">("right");
@@ -39,7 +39,7 @@ export default function TopArtists() {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-3">
+    <div className={`${className} flex flex-col items-center space-y-3`}>
       <h2 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
         Top Artists
       </h2>
