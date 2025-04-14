@@ -1,72 +1,84 @@
-// components/ThemeSwitcher.tsx
+"use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Monitor, Loader } from "lucide-react";
-import { motion } from "motion/react";
+import { Sun, Moon, Monitor, Loader, ChevronDown, Check } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { DropdownMenu } from "radix-ui";
 
 const ThemeSwitcher = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Ensure the component is mounted on the client side before rendering
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleThemeChange = (newTheme: string) => {
-    setTheme(newTheme);
-    setIsOpen(false);
+  const iconMap = {
+    light: <Sun className="mr-2 h-4 w-4" />,
+    dark: <Moon className="mr-2 h-4 w-4" />,
+    system: <Monitor className="mr-2 h-4 w-4" />,
   };
 
-  const getIcon = () => {
-    if (!mounted || !resolvedTheme) {
-      // Show a loading spinner while the theme is resolving
-      return <Loader className="animate-spin" />;
-    }
+  const getCurrentIcon = () => {
+    if (!mounted || !resolvedTheme) return <Loader className="animate-spin" />;
     if (theme === "system") return <Monitor />;
     return resolvedTheme === "dark" ? <Moon /> : <Sun />;
   };
 
   return (
-    <div className="inline-flex relative">
-      <motion.button
-        className=""
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {getIcon()}
-      </motion.button>
+    <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenu.Trigger asChild>
+        <button
+          className="inline-flex items-center justify-center rounded-md px-3 py-2 text-foreground transition-colors hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
+          aria-label="Select theme"
+        >
+          <motion.span whileTap={{ scale: 0.9 }}>
+            {getCurrentIcon()}
+          </motion.span>
+          <motion.span whileTap={{ scale: 0.9 }}>
+            <ChevronDown className="ml-1 h-4 w-4" />
+          </motion.span>
+        </button>
+      </DropdownMenu.Trigger>
 
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-          <ul className="text-sm">
-            <li
-              className="flex items-center p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleThemeChange("light")}
+      {/* Animate dropdown content */}
+      <AnimatePresence>
+        {isOpen && (
+          <DropdownMenu.Portal forceMount>
+            <DropdownMenu.Content
+              side="bottom"
+              align="end"
+              sideOffset={4}
+              asChild
             >
-              <Sun className="mr-2" />
-              Light Mode
-            </li>
-            <li
-              className="flex items-center p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleThemeChange("dark")}
-            >
-              <Moon className="mr-2" />
-              Dark Mode
-            </li>
-            <li
-              className="flex items-center p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleThemeChange("system")}
-            >
-              <Monitor className="mr-2" />
-              System Theme
-            </li>
-          </ul>
-        </div>
-      )}
-    </div>
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="w-44 rounded-lg bg-background border border-border shadow-md p-1 z-50"
+              >
+                {["light", "dark", "system"].map((mode) => (
+                  <DropdownMenu.Item
+                    key={mode}
+                    className="flex items-center justify-between p-2 rounded-md text-sm cursor-pointer text-foreground transition-colors hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
+                    onSelect={() => setTheme(mode)}
+                  >
+                    <span className="flex items-center">
+                      {iconMap[mode as keyof typeof iconMap]}
+                      {mode.charAt(0).toUpperCase() + mode.slice(1)} Mode
+                    </span>
+                    {theme === mode && <Check className="h-4 w-4" />}
+                  </DropdownMenu.Item>
+                ))}
+              </motion.div>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        )}
+      </AnimatePresence>
+    </DropdownMenu.Root>
   );
 };
 
