@@ -114,9 +114,6 @@ html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
-section {
-  scroll-snap-align: start;
-}
 
 /* Hide scrollbar class */
 .no-scrollbar {

@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="no-scrollbar" suppressHydrationWarning>
       <body
-        className={`${fontVariables} antialiased bg-background scroll-smooth snap-y snap-mandatory`}
+        className={`${fontVariables} antialiased bg-background scroll-smooth`}
       >
         <ThemeProvider enableSystem={true} disableTransitionOnChange={true}>
           <Header />
