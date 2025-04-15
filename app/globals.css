@@ -108,6 +108,7 @@ body {
     sans-serif;
 
   overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 html {
