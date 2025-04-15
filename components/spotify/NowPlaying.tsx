@@ -7,7 +7,7 @@ import { BsSpotify } from "react-icons/bs";
 import { SkeletonSongDisplay } from "./Skeletons";
 import { useResponsiveMaxWidth } from "@/lib/hooks/useResponsiveWidth";
 
-const breakpoints = [0.5, 0.39, 0.35, 0.345, 0.65];
+const breakpoints = [0.6, 0.5, 0.45, 0.6, 0.65];
 
 const NowPlayingContent = ({
   isLoading,
@@ -26,15 +26,15 @@ const NowPlayingContent = ({
 
   if (!isPlaying) {
     return (
-      <div className="flex items-center space-x-4">
-        <BsSpotify className="text-3xl" />
-        <p className="text-md">Not currently playing</p>
+      <div className="flex items-center space-x-4 py-1.5 px-3 md:py-2 md:px-4">
+        <BsSpotify className="text-2xl sm:text-3xl" />
+        <p className="text-sm sm:text-base">Not currently playing</p>
       </div>
     );
   }
 
   return (
-    <div className="px-2">
+    <div className="py-1 md:py-2 px-4 md:px-6">
       <SongDisplay
         title={data.title}
         songUrl={data.songUrl}
@@ -54,7 +54,7 @@ export default function NowPlaying() {
 
   return (
     <div
-      className="p-2 px-4 rounded-lg"
+      className="rounded-lg"
       // style={{ boxShadow: "0px 5px 15px var(--shadow)" }}
     >
       {/* <div className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]" /> */}

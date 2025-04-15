@@ -15,9 +15,9 @@ import { motion, AnimatePresence } from "motion/react";
 import { DropdownMenu } from "radix-ui";
 
 const iconMap = {
-  light: <Sun className="mr-2 h-4 w-4" />,
-  dark: <Moon className="mr-2 h-4 w-4" />,
-  system: <Monitor className="mr-2 h-4 w-4" />,
+  light: <Sun className="mr-2 size-6" />,
+  dark: <Moon className="mr-2 size-6" />,
+  system: <Monitor className="mr-2 size-6" />,
 };
 
 const themeOptions = [
@@ -28,7 +28,11 @@ const themeOptions = [
 
 const chevronTransition = { duration: 0.2 };
 
-const ThemeSwitcher = () => {
+type ThemeSwitcherProps = {
+  isScrolled: boolean;
+};
+
+const ThemeSwitcher = ({ isScrolled }: ThemeSwitcherProps) => {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,17 +43,27 @@ const ThemeSwitcher = () => {
   }, []);
 
   const currentIcon = useMemo(() => {
-    if (!mounted || !resolvedTheme) return <Loader className="animate-spin" />;
-    if (theme === "system") return <Monitor />;
-    return resolvedTheme === "dark" ? <Moon /> : <Sun />;
+    if (!mounted || !resolvedTheme) {
+      return <Loader className="animate-spin" />;
+    }
+
+    // Theme mode to use as key
+    const key = theme === "system" ? "system" : resolvedTheme;
+    return iconMap[key as keyof typeof iconMap];
   }, [mounted, resolvedTheme, theme]);
 
   return (
     <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenu.Trigger asChild>
-        <button
+        <motion.button
           aria-labelledby={labelId}
-          className="inline-flex items-center justify-center rounded-md px-3 py-2 text-foreground transition-colors hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
+          animate={{
+            scale: isScrolled ? 0.9 : 1,
+          }}
+          transition={{
+            duration: 0.2,
+          }}
+          className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
         >
           <span id={labelId} className="sr-only">
             Theme toggle
@@ -58,7 +72,7 @@ const ThemeSwitcher = () => {
           <motion.span whileTap={{ scale: 0.9 }}>{currentIcon}</motion.span>
 
           <AnimatePresence mode="sync" initial={false}>
-            <div className="ml-1 relative h-4 w-4 min-w-[1rem] flex items-center justify-center overflow-visible">
+            <div className="ml-0 relative size-4 min-w-[1rem] flex items-center justify-center overflow-visible">
               {isOpen ? (
                 <>
                   {/* ChevronUp enters from top */}
@@ -70,7 +84,7 @@ const ThemeSwitcher = () => {
                     transition={chevronTransition}
                     className="absolute"
                   >
-                    <ChevronUp className="h-4 w-4" />
+                    <ChevronUp className="size-4" />
                   </motion.span>
 
                   {/* ChevronDown exits downward */}
@@ -82,7 +96,7 @@ const ThemeSwitcher = () => {
                     transition={chevronTransition}
                     className="absolute"
                   >
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="size-4" />
                   </motion.span>
                 </>
               ) : (
@@ -96,7 +110,7 @@ const ThemeSwitcher = () => {
                     transition={chevronTransition}
                     className="absolute"
                   >
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="size-4" />
                   </motion.span>
 
                   {/* ChevronUp exits upward */}
@@ -108,13 +122,13 @@ const ThemeSwitcher = () => {
                     transition={chevronTransition}
                     className="absolute"
                   >
-                    <ChevronUp className="h-4 w-4" />
+                    <ChevronUp className="size-4" />
                   </motion.span>
                 </>
               )}
             </div>
           </AnimatePresence>
-        </button>
+        </motion.button>
       </DropdownMenu.Trigger>
 
       <AnimatePresence>
@@ -143,7 +157,7 @@ const ThemeSwitcher = () => {
                       {icon}
                       {label}
                     </span>
-                    {theme === key && <Check className="h-4 w-4" />}
+                    {theme === key && <Check className="size-4" />}
                   </DropdownMenu.Item>
                 ))}
               </motion.div>

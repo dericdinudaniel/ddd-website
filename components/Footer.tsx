@@ -54,7 +54,7 @@ export default function Footer() {
         />
       </div>
       <motion.footer
-        className="fixed bottom-3 z-50 backdrop-blur-lg"
+        className="fixed bottom-2 sm:bottom-3 z-50 backdrop-blur-lg"
         initial={false}
         animate={{
           boxShadow:

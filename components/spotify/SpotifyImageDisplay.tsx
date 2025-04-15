@@ -9,7 +9,7 @@ type SpotifyImageDisplayProps = {
 
 export const sizeClasses = {
   small:
-    "min-h-10 min-w-10 max-h-10 max-w-10 lg:min-h-12 lg:min-w-12 lg:max-h-12 lg:max-w-12",
+    "min-h-9 min-w-9 max-h-9 max-w-9 lg:min-h-12 lg:min-w-12 lg:max-h-12 lg:max-w-12",
   medium:
     "min-h-12 min-w-12 max-h-12 max-w-12 lg:min-h-14 lg:min-w-14 lg:max-h-14 lg:max-w-14",
   large:

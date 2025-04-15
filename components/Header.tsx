@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Terminal } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateSize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    updateSize(); // Call on mount
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollY } = useScroll();
 
@@ -43,11 +54,11 @@ export default function Header() {
       {/* <div className="h-20" /> */}
 
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 mx-auto backdrop-blur-lg"
+        className="fixed top-0 left-0 right-0 z-50 mx-auto backdrop-blur-lg py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
         initial={false}
         animate={{
           paddingLeft: isScrolled ? "1rem" : "1.5rem",
-          paddingRight: isScrolled ? "1rem" : "1.5rem",
+          paddingRight: isScrolled ? ".4rem" : "1.5rem",
           width: isScrolled ? "80%" : "100%",
           borderRadius: isScrolled ? "70px" : "0px",
           boxShadow: isScrolled
@@ -57,9 +68,6 @@ export default function Header() {
         }}
         transition={transition}
         style={{
-          y: 10,
-          paddingTop: ".5rem",
-          paddingBottom: ".5rem",
           left: "50%",
           x: "-50%",
           willChange:
@@ -85,7 +93,13 @@ export default function Header() {
             <motion.div
               initial={false}
               animate={{
-                width: isScrolled ? 35 : 45,
+                width: isScrolled
+                  ? isMobile // scroll
+                    ? 30 // mobile
+                    : 35 // desktop
+                  : isMobile // not scroll
+                  ? 40 // mobile
+                  : 45, // desktop,
                 height: isScrolled ? 35 : 45,
               }}
               transition={{
@@ -99,21 +113,24 @@ export default function Header() {
               className="font-bold"
               initial={false}
               animate={{
-                fontSize: isScrolled ? "1.5rem" : "2rem",
+                fontSize: isScrolled
+                  ? isMobile // scroll
+                    ? "1.3rem" // mobile
+                    : "1.5rem" // desktop
+                  : isMobile // not scroll
+                  ? "1.6rem" // mobile
+                  : "2rem", // desktop
               }}
               transition={{
                 duration: animationDuration,
                 delay: formationDelayDuration,
-              }}
-              style={{
-                lineHeight: 1.2,
               }}
             >
               DDD
             </motion.h1>
           </div>
 
-          <ThemeSwitcher />
+          <ThemeSwitcher isScrolled={isScrolled} />
         </div>
       </motion.header>
     </div>
