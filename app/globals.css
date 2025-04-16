@@ -22,7 +22,7 @@
   :root {
     --background: hsl(0 0% 95%);
     --foreground: hsl(0 0% 0%);
-    --primary: hsl(222, 100%, 84%);
+    --primary: hsl(222, 100%, 20%);
     --secondary: hsl(0 0% 0%);
     --accent: hsl(0 0% 0%);
     --muted: hsl(0, 0%, 29%);
@@ -34,7 +34,7 @@
   html[data-theme="dark"] {
     --background: hsl(0, 0%, 5%);
     --foreground: hsl(0 0% 100%);
-    --primary: hsl(221, 100%, 50%);
+    --primary: hsl(220, 100%, 71%);
     --secondary: hsl(0 0% 100%);
     --accent: hsl(0 0% 100%);
     --muted: hsl(0, 0%, 64%);
@@ -61,6 +61,11 @@ body {
 html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--primary);
+  color: var(--background); /* set text color */
 }
 
 /* Hide scrollbar class */

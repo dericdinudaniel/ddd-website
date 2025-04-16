@@ -40,7 +40,7 @@ const CompanyLogo = ({
           alt="Company Logo"
           height={80}
           width={80}
-          className={isDark ? "invert" : ""}
+          className={`${isDark ? "invert" : ""} select-none`}
         />
       </a>
     </div>

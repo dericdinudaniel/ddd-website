@@ -34,7 +34,7 @@ export default function SpotifyImageDisplay({
         alt={alt}
         width={640}
         height={640}
-        className={`${sizeClasses[size]} rounded object-cover`}
+        className={`${sizeClasses[size]} rounded object-cover select-none`}
       />
     </a>
   );
