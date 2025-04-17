@@ -54,7 +54,7 @@ export default function Header() {
       {/* <div className="h-20" /> */}
 
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 mx-auto backdrop-blur-lg py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
+        className="fixed top-0 left-0 right-0 z-50 mx-auto py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
         initial={false}
         animate={{
           paddingLeft: isScrolled ? "1rem" : "1.5rem",
@@ -64,14 +64,17 @@ export default function Header() {
           boxShadow: isScrolled
             ? "0px 5px 15px var(--shadow)"
             : "0px 0px 0px var(--shadow)",
-          backgroundColor: isScrolled ? "var(--pill)" : "var(--header)",
+          backgroundColor: isScrolled
+            ? "var(--pill)"
+            : "var(--fully-transparent)",
+          backdropFilter: isScrolled ? "blur(1rem)" : "blur(0px)",
         }}
         transition={transition}
         style={{
           left: "50%",
           x: "-50%",
           willChange:
-            "padding, width, borderRadius, boxShadow, backgroundColor",
+            "padding, width, borderRadius, boxShadow, backgroundColor, backdropFilter",
         }}
       >
         {/* Background Border */}

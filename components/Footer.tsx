@@ -54,7 +54,7 @@ export default function Footer() {
         />
       </div>
       <motion.footer
-        className="fixed bottom-2 sm:bottom-3 z-50 backdrop-blur-lg"
+        className="fixed bottom-2 sm:bottom-3 z-50"
         initial={false}
         animate={{
           boxShadow:
@@ -62,7 +62,10 @@ export default function Footer() {
               ? "0px 2px 12px var(--shadow)"
               : "0px 0px 0px var(--shadow)",
           backgroundColor:
-            isScrolled && !isBottom ? "var(--pill)" : "var(--header)",
+            isScrolled && !isBottom
+              ? "var(--pill)"
+              : "var(--fully-transparent)",
+          backdropFilter: isScrolled ? "blur(1rem)" : "blur(0px)",
         }}
         transition={transition}
         style={{

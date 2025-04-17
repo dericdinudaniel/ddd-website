@@ -21,7 +21,11 @@ const NowPlayingContent = ({
   maxWidth?: number;
 }) => {
   if (isLoading) {
-    return <SkeletonSongDisplay />;
+    return (
+      <div className="px-4 py-1">
+        <SkeletonSongDisplay />
+      </div>
+    );
   }
 
   if (!isPlaying) {
@@ -29,6 +33,15 @@ const NowPlayingContent = ({
       <div className="flex items-center space-x-4 py-1.5 px-3 md:py-2 md:px-4">
         <BsSpotify className="text-2xl sm:text-3xl" />
         <p className="text-sm sm:text-base">Not currently playing</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="flex items-center space-x-4 py-1.5 px-3 md:py-2 md:px-4">
+        <BsSpotify className="text-2xl sm:text-3xl" />
+        <p className="text-sm sm:text-base">Spotify API not accessible</p>
       </div>
     );
   }
