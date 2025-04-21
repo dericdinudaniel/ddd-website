@@ -33,8 +33,10 @@ const CompanyLogo = ({
 }) => {
   const isDark = invertOnDark && useIsDarkTheme();
   return (
-    <div className={`${size} flex items-center justify-center`}>
-      <a href={url} target="_blank">
+    <a href={url} target="_blank">
+      <div
+        className={`${size} flex items-center justify-center hover:scale-95 transition-transform duration-200`}
+      >
         <Image
           src={logoPath}
           alt="Company Logo"
@@ -42,8 +44,8 @@ const CompanyLogo = ({
           width={80}
           className={`${isDark ? "invert" : ""} select-none`}
         />
-      </a>
-    </div>
+      </div>
+    </a>
   );
 };
 
@@ -96,7 +98,7 @@ const Experience = () => {
       </h2>
       <div className="mt-2 md:mt-1">
         {companies.map((company) => (
-          <SlideFadeIn className="flex items-center gap-x-2" key={company.name}>
+          <SlideFadeIn className="flex items-center gap-x-3" key={company.name}>
             <div
               className={`flex-shrink-0 size-12 sm:size-14 md:size-18 flex items-center justify-center`}
             >
@@ -109,7 +111,7 @@ const Experience = () => {
             </div>
             <div>
               <a
-                className="font-semibold underline-fade text-base sm:text-xl md:text-xl xl:text-2xl break-words hover:underline"
+                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade"
                 href={company.site}
                 target="_blank"
               >

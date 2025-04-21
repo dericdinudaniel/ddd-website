@@ -77,3 +77,18 @@ html {
 .no-scrollbar::-webkit-scrollbar-button {
   display: none; /* Chrome */
 }
+
+.underline-fade {
+  display: inline;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.3s ease, background-position 0.3s ease,
+    color 0.2s ease;
+}
+
+.underline-fade:hover {
+  background-size: 100% 2px;
+  background-position: 0 100%; /* You can animate this too if needed */
+}

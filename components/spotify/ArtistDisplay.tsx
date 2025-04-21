@@ -22,7 +22,7 @@ export default function ArtistDisplay({
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-lg font-bold hover:underline text-left"
+          className="text-lg font-bold underline-fade text-left"
         >
           {name}
         </a>

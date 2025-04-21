@@ -27,7 +27,7 @@ export default function SpotifyImageDisplay({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:scale-90 transition-transform duration-200 "
+      className="hover:scale-95 transition-transform duration-200"
     >
       <Image
         src={imgUrl}

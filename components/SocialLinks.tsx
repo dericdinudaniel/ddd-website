@@ -41,7 +41,7 @@ const SocialLinks = () => {
             rel="noopener noreferrer"
             aria-label={name}
           >
-            <Icon className="size-5 md:size-6 xl:size-8" />
+            <Icon className="size-5 md:size-6 xl:size-8 hover:scale-95 transition-transform duration-200" />
           </a>
         </SlideFadeIn>
       ))}
