@@ -26,7 +26,7 @@ export default function SongDisplay({
         href={artist.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="underline-fade text-xs md:text-sm xl:text-base"
+        className="text-xs md:text-sm xl:text-base underline-fade"
       >
         {artist.name}
       </a>
@@ -46,13 +46,14 @@ export default function SongDisplay({
         <ScrollingText
           maxWidth={maxWidth}
           pauseDuration={pauseDuration}
-          className="font-bold underline-fade text-left text-sm md:text-base xl:text-lg"
+          enableUnderlineFade={true}
+          className="font-bold text-left text-sm md:text-base xl:text-lg"
         >
           <a
             href={songUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-bold underline-fade text-left text-sm md:text-base xl:text-lg"
+            className="font-bold text-left text-sm md:text-base xl:text-lg"
           >
             {title}
           </a>

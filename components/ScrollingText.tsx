@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 
 type ScrollingTextProps = {
@@ -7,6 +9,7 @@ type ScrollingTextProps = {
   pauseDuration?: number;
   scrollSpeed?: number;
   className?: string;
+  enableUnderlineFade?: boolean;
 };
 
 export default function ScrollingText({
@@ -15,6 +18,7 @@ export default function ScrollingText({
   pauseDuration = 1,
   scrollSpeed = 20,
   className = "",
+  enableUnderlineFade = false,
 }: ScrollingTextProps) {
   const textRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
@@ -29,11 +33,9 @@ export default function ScrollingText({
       }
     };
 
-    // Use a slight delay to ensure rendering is complete
     const timeoutId = setTimeout(checkScrollNecessity, 0);
-
-    // Optionally add a resize observer for dynamic content
     const resizeObserver = new ResizeObserver(checkScrollNecessity);
+
     if (textRef.current) {
       resizeObserver.observe(textRef.current);
     }
@@ -49,7 +51,7 @@ export default function ScrollingText({
 
   const content = shouldScroll ? (
     <motion.div
-      className={`block ${className}`}
+      className="inline-block"
       ref={textRef}
       animate={{
         x: [0, -scrollDistance, -scrollDistance, 0, 0],
@@ -61,17 +63,21 @@ export default function ScrollingText({
         times: [0, 0.4, 0.6, 1],
       }}
     >
-      {children}
+      <span className={`${enableUnderlineFade ? "underline-fade" : ""}`}>
+        {children}
+      </span>
     </motion.div>
   ) : (
-    <div className={`block ${className}`} ref={textRef}>
-      {children}
+    <div className="inline-block" ref={textRef}>
+      <span className={`${enableUnderlineFade ? "underline-fade" : ""}`}>
+        {children}
+      </span>
     </div>
   );
 
   return (
     <div
-      className="overflow-hidden whitespace-nowrap relative"
+      className={`overflow-hidden whitespace-nowrap relative ${className}`}
       style={{ maxWidth }}
     >
       {content}
