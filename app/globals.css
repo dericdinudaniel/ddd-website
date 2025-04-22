@@ -28,8 +28,8 @@
     --muted: hsl(0, 0%, 29%);
     --border: color-mix(in hsl, var(--foreground) 46%, white);
     --shadow: color-mix(in hsl, var(--foreground) 38%, white);
-    --header: hsl(0 0% 95% / 0.646);
-    --pill: hsl(0 0% 90% / 0.546);
+    --pill: hsl(0 0% 95% / 0.346);
+    --fully-transparent: hsl(0 0% 95% / 0);
   }
   html[data-theme="dark"] {
     --background: hsl(0, 0%, 5%);
@@ -40,8 +40,8 @@
     --muted: hsl(0, 0%, 64%);
     --border: color-mix(in hsl, var(--foreground) 35%, black);
     --shadow: color-mix(in hsl, var(--foreground) 30%, black);
-    --header: hsl(0 0% 5% / 0.646);
     --pill: hsl(0 0% 23.9% / 0.346);
+    --fully-transparent: hsl(0 0% 5% / 0);
   }
 }
 

@@ -63,7 +63,7 @@ const ThemeSwitcher = ({ isScrolled }: ThemeSwitcherProps) => {
           transition={{
             duration: 0.2,
           }}
-          className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
+          className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
         >
           <span id={labelId} className="sr-only">
             Theme toggle
@@ -150,7 +150,7 @@ const ThemeSwitcher = ({ isScrolled }: ThemeSwitcherProps) => {
                 {themeOptions.map(({ key, label, icon }) => (
                   <DropdownMenu.Item
                     key={key}
-                    className="flex items-center justify-between p-2 rounded-md text-sm cursor-pointer text-foreground transition-colors hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
+                    className="flex items-center justify-between p-2 rounded-md text-sm cursor-pointer text-foreground transition-all duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
                     onSelect={() => setTheme(key)}
                   >
                     <span className="flex items-center">

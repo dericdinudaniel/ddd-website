@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Terminal } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import ThemeSwitcher from "./ThemeSwitcher";
+import Link from "next/link";
 
 export default function Header() {
   const [isMobile, setIsMobile] = useState(false);
@@ -110,7 +111,9 @@ export default function Header() {
                 delay: formationDelayDuration,
               }}
             >
-              <Terminal className="w-full h-full" />
+              <Link href="/">
+                <Terminal className="w-full h-full" />
+              </Link>
             </motion.div>
             <motion.h1
               className="font-bold"
