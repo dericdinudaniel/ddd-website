@@ -8,7 +8,7 @@ type SectionProps = {
 const Section = ({ className = "", children }: SectionProps) => {
   return (
     <div
-      className={`snap-none sm:snap-start min-h-screen flex flex-col justify-center items-center bg-background ${className}`}
+      className={`relative snap-none sm:snap-start min-h-screen flex flex-col justify-center items-center bg-background ${className}`}
     >
       {children}
     </div>

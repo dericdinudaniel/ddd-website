@@ -87,7 +87,6 @@ html {
   transition: background-size 0.3s ease, background-position 0.3s ease,
     color 0.2s ease;
 }
-
 .underline-fade:hover {
   background-size: 100% 2px;
   background-position: 0 100%; /* You can animate this too if needed */
