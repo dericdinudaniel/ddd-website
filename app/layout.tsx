@@ -4,6 +4,7 @@ import { JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { PostHogProvider } from "@/components/providers/PostHogProvider";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -34,9 +35,11 @@ export default function RootLayout({
         className={`${fontVariables} antialiased bg-background overscroll-y-auto sm:overscroll-y-none scroll-smooth`}
       >
         <ThemeProvider enableSystem={true} disableTransitionOnChange={true}>
-          <Header />
-          {children}
-          <Footer />
+          <PostHogProvider>
+            <Header />
+            {children}
+            <Footer />
+          </PostHogProvider>
         </ThemeProvider>
       </body>
     </html>
