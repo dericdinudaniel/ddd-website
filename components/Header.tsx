@@ -68,7 +68,7 @@ export default function Header() {
           backgroundColor: isScrolled
             ? "var(--pill)"
             : "var(--fully-transparent)",
-          backdropFilter: isScrolled ? "blur(1rem)" : "blur(0px)",
+          backdropFilter: isScrolled ? "blur(1rem)" : "blur(0rem)",
         }}
         transition={transition}
         style={{

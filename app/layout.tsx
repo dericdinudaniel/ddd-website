@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
+import Scrollbar from "@/components/ScrollDots";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -38,6 +39,7 @@ export default function RootLayout({
           <PostHogProvider>
             <Header />
             {children}
+            <Scrollbar />
             <Footer />
           </PostHogProvider>
         </ThemeProvider>
