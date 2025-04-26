@@ -1,55 +1,74 @@
-// app/providers.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useState } from "react";
+import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { usePostHog } from "posthog-js/react";
 
-import posthog from "posthog-js";
-import { PostHogProvider as PHProvider } from "posthog-js/react";
+let posthogInstance: any = null; // outside component, cache instance
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
-      api_host:
-        process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
-      person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
-      capture_pageview: false, // Disable automatic pageview capture, as we capture manually
-      capture_pageleave: true, // Capture pageleave events
+    if (process.env.NODE_ENV !== "production") return;
+
+    import("posthog-js").then((ph) => {
+      posthogInstance = ph.default;
+      posthogInstance.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+        api_host:
+          process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
+        autocapture: false,
+        capture_pageview: false,
+        capture_pageleave: true,
+        disable_session_recording: true,
+      });
+      setReady(true);
     });
   }, []);
 
+  if (!ready) {
+    return <>{children}</>; // don't block app from rendering
+  }
+
   return (
-    <PHProvider client={posthog}>
+    <PHProvider client={posthogInstance}>
       <SuspendedPostHogPageView />
       {children}
     </PHProvider>
   );
 }
 
-function PostHogPageView() {
+export function PostHogPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const posthog = usePostHog();
 
-  // Track pageviews
   useEffect(() => {
-    if (pathname && posthog) {
-      let url = window.origin + pathname;
-      if (searchParams.toString()) {
-        url = url + "?" + searchParams.toString();
+    if (!posthog) return;
+
+    const handlePageview = () => {
+      let url = window.location.origin + window.location.pathname;
+      if (window.location.search) {
+        url += window.location.search;
       }
 
-      posthog.capture("$pageview", { $current_url: url });
-    }
-  }, [pathname, searchParams, posthog]);
+      posthog.capture("$pageview", {
+        $current_url: url,
+      });
+    };
+
+    // Fire a pageview immediately on first render
+    handlePageview();
+
+    // Fire a pageview whenever the URL/path changes
+    // `pathname` and `searchParams` are reactive in Next.js App Router
+  }, [pathname, searchParams, posthog]); // triggers when URL changes
 
   return null;
 }
 
-// Wrap PostHogPageView in Suspense to avoid the useSearchParams usage above
-// from de-opting the whole app into client-side rendering
-// See: https://nextjs.org/docs/messages/deopted-into-client-rendering
 function SuspendedPostHogPageView() {
   return (
     <Suspense fallback={null}>
