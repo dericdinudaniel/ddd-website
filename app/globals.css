@@ -13,7 +13,7 @@
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-border: var(--border);
-  --color-shadow: var(--shadow);
+  --color-shadow_c: var(--shadow);
   --color-header: var(--header);
   --color-pill: var(--pill);
 }
