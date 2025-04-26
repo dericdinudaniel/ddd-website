@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Section from "./Section";
 import SocialLinks from "../SocialLinks";
 import { SlideFadeIn } from "../SlideFadeIn";
@@ -7,6 +8,38 @@ import Background from "../Background";
 
 type SectionProps = {
   className?: string;
+};
+
+const SubText = () => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="flex items-center justify-center z-1"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        key={hovered ? "hovered" : "default"}
+        className="whitespace-nowrap text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl"
+      >
+        {hovered ? (
+          <div className="flex gap-x-3">
+            <SlideFadeIn slideOffset={20} delay={0.06}>
+              Vibe Curator.
+            </SlideFadeIn>
+            <SlideFadeIn slideOffset={20}>Signal Processor.</SlideFadeIn>
+          </div>
+        ) : (
+          <div className="flex gap-x-3">
+            <SlideFadeIn slideOffset={20} delay={0.06}>
+              Software Engineer.
+            </SlideFadeIn>
+            <SlideFadeIn slideOffset={20}>Music Producer.</SlideFadeIn>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 const Section1 = ({ className = "" }: SectionProps) => {
@@ -18,10 +51,9 @@ const Section1 = ({ className = "" }: SectionProps) => {
           <SlideFadeIn delay={0.06}>Dinu</SlideFadeIn>
           <SlideFadeIn delay={0}>Daniel</SlideFadeIn>
         </h1>
-        <div className="text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl flex gap-x-3">
-          <SlideFadeIn slideOffset={20}>Software Engineer.</SlideFadeIn>
-          <SlideFadeIn slideOffset={20}>Music Producer.</SlideFadeIn>
-        </div>
+
+        <SubText />
+
         <SocialLinks />
       </Background>
     </Section>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { FileUser, Github, Linkedin, Mail } from "lucide-react";
 import { SlideFadeIn } from "./SlideFadeIn";
+import Link from "next/link";
 
 // --- Socials Data ---
 const socials = [
@@ -53,20 +54,20 @@ const SocialLinkItem = ({ name, icon: Icon, link }: Social) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <a
+      <Link
         href={link}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={name}
       >
         <Icon className="size-5 md:size-6 xl:size-8 hover:scale-120 hover:rotate-1 transition-transform duration-290" />
-      </a>
+      </Link>
 
       <motion.div
         variants={tooltipVariants}
         initial="hidden"
         animate={hovered ? "visible" : "hidden"}
-        className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-md bg-foreground/40 text-background text-xs px-2 py-1 z-10 whitespace-nowrap pointer-events-none"
+        className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-md bg-foreground/40 text-background text-xs px-2 py-1 whitespace-nowrap pointer-events-none select-none"
         style={{
           boxShadow: "0 2px 15px 3px var(--shadow)",
         }}

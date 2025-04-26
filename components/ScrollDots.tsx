@@ -41,14 +41,14 @@ export default function ScrollDots() {
   }, [numberOfSections]);
 
   return (
-    <div className="fixed right-1 sm:right-6 top-1/2 -translate-y-1/2 flex flex-col items-center gap-5 z-50 pointer-events-none">
+    <div className="fixed right-2 sm:right-5 top-1/2 -translate-y-1/2 flex flex-col items-center gap-5 z-50 pointer-events-none">
       {Array.from({ length: numberOfSections }).map((_, index) => (
         <motion.div
           key={index}
-          className="rounded-full bg-primary mx-auto size-2" // <-- fixed base size
+          className="rounded-full bg-foreground mx-auto size-2"
           initial={false}
           animate={{
-            scale: activeSection === index ? 2 : 1, // <-- scale instead of width/height
+            scale: activeSection === index ? 1.7 : 1,
             opacity: activeSection === index ? 1 : 0.6,
           }}
           transition={{
