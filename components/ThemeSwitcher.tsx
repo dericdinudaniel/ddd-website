@@ -30,9 +30,17 @@ const chevronTransition = { duration: 0.2 };
 
 type ThemeSwitcherProps = {
   isScrolled: boolean;
+  isMobile: boolean;
+  animationDuration: number;
+  formationDelayDuration: number;
 };
 
-const ThemeSwitcher = ({ isScrolled }: ThemeSwitcherProps) => {
+const ThemeSwitcher = ({
+  isScrolled,
+  isMobile,
+  animationDuration,
+  formationDelayDuration,
+}: ThemeSwitcherProps) => {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -58,10 +66,11 @@ const ThemeSwitcher = ({ isScrolled }: ThemeSwitcherProps) => {
         <motion.button
           aria-labelledby={labelId}
           animate={{
-            scale: isScrolled ? 0.9 : 1,
+            scale: isScrolled ? (isMobile ? 0.8 : 0.9) : 1,
           }}
           transition={{
-            duration: 0.2,
+            duration: animationDuration,
+            delay: formationDelayDuration,
           }}
           className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border"
         >
@@ -72,7 +81,7 @@ const ThemeSwitcher = ({ isScrolled }: ThemeSwitcherProps) => {
           <motion.span whileTap={{ scale: 0.9 }}>{currentIcon}</motion.span>
 
           <AnimatePresence mode="sync" initial={false}>
-            <div className="ml-0 relative size-4 min-w-[1rem] flex items-center justify-center overflow-visible">
+            <div className="ml-[-5] relative size-4 min-w-[1rem] flex items-center justify-center overflow-visible">
               {isOpen ? (
                 <>
                   {/* ChevronUp enters from top */}
