@@ -65,6 +65,9 @@ export default function ScrollDots() {
             scale: activeSection === index ? 2 : 1.3,
             opacity: 0.8,
           }}
+          whileTap={{
+            scale: 1, // <-- shrink a little on click
+          }}
           transition={{
             type: "spring",
             stiffness: 300,
