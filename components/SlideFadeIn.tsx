@@ -12,7 +12,7 @@ export function SlideFadeIn({
   duration = 0.5,
   delay = 0,
   inMargin = "-50px",
-  outMargin = "-120px",
+  outMargin = "-100px",
   direction = "left",
   slideOffset = 50,
 }: {

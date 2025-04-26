@@ -40,22 +40,37 @@ export default function ScrollDots() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [numberOfSections]);
 
+  const scrollToSection = (sectionIndex: number) => {
+    const windowHeight = window.innerHeight;
+    const targetPosition = sectionIndex * windowHeight;
+
+    window.scrollTo({
+      top: targetPosition,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div className="fixed right-2 sm:right-5 top-1/2 -translate-y-1/2 flex flex-col items-center gap-5 z-50 pointer-events-none">
+    <div className="fixed right-2 sm:right-5 top-1/2 -translate-y-1/2 flex flex-col items-center z-50 pointer-events-none">
       {Array.from({ length: numberOfSections }).map((_, index) => (
-        <motion.div
+        <motion.button
           key={index}
-          className="rounded-full bg-foreground mx-auto size-2"
+          className="rounded-full bg-foreground mx-auto size-2 my-2 pointer-events-auto cursor-pointer"
           initial={false}
           animate={{
             scale: activeSection === index ? 1.7 : 1,
             opacity: activeSection === index ? 1 : 0.6,
+          }}
+          whileHover={{
+            scale: activeSection === index ? 2 : 1.3,
+            opacity: 0.8,
           }}
           transition={{
             type: "spring",
             stiffness: 300,
             damping: 20,
           }}
+          onClick={() => scrollToSection(index)}
         />
       ))}
     </div>

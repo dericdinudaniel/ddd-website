@@ -12,11 +12,12 @@ type SectionProps = {
 
 const SubText = () => {
   const [hovered, setHovered] = useState(false);
+
   return (
     <div
       className="flex items-center justify-center z-1"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
     >
       <div
         key={hovered ? "hovered" : "default"}
