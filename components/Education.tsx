@@ -15,7 +15,7 @@ const UniversityLogo = ({
   size: string;
   invertOnDark?: boolean;
 }) => {
-  const isDark = invertOnDark && useIsDarkTheme();
+  const isDark = useIsDarkTheme() && invertOnDark;
   return (
     <a href={url} target="_blank">
       <div
