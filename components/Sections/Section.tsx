@@ -4,13 +4,20 @@ type SectionProps = {
   children: React.ReactNode;
   className?: string;
   ref?: React.Ref<HTMLDivElement>;
+  sectionName?: string;
 };
 
-const Section = ({ className = "", children, ref }: SectionProps) => {
+const Section = ({
+  className = "",
+  children,
+  ref,
+  sectionName = "NAME NOT PROVIDED",
+}: SectionProps) => {
   return (
     <div
       ref={ref}
-      className={`relative snap-none sm:snap-start min-h-screen flex flex-col justify-center items-center bg-background ${className}`}
+      data-section-name={sectionName}
+      className={`relative snap-none min-h-screen flex flex-col justify-center items-center bg-background ${className}`}
     >
       {children}
     </div>

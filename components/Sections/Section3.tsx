@@ -24,7 +24,11 @@ const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
 
   if (layout === "together") {
     return (
-      <Section className={`${className} border-t`} ref={ref}>
+      <Section
+        className={`${className} border-t`}
+        ref={ref}
+        sectionName="Spotify"
+      >
         <div className="flex flex-row justify-center gap-x-6 w-full px-10">
           <div className="min-h-fit max-w-[600px] w-1/2">
             <TopTracks />
@@ -38,10 +42,18 @@ const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
   } else {
     return (
       <>
-        <Section className={`${className} border-t`} ref={ref}>
+        <Section
+          className={`${className} border-t`}
+          ref={ref}
+          sectionName="Top Tracks"
+        >
           <TopTracks />
         </Section>
-        <Section className={`${className} border-t`} ref={ref2}>
+        <Section
+          className={`${className} border-t`}
+          ref={ref2}
+          sectionName="Top Artists"
+        >
           <TopArtists />
         </Section>
       </>

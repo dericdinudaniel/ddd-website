@@ -5,6 +5,7 @@ import { Terminal } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
+import DisplaySectionName from "./DisplaySectionName";
 
 const Logo = ({
   isScrolled,
@@ -148,12 +149,20 @@ export default function Header() {
 
         {/* Content */}
         <div className="relative z-10 flex justify-between items-center">
-          <Logo
-            isScrolled={isScrolled}
-            isMobile={isMobile}
-            animationDuration={animationDuration}
-            formationDelayDuration={formationDelayDuration}
-          />
+          <div className="flex items-center gap-x-[.1rem]">
+            <Logo
+              isScrolled={isScrolled}
+              isMobile={isMobile}
+              animationDuration={animationDuration}
+              formationDelayDuration={formationDelayDuration}
+            />
+            <DisplaySectionName
+              isScrolled={isScrolled}
+              isMobile={isMobile}
+              animationDuration={animationDuration}
+              formationDelayDuration={formationDelayDuration}
+            />
+          </div>
           <ThemeSwitcher
             isScrolled={isScrolled}
             isMobile={isMobile}
