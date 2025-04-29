@@ -61,120 +61,122 @@ const ThemeSwitcher = ({
   }, [mounted, resolvedTheme, theme]);
 
   return (
-    <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenu.Trigger asChild>
-        <motion.button
-          aria-labelledby={labelId}
-          animate={{
-            scale: isScrolled ? (isMobile ? 0.8 : 0.9) : 1,
-          }}
-          transition={{
-            duration: animationDuration,
-            delay: formationDelayDuration,
-          }}
-          className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
-        >
-          <span id={labelId} className="sr-only">
-            Theme toggle
-          </span>
+    <div className="pr-2">
+      <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenu.Trigger asChild>
+          <motion.button
+            aria-labelledby={labelId}
+            animate={{
+              scale: isScrolled ? (isMobile ? 0.8 : 0.9) : 1,
+            }}
+            transition={{
+              duration: animationDuration,
+              delay: formationDelayDuration,
+            }}
+            className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
+          >
+            <span id={labelId} className="sr-only">
+              Theme toggle
+            </span>
 
-          <motion.span whileTap={{ scale: 0.9 }}>{currentIcon}</motion.span>
+            <motion.span whileTap={{ scale: 0.9 }}>{currentIcon}</motion.span>
 
-          <AnimatePresence mode="sync" initial={false}>
-            <div className="ml-[-5] relative size-4 min-w-[1rem] flex items-center justify-center overflow-visible">
-              {isOpen ? (
-                <>
-                  {/* ChevronUp enters from top */}
-                  <motion.span
-                    key="chevron-up"
-                    initial={{ opacity: 0, y: -16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={chevronTransition}
-                    className="absolute"
-                  >
-                    <ChevronUp className="size-4" />
-                  </motion.span>
+            <AnimatePresence mode="sync" initial={false}>
+              <div className="ml-[-5] relative size-4 min-w-[1rem] flex items-center justify-center overflow-visible">
+                {isOpen ? (
+                  <>
+                    {/* ChevronUp enters from top */}
+                    <motion.span
+                      key="chevron-up"
+                      initial={{ opacity: 0, y: -16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={chevronTransition}
+                      className="absolute"
+                    >
+                      <ChevronUp className="size-4" />
+                    </motion.span>
 
-                  {/* ChevronDown exits downward */}
-                  <motion.span
-                    key="chevron-down-out"
-                    initial={{ opacity: 1, y: 0 }}
-                    animate={{ opacity: 0, y: 16 }}
-                    exit={{ opacity: 0, y: 16 }}
-                    transition={chevronTransition}
-                    className="absolute"
-                  >
-                    <ChevronDown className="size-4" />
-                  </motion.span>
-                </>
-              ) : (
-                <>
-                  {/* ChevronDown enters from below */}
-                  <motion.span
-                    key="chevron-down"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 16 }}
-                    transition={chevronTransition}
-                    className="absolute"
-                  >
-                    <ChevronDown className="size-4" />
-                  </motion.span>
+                    {/* ChevronDown exits downward */}
+                    <motion.span
+                      key="chevron-down-out"
+                      initial={{ opacity: 1, y: 0 }}
+                      animate={{ opacity: 0, y: 16 }}
+                      exit={{ opacity: 0, y: 16 }}
+                      transition={chevronTransition}
+                      className="absolute"
+                    >
+                      <ChevronDown className="size-4" />
+                    </motion.span>
+                  </>
+                ) : (
+                  <>
+                    {/* ChevronDown enters from below */}
+                    <motion.span
+                      key="chevron-down"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 16 }}
+                      transition={chevronTransition}
+                      className="absolute"
+                    >
+                      <ChevronDown className="size-4" />
+                    </motion.span>
 
-                  {/* ChevronUp exits upward */}
-                  <motion.span
-                    key="chevron-up-out"
-                    initial={{ opacity: 1, y: 0 }}
-                    animate={{ opacity: 0, y: -16 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={chevronTransition}
-                    className="absolute"
-                  >
-                    <ChevronUp className="size-4" />
-                  </motion.span>
-                </>
-              )}
-            </div>
-          </AnimatePresence>
-        </motion.button>
-      </DropdownMenu.Trigger>
+                    {/* ChevronUp exits upward */}
+                    <motion.span
+                      key="chevron-up-out"
+                      initial={{ opacity: 1, y: 0 }}
+                      animate={{ opacity: 0, y: -16 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={chevronTransition}
+                      className="absolute"
+                    >
+                      <ChevronUp className="size-4" />
+                    </motion.span>
+                  </>
+                )}
+              </div>
+            </AnimatePresence>
+          </motion.button>
+        </DropdownMenu.Trigger>
 
-      <AnimatePresence>
-        {isOpen && (
-          <DropdownMenu.Portal forceMount>
-            <DropdownMenu.Content
-              side="bottom"
-              align="end"
-              sideOffset={4}
-              asChild
-            >
-              <motion.div
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
-                className="w-44 rounded-lg bg-background border border-border shadow-md p-1 z-50"
+        <AnimatePresence>
+          {isOpen && (
+            <DropdownMenu.Portal forceMount>
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={4}
+                asChild
               >
-                {themeOptions.map(({ key, label, icon }) => (
-                  <DropdownMenu.Item
-                    key={key}
-                    className="flex items-center justify-between p-2 rounded-md text-sm cursor-pointer text-foreground transition-all duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
-                    onSelect={() => setTheme(key)}
-                  >
-                    <span className="flex items-center select-none">
-                      {icon}
-                      {label}
-                    </span>
-                    {theme === key && <Check className="size-4" />}
-                  </DropdownMenu.Item>
-                ))}
-              </motion.div>
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        )}
-      </AnimatePresence>
-    </DropdownMenu.Root>
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="w-44 rounded-lg bg-background border border-border shadow-md p-1 z-50"
+                >
+                  {themeOptions.map(({ key, label, icon }) => (
+                    <DropdownMenu.Item
+                      key={key}
+                      className="flex items-center justify-between p-2 rounded-md text-sm cursor-pointer text-foreground transition-all duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
+                      onSelect={() => setTheme(key)}
+                    >
+                      <span className="flex items-center select-none">
+                        {icon}
+                        {label}
+                      </span>
+                      {theme === key && <Check className="size-4" />}
+                    </DropdownMenu.Item>
+                  ))}
+                </motion.div>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          )}
+        </AnimatePresence>
+      </DropdownMenu.Root>
+    </div>
   );
 };
 

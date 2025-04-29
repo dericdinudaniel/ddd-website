@@ -17,7 +17,7 @@ const Section = ({
     <div
       ref={ref}
       data-section-name={sectionName}
-      className={`relative snap-none min-h-screen flex flex-col justify-center items-center bg-background ${className}`}
+      className={`relative snap-none sm:snap-start min-h-screen flex flex-col justify-center items-center bg-background ${className}`}
     >
       {children}
     </div>

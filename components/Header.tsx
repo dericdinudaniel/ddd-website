@@ -6,6 +6,7 @@ import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import DisplaySectionName from "./DisplaySectionName";
+import HeaderLinks from "./HeaderLinks";
 
 const Logo = ({
   isScrolled,
@@ -19,47 +20,52 @@ const Logo = ({
   formationDelayDuration: number;
 }) => {
   return (
-    <div className="flex items-center gap-x-1">
-      <motion.div
-        initial={false}
-        animate={{
-          width: isScrolled
-            ? isMobile // scroll
-              ? 25 // mobile
-              : 33 // desktop
-            : isMobile // not scroll
-            ? 40 // mobile
-            : 45, // desktop,
-          height: isScrolled ? 35 : 45,
-        }}
-        transition={{
-          duration: animationDuration,
-          delay: formationDelayDuration,
-        }}
-      >
-        <Link href="/">
-          <Terminal className="w-full h-full" />
-        </Link>
-      </motion.div>
-      <motion.h1
-        className="font-bold"
-        initial={false}
-        animate={{
-          fontSize: isScrolled
-            ? isMobile // scroll
-              ? "1.2rem" // mobile
-              : "1.5rem" // desktop
-            : isMobile // not scroll
-            ? "1.5rem" // mobile
-            : "2rem", // desktop
-        }}
-        transition={{
-          duration: animationDuration,
-          delay: formationDelayDuration,
-        }}
-      >
-        DDD
-      </motion.h1>
+    <div className="flex items-center gap-x-1 pl-5">
+      {!isMobile && (
+        <>
+          <motion.div
+            initial={false}
+            animate={{
+              width: isScrolled
+                ? isMobile // scroll
+                  ? 25 // mobile
+                  : 33 // desktop
+                : isMobile // not scroll
+                ? 40 // mobile
+                : 45, // desktop,
+              height: isScrolled ? 35 : 45,
+            }}
+            transition={{
+              duration: animationDuration,
+              delay: formationDelayDuration,
+            }}
+          >
+            <Link href="/">
+              <Terminal className="w-full h-full" />
+            </Link>
+          </motion.div>
+
+          <motion.h1
+            className="font-bold"
+            initial={false}
+            animate={{
+              fontSize: isScrolled
+                ? isMobile // scroll
+                  ? "1.2rem" // mobile
+                  : "1.5rem" // desktop
+                : isMobile // not scroll
+                ? "1.5rem" // mobile
+                : "2rem", // desktop
+            }}
+            transition={{
+              duration: animationDuration,
+              delay: formationDelayDuration,
+            }}
+          >
+            DDD
+          </motion.h1>
+        </>
+      )}
     </div>
   );
 };
@@ -114,8 +120,8 @@ export default function Header() {
         className="fixed top-0 left-0 right-0 z-50 mx-auto py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
         initial={false}
         animate={{
-          paddingLeft: isScrolled ? "1rem" : "1.5rem",
-          paddingRight: isScrolled ? ".2rem" : "1rem",
+          // paddingLeft: isScrolled ? "1rem" : "1.5rem",
+          // paddingRight: isScrolled ? ".2rem" : "1rem",
           width: isScrolled ? (isMobile ? "95%" : "80%") : "100%",
           borderRadius: isScrolled ? "70px" : "0px",
           boxShadow: isScrolled
@@ -124,7 +130,7 @@ export default function Header() {
           backgroundColor: isScrolled
             ? "var(--pill)"
             : "var(--fully-transparent)",
-          backdropFilter: isScrolled ? "blur(1rem)" : "blur(0rem)",
+          backdropFilter: isScrolled ? "blur(.7rem)" : "blur(0rem)",
         }}
         transition={transition}
         style={{
@@ -148,8 +154,9 @@ export default function Header() {
         />
 
         {/* Content */}
-        <div className="relative z-10 flex justify-between items-center">
-          <div className="flex items-center gap-x-[.1rem]">
+        <div className="relative z-10 flex items-center">
+          {/* Left region */}
+          <div className="flex basis-0 flex-1 items-center gap-x-[.1rem]">
             <Logo
               isScrolled={isScrolled}
               isMobile={isMobile}
@@ -163,12 +170,21 @@ export default function Header() {
               formationDelayDuration={formationDelayDuration}
             />
           </div>
-          <ThemeSwitcher
-            isScrolled={isScrolled}
-            isMobile={isMobile}
-            animationDuration={animationDuration}
-            formationDelayDuration={formationDelayDuration}
-          />
+
+          {/* Center region */}
+          <div className="flex basis-0 flex-1 justify-center">
+            <HeaderLinks />
+          </div>
+
+          {/* Right region */}
+          <div className="flex basis-0 flex-1 justify-end">
+            <ThemeSwitcher
+              isScrolled={isScrolled}
+              isMobile={isMobile}
+              animationDuration={animationDuration}
+              formationDelayDuration={formationDelayDuration}
+            />
+          </div>
         </div>
       </motion.header>
     </div>

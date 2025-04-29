@@ -135,10 +135,10 @@ export default function DisplaySectionName({
               animate={{
                 fontSize: isScrolled
                   ? isMobile // scroll
-                    ? "1.2rem" // mobile
+                    ? "1.24rem" // mobile
                     : "1.5rem" // desktop
                   : isMobile // not scroll
-                  ? "1.5rem" // mobile
+                  ? "1.54rem" // mobile
                   : "2rem", // desktop
               }}
               transition={{

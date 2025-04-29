@@ -45,14 +45,14 @@ const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
         <Section
           className={`${className} border-t`}
           ref={ref}
-          sectionName="Top Tracks"
+          sectionName="Tracks"
         >
           <TopTracks />
         </Section>
         <Section
           className={`${className} border-t`}
           ref={ref2}
-          sectionName="Top Artists"
+          sectionName="Artists"
         >
           <TopArtists />
         </Section>
