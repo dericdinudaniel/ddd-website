@@ -7,16 +7,16 @@ import { useEffect, useState } from "react";
 
 type SectionProps = {
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
+  ref2?: React.Ref<HTMLDivElement>;
 };
 
-const Section3 = ({ className = "" }: SectionProps) => {
+const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
   const [layout, setLayout] = useState<"together" | "separate">("together");
-
   useEffect(() => {
     const updateLayout = () => {
       setLayout(window.innerWidth >= 640 ? "together" : "separate");
     };
-
     updateLayout(); // initial check
     window.addEventListener("resize", updateLayout);
     return () => window.removeEventListener("resize", updateLayout);
@@ -24,7 +24,7 @@ const Section3 = ({ className = "" }: SectionProps) => {
 
   if (layout === "together") {
     return (
-      <Section className={`${className} border-t`}>
+      <Section className={`${className} border-t`} ref={ref}>
         <div className="flex flex-row justify-center gap-x-6 w-full px-10">
           <div className="min-h-fit max-w-[600px] w-1/2">
             <TopTracks />
@@ -38,10 +38,10 @@ const Section3 = ({ className = "" }: SectionProps) => {
   } else {
     return (
       <>
-        <Section className={`${className} border-t`}>
+        <Section className={`${className} border-t`} ref={ref}>
           <TopTracks />
         </Section>
-        <Section className={`${className} border-t`}>
+        <Section className={`${className} border-t`} ref={ref2}>
           <TopArtists />
         </Section>
       </>

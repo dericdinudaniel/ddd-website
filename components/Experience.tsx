@@ -3,22 +3,8 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 import { SlideFadeIn } from "./SlideFadeIn";
-
-// Hook to determine dark mode
-const useIsDarkTheme = () => {
-  const { theme, resolvedTheme } = useTheme();
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    setIsDark(
-      Boolean(theme?.includes("dark") || resolvedTheme?.includes("dark"))
-    );
-  }, [theme, resolvedTheme]);
-
-  return isDark;
-};
+import { useIsDarkTheme } from "@/lib/hooks/useIsDarkTheme";
 
 const CompanyLogo = ({
   url,
@@ -96,7 +82,7 @@ const Experience = () => {
       <h2 className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
         Experience
       </h2>
-      <div className="mt-2 md:mt-1">
+      <div className="mt-0 sm:mt-1 space-y-[-3px] sm:space-y-0">
         {companies.map((company) => (
           <SlideFadeIn className="flex items-center gap-x-3" key={company.name}>
             <div
@@ -111,7 +97,7 @@ const Experience = () => {
             </div>
             <div>
               <a
-                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade"
+                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0"
                 href={company.site}
                 target="_blank"
               >

@@ -3,56 +3,59 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
-export default function ScrollDots() {
-  const [activeSection, setActiveSection] = useState(0);
-  const [numberOfSections, setNumberOfSections] = useState(3);
+type ScrollDotsProps = {
+  sectionRefs: React.RefObject<HTMLDivElement | null>[];
+};
 
+export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const updateNumberOfSections = () => {
-      if (window.innerWidth < 640) {
-        setNumberOfSections(4);
-      } else {
-        setNumberOfSections(3);
-      }
+    const updateSize = () => {
+      setIsMobile(window.innerWidth < 640);
     };
-
-    updateNumberOfSections();
-    window.addEventListener("resize", updateNumberOfSections);
-    return () => window.removeEventListener("resize", updateNumberOfSections);
+    updateSize(); // Call on mount
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
   }, []);
+
+  if (!isMobile) {
+    sectionRefs = sectionRefs.slice(0, -1);
+  }
+
+  const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
+      const scrollMiddle = window.scrollY + window.innerHeight / 2;
 
-      const sectionHeight = windowHeight;
-      const currentSection = Math.floor(
-        (scrollTop + windowHeight / 2) / sectionHeight
-      );
+      const newActiveSection = sectionRefs.findIndex((ref) => {
+        if (!ref.current) return false;
+        const rect = ref.current.getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        const bottom = top + rect.height;
+        return scrollMiddle >= top && scrollMiddle < bottom;
+      });
 
-      const clampedSection = Math.min(currentSection, numberOfSections - 1);
-
-      setActiveSection(clampedSection);
+      if (newActiveSection !== -1) {
+        setActiveSection(newActiveSection);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // run on mount too
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [numberOfSections]);
+  }, [sectionRefs]);
 
-  const scrollToSection = (sectionIndex: number) => {
-    const windowHeight = window.innerHeight;
-    const targetPosition = sectionIndex * windowHeight;
-
-    window.scrollTo({
-      top: targetPosition,
-      behavior: "smooth",
-    });
+  const scrollToSection = (index: number) => {
+    const section = sectionRefs[index]?.current;
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
     <div className="fixed right-2 sm:right-5 top-1/2 -translate-y-1/2 flex flex-col items-center z-50 pointer-events-none">
-      {Array.from({ length: numberOfSections }).map((_, index) => (
+      {sectionRefs.map((_, index) => (
         <motion.button
           key={index}
           className="rounded-full bg-foreground mx-auto size-2 my-2 pointer-events-auto cursor-pointer"
@@ -66,7 +69,7 @@ export default function ScrollDots() {
             opacity: 0.8,
           }}
           whileTap={{
-            scale: 1, // <-- shrink a little on click
+            scale: 0.8,
           }}
           transition={{
             type: "spring",

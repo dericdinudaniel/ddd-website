@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 
 const AboutMe = () => {
   const [direction, setDirection] = useState<"left" | "right">("left");
-
   useEffect(() => {
     const updateDirection = () => {
       setDirection(window.innerWidth >= 768 ? "right" : "left");
@@ -22,7 +21,7 @@ const AboutMe = () => {
         About Me
       </h2>
 
-      <div className="mt-2 px-2 w-95 sm:w-120 md:w-70 lg:w-100 2xl:lg:w-120 text-sm sm:text-base md:text-base lg:text-xl">
+      <div className="mt-0 sm:mt-1 px-2 w-95 sm:w-120 md:w-70 lg:w-100 2xl:lg:w-120 text-sm sm:text-base md:text-base lg:text-xl">
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
           <p>
             I&apos;m a software engineer & music producer based in Ann Arbor,

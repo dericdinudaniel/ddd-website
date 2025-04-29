@@ -8,6 +8,7 @@ import Background from "../Background";
 
 type SectionProps = {
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 const SubText = () => {
@@ -43,9 +44,9 @@ const SubText = () => {
   );
 };
 
-const Section1 = ({ className = "" }: SectionProps) => {
+const Section1 = ({ className = "", ref }: SectionProps) => {
   return (
-    <Section className={`${className}`}>
+    <Section className={`${className}`} ref={ref}>
       <Background className="flex flex-col justify-items-center justify-center items-center align-middle">
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-9xl font-bold font-header tracking-[.1rem] flex gap-x-2 md:gap-x-3 xl:gap-x-4">
           <SlideFadeIn delay={0.12}>Deric</SlideFadeIn>

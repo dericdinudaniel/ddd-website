@@ -65,7 +65,6 @@ const Logo = ({
 
 export default function Header() {
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     const updateSize = () => {
       setIsMobile(window.innerWidth < 640);

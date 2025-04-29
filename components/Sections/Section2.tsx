@@ -1,17 +1,22 @@
 import Section from "./Section";
 import Experience from "../Experience";
 import AboutMe from "../AboutMe";
+import Education from "../Education";
 
 type SectionProps = {
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
-const Section2 = ({ className = "" }: SectionProps) => {
+const Section2 = ({ className = "", ref }: SectionProps) => {
   return (
-    <Section className={`${className} border-t`}>
-      <div className="flex flex-col w-full md:flex-row justify-center gap-x-10 gap-y-10 px-4">
+    <Section className={`${className} border-t`} ref={ref}>
+      <div className="flex flex-col w-full md:flex-row justify-center gap-x-10 gap-y-3 px-4">
         <Experience />
-        <AboutMe />
+        <div className="flex flex-col gap-y-3">
+          <Education />
+          <AboutMe />
+        </div>
       </div>
     </Section>
   );

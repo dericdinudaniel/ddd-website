@@ -39,7 +39,6 @@ export default function RootLayout({
           <PostHogProvider>
             <Header />
             {children}
-            <Scrollbar />
             <Footer />
           </PostHogProvider>
         </ThemeProvider>
