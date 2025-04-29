@@ -24,7 +24,7 @@
     --foreground: hsl(0 0% 0%);
     --primary: hsl(222, 100%, 20%);
     --secondary: hsl(0 0% 0%);
-    --accent: hsl(0 0% 0%);
+    --accent: hsl(215, 100%, 73%);
     --muted: hsl(0, 0%, 20%);
     --border: color-mix(in hsl, var(--foreground) 46%, white);
     --shadow: color-mix(in hsl, var(--foreground) 38%, white);
@@ -36,7 +36,7 @@
     --foreground: hsl(0 0% 100%);
     --primary: hsl(220, 100%, 71%);
     --secondary: hsl(0 0% 100%);
-    --accent: hsl(0 0% 100%);
+    --accent: hsl(215, 83%, 69%);
     --muted: hsl(0, 0%, 75%);
     --border: color-mix(in hsl, var(--foreground) 35%, black);
     --shadow: color-mix(in hsl, var(--foreground) 30%, black);
