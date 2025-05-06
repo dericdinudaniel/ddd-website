@@ -5,7 +5,6 @@ import { Terminal } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
-import DisplaySectionName from "./DisplaySectionName";
 import HeaderLinks from "./HeaderLinks";
 
 const Logo = ({
@@ -21,51 +20,47 @@ const Logo = ({
 }) => {
   return (
     <div className="flex items-center gap-x-1 pl-5">
-      {!isMobile && (
-        <>
-          <motion.div
-            initial={false}
-            animate={{
-              width: isScrolled
-                ? isMobile // scroll
-                  ? 25 // mobile
-                  : 33 // desktop
-                : isMobile // not scroll
-                ? 40 // mobile
-                : 45, // desktop,
-              height: isScrolled ? 35 : 45,
-            }}
-            transition={{
-              duration: animationDuration,
-              delay: formationDelayDuration,
-            }}
-          >
-            <Link href="/">
-              <Terminal className="w-full h-full" />
-            </Link>
-          </motion.div>
+      <motion.div
+        initial={false}
+        animate={{
+          width: isScrolled
+            ? isMobile // scroll
+              ? 25 // mobile
+              : 33 // desktop
+            : isMobile // not scroll
+            ? 40 // mobile
+            : 45, // desktop,
+          height: isScrolled ? 35 : 45,
+        }}
+        transition={{
+          duration: animationDuration,
+          delay: formationDelayDuration,
+        }}
+      >
+        <Link href="/">
+          <Terminal className="w-full h-full" />
+        </Link>
+      </motion.div>
 
-          <motion.h1
-            className="font-bold"
-            initial={false}
-            animate={{
-              fontSize: isScrolled
-                ? isMobile // scroll
-                  ? "1.2rem" // mobile
-                  : "1.5rem" // desktop
-                : isMobile // not scroll
-                ? "1.5rem" // mobile
-                : "2rem", // desktop
-            }}
-            transition={{
-              duration: animationDuration,
-              delay: formationDelayDuration,
-            }}
-          >
-            DDD
-          </motion.h1>
-        </>
-      )}
+      <motion.h1
+        className="font-bold"
+        initial={false}
+        animate={{
+          fontSize: isScrolled
+            ? isMobile // scroll
+              ? "1.2rem" // mobile
+              : "1.5rem" // desktop
+            : isMobile // not scroll
+            ? "1.5rem" // mobile
+            : "2rem", // desktop
+        }}
+        transition={{
+          duration: animationDuration,
+          delay: formationDelayDuration,
+        }}
+      >
+        DDD
+      </motion.h1>
     </div>
   );
 };
@@ -158,12 +153,6 @@ export default function Header() {
           {/* Left region */}
           <div className="flex basis-0 flex-1 items-center gap-x-[.1rem]">
             <Logo
-              isScrolled={isScrolled}
-              isMobile={isMobile}
-              animationDuration={animationDuration}
-              formationDelayDuration={formationDelayDuration}
-            />
-            <DisplaySectionName
               isScrolled={isScrolled}
               isMobile={isMobile}
               animationDuration={animationDuration}
