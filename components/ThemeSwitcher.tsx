@@ -73,7 +73,7 @@ const ThemeSwitcher = ({
               duration: animationDuration,
               delay: formationDelayDuration,
             }}
-            className="inline-flex items-center justify-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
+            className="flex items-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
           >
             <span id={labelId} className="sr-only">
               Theme toggle
