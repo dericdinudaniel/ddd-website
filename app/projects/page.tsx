@@ -4,7 +4,7 @@ import React from "react";
 import { SlideFadeIn } from "@/components/SlideFadeIn";
 import { Github, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
-import ScrollProgress from "@/components/Scrollbar";
+import ScrollProgress from "@/components/ScrollProgress";
 
 // MonthYear type for month/year-only dates
 interface MonthYear {
@@ -211,7 +211,7 @@ export default function Home() {
       className="min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-start pt-20 px-8 space-y-8"
       data-section-name="projects"
     >
-      <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-header tracking-[.1rem] text-primary">
+      <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]">
         Projects
       </h1>
 
