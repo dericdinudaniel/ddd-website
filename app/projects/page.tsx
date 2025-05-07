@@ -29,7 +29,7 @@ interface Project {
   github?: string;
 }
 
-// Sample hardcoded projects list
+// hardcoded projects list
 const projects: Project[] = [
   {
     title: "This Website",
@@ -45,6 +45,8 @@ const projects: Project[] = [
       start: { month: 1, year: 2025 },
       end: { month: 5, year: 2025 },
     },
+    link: "/research/PECCA.pdf",
+    tags: ["Computer Architecture", "ECC", "C++"],
   },
   {
     title: "Advanced Out-of-Order RISC-V Core",
@@ -92,7 +94,6 @@ const projects: Project[] = [
     tags: ["Next.js", "Tailwind CSS", "TypeScript", "Flask", "Python"],
     github: "https://github.com/dericdinudaniel/eecs470-p4-gui-debugger",
     date: { start: { month: 8, year: 2024 }, end: { month: 12, year: 2024 } },
-    link: "/",
   },
 ];
 
@@ -146,43 +147,59 @@ interface ProjectCardProps {
   project: Project;
 }
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const { title, shortDescription, date, github, link, tags } = project;
+  const { title, shortDescription, date, github, link, tags } = project; // Added imageUrl
+
   return (
-    <div className="w-full h-full relative p-6 bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start mb-0">
-        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
-        <div className="flex space-x-2">
-          {link && (
-            <Link href={link} target="_blank" rel="noopener noreferrer">
-              <LinkIcon className="w-6 h-6 text-muted hover:text-primary" />
-            </Link>
-          )}
-          {github && (
-            <Link href={github} target="_blank" rel="noopener noreferrer">
-              <Github className="w-6 h-6 text-muted hover:text-primary" />
-            </Link>
-          )}
+    <div className="w-full h-full relative flex flex-col bg-background border border-border rounded-lg shadow-shadow_c shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
+      <div className="flex flex-col flex-grow p-6">
+        <div className="flex justify-between items-start mb-1">
+          <h2 className="text-xl lg:text-2xl font-bold text-foreground">
+            {title}
+          </h2>
+          <div className="flex space-x-3">
+            {link && (
+              <Link
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${title} - Live Preview`}
+              >
+                <LinkIcon className="w-6 h-6 text-muted hover:text-primary transition-colors duration-200" />
+              </Link>
+            )}
+            {github && (
+              <Link
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${title} - GitHub Repository`}
+              >
+                <Github className="w-6 h-6 text-muted hover:text-primary transition-colors duration-200" />
+              </Link>
+            )}
+          </div>
         </div>
+        {date && (
+          <p className="text-xs text-muted-foreground mb-2">
+            {formatProjectDate(date)}
+          </p>
+        )}
+        <p className="text-sm text-foreground mb-4 line-clamp-3 flex-grow">
+          {shortDescription}
+        </p>
+        {tags && tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
+            {tags.map((tag, idx) => (
+              <span
+                key={idx}
+                className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full border border-primary/20"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
-
-      {date && (
-        <p className="text-xs text-muted mb-1">{formatProjectDate(date)}</p>
-      )}
-
-      <p className="text-sm text-foreground mb-2">{shortDescription}</p>
-
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {tags.map((tag, idx) => (
-            <span
-              key={idx}
-              className="bg-foreground/10 text-muted text-xs font-medium px-2 py-1 rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
@@ -190,30 +207,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 // Main Projects page component
 export default function Home() {
   return (
-    <>
-      <section
-        className="min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-start pt-16 px-8 space-y-8"
-        data-section-name="projects"
-      >
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-header tracking-[.1rem] text-primary">
-          <SlideFadeIn>Projects</SlideFadeIn>
-        </h1>
+    <section
+      className="min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-start pt-20 px-8 space-y-8"
+      data-section-name="projects"
+    >
+      <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-header tracking-[.1rem] text-primary">
+        Projects
+      </h1>
 
-        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {projects.map((project, idx) => (
-            <SlideFadeIn
-              key={idx}
-              delay={idx * 0.01}
-              duration={0.21}
-              slideOffset={20}
-            >
-              <ProjectCard project={project} />
-            </SlideFadeIn>
-          ))}
-        </div>
-        <ScrollProgress />
-        <div className="h-20 block md:hidden" />
-      </section>
-    </>
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {projects.map((project, idx) => (
+          <SlideFadeIn
+            key={idx}
+            delay={idx * 0.01}
+            duration={0.21}
+            slideOffset={20}
+          >
+            <ProjectCard project={project} />
+          </SlideFadeIn>
+        ))}
+      </div>
+      <ScrollProgress />
+      <div className="h-20 block md:hidden" />
+    </section>
   );
 }

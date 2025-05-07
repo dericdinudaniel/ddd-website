@@ -73,16 +73,18 @@ export default function Footer() {
 
   return (
     <div className="relative flex justify-center">
-      <div
-        className={`fixed bottom-[70px] flex justify-center w-full transition-opacity duration-300 ${
-          isScrolled ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <ChevronDown
-          className="flex items-center text-muted animate-bounce"
-          size={24}
-        />
-      </div>
+      {isIndex && (
+        <div
+          className={`fixed bottom-[70px] flex justify-center w-full transition-opacity duration-300 ${
+            isScrolled ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <ChevronDown
+            className="flex items-center text-muted animate-bounce"
+            size={24}
+          />
+        </div>
+      )}
       <motion.footer
         className="fixed bottom-2 sm:bottom-3 z-50"
         initial={false}

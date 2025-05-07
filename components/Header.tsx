@@ -43,7 +43,7 @@ const Logo = ({
 
       <motion.h1
         // Initial font size set via Tailwind using CSS variable.
-        className="font-bold text-[var(--logo-text-size-not-scrolled)]"
+        className="font-bold text-[var(--logo-text-size-not-scrolled)] select-none"
         initial={false}
         animate={{
           fontSize: isScrolled
