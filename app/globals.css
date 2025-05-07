@@ -91,3 +91,29 @@ html {
   background-size: 100% 2px;
   background-position: 0 100%; /* You can animate this too if needed */
 }
+
+:root {
+  /* Default (mobile-first) values */
+  --logo-icon-width-not-scrolled: 40px;
+  --logo-icon-width-scrolled: 25px;
+
+  --logo-text-size-not-scrolled: 1.5rem; /* 24px */
+  --logo-text-size-scrolled: 1.2rem; /* 19.2px */
+
+  /* Values that were not dependent on isMobile in the original code */
+  --logo-icon-height-not-scrolled: 45px;
+  --logo-icon-height-scrolled: 35px;
+}
+
+/* Desktop overrides (Tailwind's 'sm' breakpoint is 640px) */
+@media (min-width: 640px) {
+  :root {
+    --logo-icon-width-not-scrolled: 45px;
+    --logo-icon-width-scrolled: 33px;
+    /* --logo-icon-h.,eight-not-scrolled remains 45px */
+    /* --logo-icon-height-scrolled remains 35px */
+
+    --logo-text-size-not-scrolled: 2rem; /* 32px */
+    --logo-text-size-scrolled: 1.5rem; /* 24px */
+  }
+}

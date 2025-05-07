@@ -2,35 +2,34 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Terminal } from "lucide-react";
-import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import { motion, useScroll, useMotionValueEvent } from "motion/react"; // Import remains "motion/react"
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
 
 const Logo = ({
   isScrolled,
-  isMobile,
   animationDuration,
   formationDelayDuration,
 }: {
   isScrolled: boolean;
-  isMobile: boolean;
   animationDuration: number;
   formationDelayDuration: number;
 }) => {
   return (
     <div className="flex items-center gap-x-1 pl-5">
       <motion.div
-        initial={false}
+        // Initial styles set via Tailwind using CSS variables for consistency before/without JS
+        // and for the non-scrolled state.
+        className="h-[var(--logo-icon-height-not-scrolled)] w-[var(--logo-icon-width-not-scrolled)]"
+        initial={false} // No animation on initial render; adopts animate state directly
         animate={{
           width: isScrolled
-            ? isMobile // scroll
-              ? 25 // mobile
-              : 33 // desktop
-            : isMobile // not scroll
-            ? 40 // mobile
-            : 45, // desktop,
-          height: isScrolled ? 35 : 45,
+            ? "var(--logo-icon-width-scrolled)"
+            : "var(--logo-icon-width-not-scrolled)",
+          height: isScrolled
+            ? "var(--logo-icon-height-scrolled)"
+            : "var(--logo-icon-height-not-scrolled)",
         }}
         transition={{
           duration: animationDuration,
@@ -43,16 +42,13 @@ const Logo = ({
       </motion.div>
 
       <motion.h1
-        className="font-bold"
+        // Initial font size set via Tailwind using CSS variable.
+        className="font-bold text-[var(--logo-text-size-not-scrolled)]"
         initial={false}
         animate={{
           fontSize: isScrolled
-            ? isMobile // scroll
-              ? "1.2rem" // mobile
-              : "1.5rem" // desktop
-            : isMobile // not scroll
-            ? "1.5rem" // mobile
-            : "2rem", // desktop
+            ? "var(--logo-text-size-scrolled)"
+            : "var(--logo-text-size-not-scrolled)",
         }}
         transition={{
           duration: animationDuration,
@@ -115,8 +111,6 @@ export default function Header() {
         className="fixed top-0 left-0 right-0 z-50 mx-auto py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
         initial={false}
         animate={{
-          // paddingLeft: isScrolled ? "1rem" : "1.5rem",
-          // paddingRight: isScrolled ? ".2rem" : "1rem",
           width: isScrolled ? (isMobile ? "95%" : "80%") : "100%",
           borderRadius: isScrolled ? "70px" : "0px",
           boxShadow: isScrolled
@@ -154,7 +148,6 @@ export default function Header() {
           <div className="flex basis-0 flex-1 items-center gap-x-[.1rem]">
             <Logo
               isScrolled={isScrolled}
-              isMobile={isMobile}
               animationDuration={animationDuration}
               formationDelayDuration={formationDelayDuration}
             />
