@@ -1,22 +1,43 @@
+import { motion } from "motion/react";
 import Link from "next/link";
 import React from "react";
 
 const links = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
+  { href: "/writings", label: "Writings" },
 ];
 
-const HeaderLinks = () => {
+const HeaderLinks = ({
+  isScrolled,
+  animationDuration,
+  formationDelayDuration,
+}: {
+  isScrolled: boolean;
+  animationDuration: number;
+  formationDelayDuration: number;
+}) => {
   return (
-    <div className="flex items-center gap-x-4">
+    <div className="flex items-center gap-x-2 sm:gap-x-4">
       {links.map((link) => (
-        <Link
+        <motion.span
           key={link.href}
-          href={link.href}
-          className="underline-fade hover:text-primary transition-colors duration-200"
+          className="font-semibold text-[var(--headerlinks-text-size-scrolled)] select-none"
+          initial={false}
+          animate={{
+            fontSize: isScrolled
+              ? "var(--headerlinks-text-size-scrolled)"
+              : "var(--headerlinks-text-size-not-scrolled)",
+          }}
+          transition={{
+            duration: animationDuration,
+            delay: formationDelayDuration,
+          }}
         >
-          {link.label}
-        </Link>
+          <Link href={link.href} className="underline-fade">
+            {link.label}
+          </Link>
+        </motion.span>
       ))}
     </div>
   );

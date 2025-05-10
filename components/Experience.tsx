@@ -97,7 +97,7 @@ const Experience = () => {
             </div>
             <div>
               <a
-                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0"
+                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0 hover:text-primary"
                 href={company.site}
                 target="_blank"
               >

@@ -21,7 +21,7 @@ const AboutMe = () => {
         About Me
       </h2>
 
-      <div className="mt-0 sm:mt-1 px-2 w-95 sm:w-120 md:w-70 lg:w-100 2xl:lg:w-120 text-sm sm:text-base md:text-base lg:text-xl">
+      <div className="mt-0 sm:mt-1 px-2 w-95 sm:w-120 md:w-83 lg:w-100 xl:w-120 text-sm sm:text-base md:text-base lg:text-xl">
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
           <p>
             I&apos;m a software engineer & music producer based in Ann Arbor,

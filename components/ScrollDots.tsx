@@ -71,7 +71,7 @@ export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
   };
 
   return (
-    <div className="fixed right-2 sm:right-5 top-1/2 -translate-y-1/2 flex flex-col items-center z-50 pointer-events-none">
+    <div className="fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 flex flex-col items-center z-50 pointer-events-none">
       {refs.map((_, idx) => {
         const isActive = idx === activeSection;
         return (

@@ -17,7 +17,7 @@ const Logo = ({
   formationDelayDuration: number;
 }) => {
   return (
-    <div className="flex items-center gap-x-1 pl-5">
+    <div className="flex items-center gap-x-0 sm:gap-x-1 pl-5">
       <motion.div
         // Initial styles set via Tailwind using CSS variables for consistency before/without JS
         // and for the non-scrolled state.
@@ -155,7 +155,11 @@ export default function Header() {
 
           {/* Center region */}
           <div className="flex basis-0 flex-1 justify-center">
-            <HeaderLinks />
+            <HeaderLinks
+              isScrolled={isScrolled}
+              animationDuration={animationDuration}
+              formationDelayDuration={formationDelayDuration + 0.08}
+            />
           </div>
 
           {/* Right region */}

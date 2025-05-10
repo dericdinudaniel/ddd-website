@@ -11,7 +11,7 @@ type SectionProps = {
 const Section2 = ({ className = "", ref }: SectionProps) => {
   return (
     <Section className={`${className} border-t`} ref={ref} sectionName="About">
-      <div className="flex flex-col w-full md:flex-row justify-center gap-x-10 gap-y-3 px-4">
+      <div className="flex flex-col w-full md:flex-row justify-center gap-x-10 gap-y-3 px-4 overflow-hidden">
         <Experience />
         <div className="flex flex-col gap-y-3">
           <Education />

@@ -19,15 +19,15 @@ type ProjectDate =
   | { start: MonthYear; end: MonthYear | "Present" };
 
 // Project type using ProjectDate
-interface Project {
+type Project = {
   title: string;
-  shortDescription: string;
+  shortDescription: React.ReactNode;
   longDescription?: string;
   tags?: string[];
   date?: ProjectDate;
   link?: string;
   github?: string;
-}
+};
 
 // hardcoded projects list
 const projects: Project[] = [
@@ -35,6 +35,7 @@ const projects: Project[] = [
     title: "This Website",
     shortDescription: "Personal portfolio.",
     tags: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion/motion.dev"],
+    link: "/",
     github: "https://github.com/dericdinudaniel/ddd-website",
     date: { start: { month: 4, year: 2023 }, end: "Present" },
   },
@@ -151,9 +152,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   return (
     <div className="w-full h-full relative flex flex-col bg-background border border-border rounded-lg shadow-shadow_c shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
-      <div className="flex flex-col flex-grow p-6">
+      <div className="flex flex-col flex-grow p-4">
         <div className="flex justify-between items-start mb-1">
-          <h2 className="text-xl lg:text-2xl font-bold text-foreground">
+          <h2 className="text-lg lg:text-xl font-bold text-foreground">
             {title}
           </h2>
           <div className="flex space-x-3">
@@ -208,19 +209,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 export default function Home() {
   return (
     <section
-      className="min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-start pt-20 px-8 space-y-8"
+      className="min-h-screen bg-background text-foreground flex flex-col items-center justify-start pt-20 px-8"
       data-section-name="projects"
     >
       <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]">
         Projects
       </h1>
 
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="w-full mt-8 max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">
         {projects.map((project, idx) => (
           <SlideFadeIn
             key={idx}
-            delay={idx * 0.01}
-            duration={0.21}
+            delay={idx * 0.02}
+            duration={0.3}
             slideOffset={20}
           >
             <ProjectCard project={project} />

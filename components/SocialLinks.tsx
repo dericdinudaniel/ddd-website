@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { FileUser, Github, Linkedin, Mail } from "lucide-react";
+import { FileUser, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { SlideFadeIn } from "./SlideFadeIn";
 import Link from "next/link";
 
@@ -22,6 +22,11 @@ const socials = [
     name: "LinkedIn",
     icon: Linkedin,
     link: "https://www.linkedin.com/in/dericdinudaniel/",
+  },
+  {
+    name: "Twitter",
+    icon: Twitter,
+    link: "https://x.com/dericdinudaniel",
   },
   {
     name: "Resume",
@@ -60,7 +65,7 @@ const SocialLinkItem = ({ name, icon: Icon, link }: Social) => {
         rel="noopener noreferrer"
         aria-label={name}
       >
-        <Icon className="size-5 md:size-6 xl:size-8 hover:scale-120 hover:rotate-1 transition-transform duration-290" />
+        <Icon className="size-5 md:size-6 xl:size-8 hover:scale-115 hover:rotate-1 transition-transform duration-290" />
       </Link>
 
       <motion.div
@@ -81,7 +86,7 @@ const SocialLinkItem = ({ name, icon: Icon, link }: Social) => {
 // --- Main Component ---
 const SocialLinks = () => {
   return (
-    <div className="mt-2 lg:mt-3 xl:mt-4 flex gap-x-8">
+    <div className="mt-2 lg:mt-3 xl:mt-4 flex gap-x-6 sm:gap-x-8">
       {socials.map((social, index) => (
         <SlideFadeIn
           key={social.name}

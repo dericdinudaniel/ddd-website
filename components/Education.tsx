@@ -36,7 +36,9 @@ const UniversityLogo = ({
 // University Data
 const universities = [
   {
-    name: "University of Michigan – Ann Arbor",
+    name: "University of Michigan",
+    location: "Ann Arbor, MI",
+    college: "College of Engineering",
     site: "https://eecs.engin.umich.edu/",
     logoPath: "/university-logos/umich-logo.svg",
     degree: "B.S.E. – Computer Science",
@@ -81,12 +83,13 @@ const Education = () => {
             </div>
             <div>
               <a
-                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0"
+                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0 hover:text-primary"
                 href={university.site}
                 target="_blank"
               >
                 {university.name}
               </a>
+              <h3 className="text-xs">{university.location}</h3>
               <h3 className="text-xs sm:text-base md:text-sm xl:text-base text-muted">
                 {university.degree}
               </h3>
