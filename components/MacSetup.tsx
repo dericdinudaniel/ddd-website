@@ -11,39 +11,39 @@ type MacApp = {
 const MacApps: MacApp[] = [
   {
     name: "Arc Browser",
-    link: "",
+    link: "https://arc.net/gift/6e0e6bb6",
     description:
       "I know this isn't the best for performance, but nothing beats its looks.",
   },
   {
     name: "Raycast",
-    link: "",
+    link: "https://www.raycast.com/",
     description: "I can't even fully explain how life-changing this is.",
   },
   {
     name: "Rectangle",
-    link: "",
+    link: "https://rectangleapp.com/",
     description:
       "Best window management + shortcuts. Could use Raycast if I really wanted for this.",
   },
   {
     name: "Bartender",
-    link: "",
+    link: "https://www.macbartender.com/",
     description: "Manage menubar items and clean it up.",
   },
   {
     name: "Warp",
-    link: "",
+    link: "https://app.warp.dev/referral/7DZN5L",
     description: "I use this because it looks super clean.",
   },
   {
     name: "Linear Mouse",
-    link: "",
+    link: "https://linearmouse.app/",
     description: "Customize mouse sensitivity and disable acceleration.",
   },
   {
     name: "Shottr",
-    link: "",
+    link: "https://shottr.cc/",
     description:
       "Best screenshot utility. Instant capture to clipboard, OCR, and editing.",
   },
@@ -55,12 +55,12 @@ const MacApps: MacApp[] = [
   },
   {
     name: "App Cleaner",
-    link: "",
+    link: "https://freemacsoft.net/appcleaner/",
     description: "Fully uninstall programs with no traces left behind.",
   },
   {
     name: "The Unarchiver",
-    link: "",
+    link: "https://theunarchiver.com/",
     description: "Open any compressed format.",
   },
   {

@@ -18,7 +18,7 @@ const HeaderLinks = ({
   formationDelayDuration: number;
 }) => {
   return (
-    <div className="flex items-center gap-x-2 sm:gap-x-4">
+    <div className="flex items-center gap-x-2 sm:gap-x-3">
       {links.map((link) => (
         <motion.span
           key={link.href}

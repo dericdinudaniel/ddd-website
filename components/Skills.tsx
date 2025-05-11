@@ -19,8 +19,6 @@ const technologies: skills = [
   "gdb",
   "Linux",
   "Flask",
-  "Multithreading",
-  "Sockets",
   "Networks",
   "JUCE",
   "CUDA",
