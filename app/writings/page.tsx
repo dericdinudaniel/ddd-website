@@ -24,7 +24,7 @@ const WritingsPage = () => {
               <SlideFadeIn key={idx} delay={0.03 * idx} duration={0.35}>
                 <Link
                   href={article.href}
-                  className="underline text-primary font-semibold"
+                  className="underline text-primary font-semibold text-base sm:text-lg"
                 >
                   {article.label}
                 </Link>

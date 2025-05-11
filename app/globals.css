@@ -6,6 +6,9 @@
   --font-mono: var(--font-jetbrains-mono);
   --font-sans: var(--font-geist-sans);
 
+  --text-2xs: 0.65rem;
+  --text-2xs--line-height: calc(1 / 0.8);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -94,18 +97,18 @@ html {
 
 :root {
   /* Default (mobile-first) values */
-  --logo-icon-width-not-scrolled: 32px;
+  --logo-icon-width-not-scrolled: 28px;
   --logo-icon-width-scrolled: 25px;
 
-  --logo-text-size-not-scrolled: 1.5rem; /* 24px */
+  --logo-text-size-not-scrolled: 1.4rem; /* 24px */
   --logo-text-size-scrolled: 1.2rem; /* 19.2px */
 
   /* Values that were not dependent on isMobile in the original code */
   --logo-icon-height-not-scrolled: 45px;
   --logo-icon-height-scrolled: 35px;
 
-  --headerlinks-text-size-scrolled: 0.8rem;
-  --headerlinks-text-size-not-scrolled: 0.9rem;
+  --headerlinks-text-size-scrolled: 0.75rem;
+  --headerlinks-text-size-not-scrolled: 0.8rem;
 }
 
 /* Desktop overrides (Tailwind's 'sm' breakpoint is 640px) */

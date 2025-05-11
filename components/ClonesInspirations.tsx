@@ -19,7 +19,9 @@ const clones: clone[] = [
     description: (
       <>
         <span>Whole design. Previously cloned </span>
-        <Link href="https://vador.dev/">vador.dev</Link>
+        <Link href="https://vador.dev/" className="underline text-primary">
+          vador.dev
+        </Link>
         <span> design, which was clone of V1 design.</span>
       </>
     ),
@@ -77,14 +79,14 @@ const DisplayCIList = ({ items }: { items: ci_t[] }) => {
 const ClonesInspirations = () => {
   return (
     <div className="flex flex-col sm:flex-row justify-center gap-y-8">
-      <div className="justify-items-center w-full sm:w-1/2 px-4">
+      <div className="flex flex-col items-center w-full sm:w-1/2 px-4">
         <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-header tracking-[.1rem]">
           Clones
         </h2>
         <DisplayCIList items={clones} />
       </div>
 
-      <div className="justify-items-center w-full sm:w-1/2 px-4">
+      <div className="flex flex-col items-center w-full sm:w-1/2 px-4">
         <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-header tracking-[.1rem]">
           Inspirations
         </h2>

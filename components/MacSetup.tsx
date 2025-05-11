@@ -87,15 +87,15 @@ const DisplayMacApp: React.FC<DisplayMacAppProps> = ({ app }) => {
 
 const MacSetup = () => {
   return (
-    <div className="justify-items-center w-full">
+    <div className="flex flex-col items-center w-full">
       <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]">
         Mac Setup
       </h2>
-      <h6 className="text-muted text-xs">
+      <h6 className="text-muted text-xs mt-1">
         I cannot live without any of these.
       </h6>
 
-      <div className="mt-2 gap-y-1.5 max-w-[90%]">
+      <div className="mt-2 px-2 space-y-1.5 max-w-[95%]">
         {MacApps.map((app, idx) => (
           <SlideFadeIn key={idx} delay={0.03 * idx} duration={0.3}>
             <DisplayMacApp app={app} />

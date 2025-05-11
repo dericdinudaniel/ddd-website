@@ -5,6 +5,7 @@ import { SlideFadeIn } from "@/components/SlideFadeIn";
 import { Github, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 import ScrollProgress from "@/components/ScrollProgress";
+import SmallTextPills from "@/components/SmallTextPills";
 
 // MonthYear type for month/year-only dates
 interface MonthYear {
@@ -23,7 +24,7 @@ type Project = {
   title: string;
   shortDescription: React.ReactNode;
   longDescription?: string;
-  tags?: string[];
+  tags: string[];
   date?: ProjectDate;
   link?: string;
   github?: string;
@@ -188,18 +189,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <p className="text-sm text-foreground mb-4 line-clamp-3 flex-grow">
           {shortDescription}
         </p>
-        {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-            {tags.map((tag, idx) => (
-              <span
-                key={idx}
-                className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full border border-primary/20"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+        <SmallTextPills pills={tags} />
       </div>
     </div>
   );
