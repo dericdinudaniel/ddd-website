@@ -9,11 +9,11 @@ const writings = [
 
 const WritingsPage = () => {
   return (
-    <section
-      className="bg-background text-foreground flex flex-col items-center justify-start pt-20 px-8"
-      data-section-name="writings"
-    >
-      <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]">
+    <section className="bg-background text-foreground flex flex-col items-center justify-start pt-20 px-8">
+      <h1
+        className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]"
+        data-text-cursor
+      >
         Writings
       </h1>
 
@@ -25,6 +25,7 @@ const WritingsPage = () => {
                 <Link
                   href={article.href}
                   className="underline text-primary font-semibold text-base sm:text-lg"
+                  data-text-cursor
                 >
                   {article.label}
                 </Link>

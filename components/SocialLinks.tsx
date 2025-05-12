@@ -43,8 +43,8 @@ const SocialLinkItem = ({ name, icon: Icon, link }: Social) => {
       className="relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      data-hover={hovered}
-      data-name={name}
+      data-tooltip-hover={hovered}
+      data-tooltip-name={name}
     >
       <Link
         href={link}

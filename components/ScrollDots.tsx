@@ -71,16 +71,18 @@ export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
   };
 
   return (
-    <div className="fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 flex flex-col items-center z-50 pointer-events-none">
+    <div className="fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 flex flex-col items-center z-40 pointer-events-none">
       {refs.map((_, idx) => {
         const isActive = idx === activeSection;
         return (
-          <motion.div
+          <motion.button
             key={idx}
-            className="w-2 my-2 mx-auto overflow-hidden pointer-events-auto cursor-pointer"
+            className="w-2 my-2 mx-auto overflow-hidden pointer-events-auto"
             style={{
               backgroundColor: isActive ? "var(--border)" : "var(--muted)",
               borderRadius: 9999,
+              display: "block",
+              position: "relative",
             }}
             animate={{ height: isActive ? 32 : 8 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -88,12 +90,12 @@ export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
           >
             {isActive && (
               <motion.div
-                className="w-full bg-accent"
+                className="w-full bg-accent absolute top-0"
                 style={{ height: `${activeProgress * 100}%` }}
                 transition={{ ease: "linear", duration: 0 }}
               />
             )}
-          </motion.div>
+          </motion.button>
         );
       })}
     </div>

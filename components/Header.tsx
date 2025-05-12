@@ -2,11 +2,10 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Terminal } from "lucide-react";
-import { motion, useScroll, useMotionValueEvent } from "motion/react"; // Import remains "motion/react"
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
-import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 const Logo = ({
   isScrolled,
@@ -17,12 +16,11 @@ const Logo = ({
   animationDuration: number;
   formationDelayDuration: number;
 }) => {
-  const { customCursorNoneTW } = useCustomCursor();
-
   return (
     <Link
+      data-cursor-generic
       href="/"
-      className={`flex items-center gap-x-0 sm:gap-x-1 pl-5 ${customCursorNoneTW}`}
+      className="flex items-center gap-x-0 sm:gap-x-1 ml-3 rounded-xl px-2"
     >
       <motion.div
         // Initial styles set via Tailwind using CSS variables for consistency before/without JS
@@ -107,10 +105,8 @@ export default function Header() {
     [formationDelayDuration, effectDelayDuration]
   );
 
-  const { customCursorNoneTW } = useCustomCursor();
-
   return (
-    <div className={`relative w-full ${customCursorNoneTW}`}>
+    <div className="relative w-full">
       {/* Placeholder to maintain layout space */}
       {/* <div className="h-20" /> */}
 

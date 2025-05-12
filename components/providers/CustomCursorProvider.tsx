@@ -9,7 +9,6 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { usePathname } from "next/navigation";
 
 interface CustomCursorContextType {
   isCursorVisible: boolean;
@@ -45,30 +44,13 @@ const debounce = <T extends (...args: unknown[]) => void>(
   return debouncedFn;
 };
 
-// Throttle utility using requestAnimationFrame
-const throttleRAF = <T extends (e: MouseEvent) => void>(func: T): T => {
-  let ticking = false;
-  return ((e: MouseEvent) => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        func(e);
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }) as T;
-};
-
 export function CustomCursorProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const [s1VisibleDesktop, setS1VisibleDesktop] = useState(false);
-  const [isInSection, setIsInSection] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
-  const lastMousePosition = useRef({ x: 0, y: 0 });
 
   // Memoize device check function with debounce
   const checkDevice = useCallback(() => {
@@ -77,39 +59,12 @@ export function CustomCursorProvider({
       /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
         userAgent
       );
-    setS1VisibleDesktop(!isMobileDevice);
+    setIsDesktop(!isMobileDevice);
   }, []);
 
   const debouncedCheckDevice = useMemo(
     () => debounce(checkDevice, 100),
     [checkDevice]
-  );
-
-  // Memoize mouse move handler with RAF throttling
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    lastMousePosition.current = { x: e.clientX, y: e.clientY };
-
-    if (sectionRef.current) {
-      const rect = sectionRef.current.getBoundingClientRect();
-      const isInside =
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom;
-
-      // Only update state if the value actually changed
-      setIsInSection((prev) => {
-        if (prev !== isInside) {
-          return isInside;
-        }
-        return prev;
-      });
-    }
-  }, []);
-
-  const throttledHandleMouseMove = useMemo(
-    () => throttleRAF((e: MouseEvent) => handleMouseMove(e)),
-    [handleMouseMove]
   );
 
   // Device check effect with cleanup
@@ -122,25 +77,8 @@ export function CustomCursorProvider({
     };
   }, [checkDevice, debouncedCheckDevice]);
 
-  // Mouse move effect with cleanup
-  useEffect(() => {
-    window.addEventListener("mousemove", throttledHandleMouseMove, {
-      passive: true,
-    });
-    return () =>
-      window.removeEventListener("mousemove", throttledHandleMouseMove);
-  }, [throttledHandleMouseMove]);
-
-  // Reset section state when pathname changes
-  useEffect(() => {
-    setIsInSection(false);
-  }, [pathname]);
-
   // Memoize derived values with stable references
-  const isCursorVisible = useMemo(
-    () => s1VisibleDesktop && isInSection,
-    [s1VisibleDesktop, isInSection]
-  );
+  const isCursorVisible = useMemo(() => isDesktop, [isDesktop]);
 
   const customCursorNoneTW = useMemo(
     () => (isCursorVisible ? "cursor-none" : ""),

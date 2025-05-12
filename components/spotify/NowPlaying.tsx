@@ -70,17 +70,11 @@ export default function NowPlaying() {
   const maxWidth = useResponsiveMaxWidth(breakpoints);
 
   return (
-    <div
-      className="rounded-lg"
-      // style={{ boxShadow: "0px 5px 15px var(--shadow)" }}
-    >
-      {/* <div className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]" /> */}
-      <NowPlayingContent
-        isLoading={isLoading}
-        isPlaying={!!data?.isPlaying}
-        data={data}
-        maxWidth={maxWidth}
-      />
-    </div>
+    <NowPlayingContent
+      isLoading={isLoading}
+      isPlaying={!!data?.isPlaying}
+      data={data}
+      maxWidth={maxWidth}
+    />
   );
 }

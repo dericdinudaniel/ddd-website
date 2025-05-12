@@ -42,7 +42,7 @@ export default function TopArtists({ className = "" }: { className?: string }) {
     return (
       <div className={`${className} flex flex-col items-center space-y-3`}>
         <h2 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
-          Top Tracks
+          Top Artists
         </h2>
         <p className="text-lg text-gray-500">Spotify API not accessible.</p>
       </div>
@@ -51,7 +51,10 @@ export default function TopArtists({ className = "" }: { className?: string }) {
 
   return (
     <div className={`${className} flex flex-col items-center space-y-3`}>
-      <h2 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
+      <h2
+        className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header"
+        data-text-cursor
+      >
         Top Artists
       </h2>
       <div className="mt-1 sm:mt-3 grid grid-cols-1 gap-y-1 sm:gap-y-2">

@@ -1,7 +1,6 @@
 import SpotifyImageDisplay from "./SpotifyImageDisplay";
 import ScrollingText from "../ScrollingText";
 import Link from "next/link";
-import { useCustomCursor } from "../providers/CustomCursorProvider";
 
 type SongDisplayProps = {
   title: string;
@@ -22,15 +21,13 @@ export default function SongDisplay({
   maxWidth = 150,
   pauseDuration = 1,
 }: SongDisplayProps) {
-  const { customCursorNoneTW } = useCustomCursor();
-
   const artistList = artists.map((artist, index) => (
     <span key={artist.url}>
       <Link
         href={artist.url}
         target="_blank"
         rel="noopener noreferrer"
-        className={`text-xs md:text-sm xl:text-base underline-fade ${customCursorNoneTW}`}
+        className="text-xs md:text-sm xl:text-base underline-fade"
       >
         {artist.name}
       </Link>
@@ -57,7 +54,8 @@ export default function SongDisplay({
             href={songUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`font-bold text-left text-sm md:text-base xl:text-lg ${customCursorNoneTW}`}
+            className="font-bold text-left text-sm md:text-base xl:text-lg"
+            data-text-cursor
           >
             {title}
           </Link>
@@ -71,7 +69,7 @@ export default function SongDisplay({
             pauseDuration={pauseDuration}
             className="text-xs md:text-sm xl:text-base"
           >
-            {artistList}
+            <p data-text-cursor>{artistList}</p>
           </ScrollingText>
         </div>
       </div>

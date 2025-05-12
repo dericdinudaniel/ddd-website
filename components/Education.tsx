@@ -3,6 +3,7 @@ import { useIsDarkTheme } from "@/lib/hooks/useIsDarkTheme";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { SlideFadeIn } from "./SlideFadeIn";
+import Link from "next/link";
 
 const UniversityLogo = ({
   url,
@@ -61,38 +62,49 @@ const Education = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
+      <h2
+        className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header"
+        data-text-cursor
+      >
         Education
       </h2>
       <div className="mt-0 sm:mt-1">
         {universities.map((university) => (
-          <SlideFadeIn
-            className="flex items-center gap-x-3"
-            key={university.name}
-            direction={direction}
-          >
+          <SlideFadeIn key={university.name} direction={direction}>
             <div
-              className={`flex-shrink-0 size-12 sm:size-14 md:size-18 flex items-center justify-center`}
+              className="flex items-center gap-x-3 py-1"
+              data-cursor-generic-padded='{"left": 10, "right":10}'
+              data-cursor-subcursor
             >
-              <UniversityLogo
-                url={university.site}
-                logoPath={university.logoPath}
-                size={university.size}
-                invertOnDark={university.invertOnDark}
-              />
-            </div>
-            <div>
-              <a
-                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0 hover:text-primary"
-                href={university.site}
-                target="_blank"
+              <div
+                className={`flex-shrink-0 size-12 sm:size-14 md:size-18 flex items-center justify-center`}
               >
-                {university.name}
-              </a>
-              <h3 className="text-xs">{university.location}</h3>
-              <h3 className="text-xs sm:text-base md:text-sm xl:text-base text-muted">
-                {university.degree}
-              </h3>
+                <UniversityLogo
+                  url={university.site}
+                  logoPath={university.logoPath}
+                  size={university.size}
+                  invertOnDark={university.invertOnDark}
+                />
+              </div>
+              <div>
+                <Link
+                  className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0 hover:text-primary w-fit"
+                  href={university.site}
+                  target="_blank"
+                  data-text-cursor
+                >
+                  {university.name}
+                </Link>
+                <h3 className="text-xs w-fit" data-text-cursor>
+                  {university.location}
+                </h3>
+                <h3
+                  className="text-xs sm:text-base md:text-sm xl:text-base text-muted w-fit"
+                  data-text-cursor
+                >
+                  {university.degree}
+                </h3>
+              </div>
             </div>
           </SlideFadeIn>
         ))}

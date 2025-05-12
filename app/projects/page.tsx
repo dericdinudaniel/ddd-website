@@ -152,10 +152,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const { title, shortDescription, date, github, link, tags } = project; // Added imageUrl
 
   return (
-    <div className="w-full h-full relative flex flex-col bg-background border border-border rounded-lg shadow-shadow_c shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
+    <div
+      className="w-full h-full relative flex flex-col bg-background border border-border rounded-lg shadow-shadow_c shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
+      data-cursor-generic
+      data-cursor-subcursor
+    >
       <div className="flex flex-col flex-grow p-4">
         <div className="flex justify-between items-start mb-1">
-          <h2 className="text-lg lg:text-xl font-bold text-foreground">
+          <h2
+            className="text-lg lg:text-xl font-bold text-foreground"
+            data-text-cursor
+          >
             {title}
           </h2>
           <div className="flex space-x-3">
@@ -182,11 +189,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </div>
         </div>
         {date && (
-          <p className="text-xs text-muted-foreground mb-2">
+          <p className="text-xs text-muted-foreground mb-2" data-text-cursor>
             {formatProjectDate(date)}
           </p>
         )}
-        <p className="text-sm text-foreground mb-4 line-clamp-3 flex-grow">
+        <p
+          className="text-sm text-foreground mb-4 line-clamp-3 flex-grow"
+          data-text-cursor
+        >
           {shortDescription}
         </p>
         <SmallTextPills pills={tags} />
@@ -198,11 +208,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 // Main Projects page component
 export default function Home() {
   return (
-    <section
-      className="min-h-screen bg-background text-foreground flex flex-col items-center justify-start pt-20 px-8"
-      data-section-name="projects"
-    >
-      <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]">
+    <section className="min-h-screen bg-background text-foreground flex flex-col items-center justify-start pt-20 px-8">
+      <h1
+        className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]"
+        data-text-cursor
+      >
         Projects
       </h1>
 

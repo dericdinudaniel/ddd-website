@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { DropdownMenu } from "radix-ui";
-import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 const iconMap = {
   light: <Sun className="mr-2 size-6" />,
@@ -61,13 +60,12 @@ const ThemeSwitcher = ({
     return iconMap[key as keyof typeof iconMap];
   }, [mounted, resolvedTheme, theme]);
 
-  const { customCursorNoneTW } = useCustomCursor();
-
   return (
     <div className="pr-2">
       <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenu.Trigger asChild>
           <motion.button
+            data-cursor-generic
             aria-labelledby={labelId}
             animate={{
               scale: isScrolled ? (isMobile ? 0.8 : 0.9) : 1,
@@ -76,7 +74,7 @@ const ThemeSwitcher = ({
               duration: animationDuration,
               delay: formationDelayDuration,
             }}
-            className={`flex items-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none ${customCursorNoneTW}`}
+            className="flex items-center rounded-md px-3 py-1 sm:py-2 text-foreground transition-colors duration-200 active:bg-muted/30 focus-visible:outline-none"
           >
             <span id={labelId} className="sr-only">
               Theme toggle
@@ -148,6 +146,7 @@ const ThemeSwitcher = ({
           {isOpen && (
             <DropdownMenu.Portal forceMount>
               <DropdownMenu.Content
+                className="cursor-none"
                 side="bottom"
                 align="end"
                 sideOffset={4}
@@ -162,8 +161,10 @@ const ThemeSwitcher = ({
                 >
                   {themeOptions.map(({ key, label, icon }) => (
                     <DropdownMenu.Item
+                      data-cursor-generic
+                      data-cursor-subcursor
                       key={key}
-                      className="flex items-center justify-between p-2 rounded-md text-sm cursor-pointer text-foreground transition-all duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none"
+                      className="flex items-center justify-between p-2 rounded-md text-sm text-foreground transition-all duration-200 hover:bg-muted/20 active:bg-muted/30 focus-visible:outline-none cursor-none"
                       onSelect={() => setTheme(key)}
                     >
                       <span className="flex items-center select-none">

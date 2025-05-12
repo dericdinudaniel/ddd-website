@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useCustomCursor } from "../providers/CustomCursorProvider";
 
 type SpotifyImageDisplayProps = {
   href: string;
@@ -24,8 +23,6 @@ export default function SpotifyImageDisplay({
   alt = "Spotify Image",
   size = "medium",
 }: SpotifyImageDisplayProps) {
-  const { customCursorNoneTW } = useCustomCursor();
-
   return (
     <Link
       href={href}
@@ -38,7 +35,7 @@ export default function SpotifyImageDisplay({
         alt={alt}
         width={640}
         height={640}
-        className={`${sizeClasses[size]} rounded object-cover select-none ${customCursorNoneTW}`}
+        className={`${sizeClasses[size]} rounded object-cover select-none`}
       />
     </Link>
   );

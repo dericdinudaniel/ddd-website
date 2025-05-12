@@ -5,6 +5,7 @@ import React from "react";
 import Image from "next/image";
 import { SlideFadeIn } from "./SlideFadeIn";
 import { useIsDarkTheme } from "@/lib/hooks/useIsDarkTheme";
+import Link from "next/link";
 
 const CompanyLogo = ({
   url,
@@ -79,33 +80,46 @@ const companies = [
 const Experience = () => {
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
+      <h2
+        className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header"
+        data-text-cursor
+      >
         Experience
       </h2>
       <div className="mt-0 sm:mt-1 space-y-[-3px] sm:space-y-0">
         {companies.map((company) => (
-          <SlideFadeIn className="flex items-center gap-x-3" key={company.name}>
+          <SlideFadeIn key={company.name}>
             <div
-              className={`flex-shrink-0 size-12 sm:size-14 md:size-18 flex items-center justify-center`}
+              className="flex items-center gap-x-3"
+              data-cursor-generic-padded='{"left": 10, "right":10}'
+              data-cursor-subcursor
             >
-              <CompanyLogo
-                url={company.site}
-                logoPath={company.logoPath}
-                size={company.size}
-                invertOnDark={company.invertOnDark}
-              />
-            </div>
-            <div>
-              <a
-                className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0 hover:text-primary"
-                href={company.site}
-                target="_blank"
+              <div
+                className={`flex-shrink-0 size-12 sm:size-14 md:size-18 flex items-center justify-center`}
               >
-                {company.name}
-              </a>
-              <h3 className="text-xs sm:text-base md:text-sm xl:text-base text-muted">
-                {company.position}
-              </h3>
+                <CompanyLogo
+                  url={company.site}
+                  logoPath={company.logoPath}
+                  size={company.size}
+                  invertOnDark={company.invertOnDark}
+                />
+              </div>
+              <div>
+                <Link
+                  className="font-semibold text-base sm:text-xl md:text-xl xl:text-2xl break-words underline-fade leading-0 hover:text-primary w-fit"
+                  href={company.site}
+                  target="_blank"
+                  data-text-cursor
+                >
+                  {company.name}
+                </Link>
+                <h3
+                  className="text-xs sm:text-base md:text-sm xl:text-base text-muted w-fit"
+                  data-text-cursor
+                >
+                  {company.position}
+                </h3>
+              </div>
             </div>
           </SlideFadeIn>
         ))}

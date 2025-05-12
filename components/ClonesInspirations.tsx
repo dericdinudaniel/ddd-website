@@ -64,11 +64,14 @@ const DisplayCIList = ({ items }: { items: ci_t[] }) => {
           <Link
             href={item.link}
             className="underline text-primary font-semibold"
+            data-text-cursor
           >
             {item.name}
           </Link>
           {item.description && (
-            <p className="text-xs sm:text-sm text-muted">{item.description}</p>
+            <p className="text-xs sm:text-sm text-muted w-fit" data-text-cursor>
+              {item.description}
+            </p>
           )}
         </SlideFadeIn>
       ))}
@@ -80,14 +83,20 @@ const ClonesInspirations = () => {
   return (
     <div className="flex flex-col sm:flex-row justify-center gap-y-8">
       <div className="flex flex-col items-center w-full sm:w-1/2 px-4">
-        <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-header tracking-[.1rem]">
+        <h2
+          className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-header tracking-[.1rem]"
+          data-text-cursor
+        >
           Clones
         </h2>
         <DisplayCIList items={clones} />
       </div>
 
       <div className="flex flex-col items-center w-full sm:w-1/2 px-4">
-        <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-header tracking-[.1rem]">
+        <h2
+          className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-header tracking-[.1rem]"
+          data-text-cursor
+        >
           Inspirations
         </h2>
         <DisplayCIList items={inspirations} />

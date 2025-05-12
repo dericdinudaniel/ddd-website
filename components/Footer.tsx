@@ -5,7 +5,6 @@ import SpotifyNowPlaying from "./spotify/NowPlaying";
 import { motion, useScroll } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -15,7 +14,7 @@ export default function Footer() {
   const [isScrollable, setIsScrollable] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 1) Re–compute “scrollable” on mount, on resize, AND on every pathname change
+  // 1) Re–compute "scrollable" on mount, on resize, AND on every pathname change
   useEffect(() => {
     const checkScrollable = () => {
       const docHeight = document.documentElement.scrollHeight;
@@ -30,13 +29,13 @@ export default function Footer() {
 
   // 2) Subscribe to scrollY, _or_ override `isScrolled` immediately
   useEffect(() => {
-    // if page isn’t tall enough, never scrolled
+    // if page isn't tall enough, never scrolled
     if (!isScrollable) {
       setIsScrolled(false);
       return;
     }
 
-    // if you’re off “/” _and_ the page _is_ scrollable → force scrolled
+    // if you're off "/" _and_ the page _is_ scrollable → force scrolled
     if (!isIndex) {
       setIsScrolled(true);
       return;
@@ -72,10 +71,8 @@ export default function Footer() {
     [formationDelayDuration, effectDelayDuration]
   );
 
-  const { customCursorNoneTW } = useCustomCursor();
-
   return (
-    <div className={`relative flex justify-center ${customCursorNoneTW}`}>
+    <div className="relative flex justify-center">
       {isIndex && (
         <div
           className={`fixed bottom-[70px] flex justify-center w-full transition-opacity duration-300 ${
@@ -105,6 +102,7 @@ export default function Footer() {
           borderRadius: "50px",
           willChange:
             "padding, borderRadius, boxShadow, backgroundColor, transform",
+          pointerEvents: "auto",
         }}
       >
         {/* Background Border */}
@@ -121,7 +119,7 @@ export default function Footer() {
         />
 
         {/* Content */}
-        <div className="relative z-10 flex items-center justify-center">
+        <div className="relative z-10 flex items-center justify-center pointer-events-auto">
           <SpotifyNowPlaying />
         </div>
       </motion.footer>

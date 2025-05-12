@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Section from "./Section";
 import SocialLinks from "../SocialLinks";
 import { SlideFadeIn } from "../SlideFadeIn";
 import Background from "../Background";
-import CustomCursor from "../CustomCursor";
-import { useCustomCursor } from "../providers/CustomCursorProvider";
 
 type SectionProps = {
   className?: string;
@@ -48,55 +46,9 @@ const SubText = () => {
 };
 
 const Section1 = ({ className = "", ref }: SectionProps) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isClickable, setIsClickable] = useState(false);
-  const { sectionRef } = useCustomCursor();
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleHoverChange = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const clickable = target.closest(
-        'a, button, [role="button"], [tabindex="0"]'
-      );
-      setIsClickable(!!clickable);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseover", handleHoverChange);
-    window.addEventListener("mouseout", handleHoverChange);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseover", handleHoverChange);
-      window.removeEventListener("mouseout", handleHoverChange);
-    };
-  }, []);
-
-  const { customCursorNoneTW } = useCustomCursor();
-
   return (
-    <Section
-      className={`${className} ${customCursorNoneTW}`}
-      ref={(el) => {
-        if (typeof ref === "function") ref(el);
-        if (sectionRef) sectionRef.current = el;
-      }}
-    >
-      <style jsx global>{`
-        /* Hide pointer for all clickable elements inside Section1 */
-        [data-section1-cursor] a,
-        [data-section1-cursor] button,
-        [data-section1-cursor] [role="button"],
-        [data-section1-cursor] [tabindex="0"] {
-          cursor: none !important;
-        }
-      `}</style>
-      <div data-section1-cursor>
-        <CustomCursor mousePosition={mousePosition} isClickable={isClickable} />
+    <Section className={`${className}`} ref={ref}>
+      <div>
         <Background className="flex flex-col justify-center items-center align-middle">
           <h1
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-9xl font-bold font-header tracking-[.1rem] flex gap-x-2 md:gap-x-3 xl:gap-x-4"

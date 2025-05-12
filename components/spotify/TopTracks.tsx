@@ -4,12 +4,10 @@
 import { useTopTracks } from "@/lib/hooks/useSpotify";
 import SongDisplay from "@/components/spotify/SongDisplay";
 import { SkeletonSongDisplay } from "./Skeletons";
-import { memo } from "react";
 import { SlideFadeIn } from "../SlideFadeIn";
 import { useResponsiveMaxWidth } from "@/lib/hooks/useResponsiveWidth";
 
 const breakpoints = [0.5, 0.39, 0.35, 0.345, 0.65];
-const MemoizedSongDisplay = memo(SongDisplay);
 
 export default function TopTracks({ className = "" }: { className?: string }) {
   const { data, isLoading } = useTopTracks();
@@ -39,19 +37,27 @@ export default function TopTracks({ className = "" }: { className?: string }) {
 
   return (
     <div className={`${className} flex flex-col items-center space-y-3`}>
-      <h2 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header">
+      <h2
+        className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-header"
+        data-text-cursor
+      >
         Top Tracks
       </h2>
       <div className="mt-1 sm:mt-3 grid grid-cols-1 gap-y-1 sm:gap-y-2">
         {data.map((track: any) => (
           <SlideFadeIn key={track.songUrl}>
-            <MemoizedSongDisplay
-              title={track.title}
-              songUrl={track.songUrl}
-              albumImageUrl={track.albumImageUrl}
-              artists={track.artists}
-              maxWidth={maxWidth}
-            />
+            <div
+              data-cursor-generic-padded='{"top": 3, "right": 8, "bottom": 3, "left": 8}'
+              data-cursor-subcursor
+            >
+              <SongDisplay
+                title={track.title}
+                songUrl={track.songUrl}
+                albumImageUrl={track.albumImageUrl}
+                artists={track.artists}
+                maxWidth={maxWidth}
+              />
+            </div>
           </SlideFadeIn>
         ))}
       </div>

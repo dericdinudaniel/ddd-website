@@ -8,7 +8,7 @@ const languages: skills = [
   "Python",
   "RISC-V",
   "C#",
-  "Typescript/Javascript",
+  "Typescript",
   "SystemVerilog",
   "SQL",
 ];
@@ -26,9 +26,11 @@ const technologies: skills = [
 
 export const DisplayLanguages = () => {
   return (
-    <div className="flex flex-col items-center px-3 w-95 sm:w-120 md:w-83 lg:w-100 xl:w-120">
-      <h3 className="font-header text-3xl">Languages</h3>
-      <SmallTextPills pills={languages} />
+    <div className="flex flex-col items-center px-3 w-95 sm:w-120 md:w-90 lg:w-120 xl:w-130">
+      <h3 className="font-header text-3xl" data-text-cursor>
+        Languages
+      </h3>
+      <SmallTextPills pills={languages} centered />
     </div>
   );
 };
@@ -36,8 +38,10 @@ export const DisplayLanguages = () => {
 export const DisplayTechnologies = () => {
   return (
     <div className="flex flex-col items-center px-3 w-95 sm:w-120 md:w-83 lg:w-100 xl:w-120">
-      <h3 className="font-header text-3xl">Technologies</h3>
-      <SmallTextPills pills={technologies} />
+      <h3 className="font-header text-3xl" data-text-cursor>
+        Technologies
+      </h3>
+      <SmallTextPills pills={technologies} centered />
     </div>
   );
 };
