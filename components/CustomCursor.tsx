@@ -1,27 +1,112 @@
-import React, { RefObject, useEffect, useState } from "react";
+"use client";
+
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { motion } from "motion/react";
 import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 interface CustomCursorProps {
   mousePosition: { x: number; y: number };
-  hoveredElement: { name: string; hovered: boolean } | null;
-  textWidth: number;
   isClickable: boolean;
-  textRef: RefObject<HTMLDivElement | null>;
 }
 
 const CustomCursor: React.FC<CustomCursorProps> = ({
   mousePosition,
-  hoveredElement,
-  textWidth,
   isClickable,
-  textRef,
 }) => {
   const { isCursorVisible } = useCustomCursor();
   const [isOverText, setIsOverText] = useState(false);
   const [textHeight, setTextHeight] = useState(0);
+  const [hoveredElement, setHoveredElement] = useState<{
+    name: string;
+    hovered: boolean;
+  } | null>(null);
+  const [textWidth, setTextWidth] = useState(0);
+  const tempSpanRef = useRef<HTMLSpanElement | null>(null);
+
+  // Memoize the cursor variants to prevent unnecessary recalculations
+  const cursorVariants = useMemo(
+    () => ({
+      default: {
+        width: 16,
+        height: 16,
+        borderRadius: 99,
+        scale: 1,
+        opacity: 0.5,
+      },
+      hovered: {
+        width: textWidth + 20,
+        height: 22,
+        borderRadius: 99,
+        scale: 1,
+        opacity: 0.9,
+      },
+      text: {
+        width: 4,
+        height: textHeight,
+        borderRadius: 99,
+        scale: 1,
+        opacity: 0.5,
+      },
+      clickable: {
+        width: 16,
+        height: 16,
+        borderRadius: 2,
+        scale: 1.2,
+        opacity: 0.5,
+      },
+    }),
+    [textWidth, textHeight]
+  );
+
+  const textVariants = useMemo(
+    () => ({
+      hidden: {
+        opacity: 0,
+        scale: 0,
+      },
+      visible: {
+        opacity: 1,
+        scale: 1,
+      },
+    }),
+    []
+  );
+
+  // Memoize the getCursorVariant function
+  const getCursorVariant = useCallback(() => {
+    if (hoveredElement?.hovered) return "hovered";
+    if (isClickable) return "clickable";
+    if (isOverText) return "text";
+    return "default";
+  }, [hoveredElement?.hovered, isClickable, isOverText]);
+
+  // Create temp span element after mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const span = document.createElement("span");
+    span.style.visibility = "hidden";
+    span.style.position = "absolute";
+    span.style.whiteSpace = "nowrap";
+    span.style.fontSize = "12px";
+    tempSpanRef.current = span;
+
+    return () => {
+      if (tempSpanRef.current && document.body.contains(tempSpanRef.current)) {
+        document.body.removeChild(tempSpanRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const element = document.elementFromPoint(mousePosition.x, mousePosition.y);
     if (!element) {
       setIsOverText(false);
@@ -38,58 +123,35 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
     } else {
       setTextHeight(0);
     }
-  }, [mousePosition.x, mousePosition.y]);
+
+    // Handle hover tooltips
+    const socialLink = element.closest("[data-hover]");
+    if (socialLink) {
+      const name = socialLink.getAttribute("data-name");
+      const hovered = socialLink.getAttribute("data-hover") === "true";
+
+      // Only update state if values have changed
+      if (
+        hoveredElement?.name !== name ||
+        hoveredElement?.hovered !== hovered
+      ) {
+        setHoveredElement({ name: name || "", hovered });
+
+        // Calculate text width using the reusable temp span
+        if (tempSpanRef.current) {
+          tempSpanRef.current.textContent = name || "";
+          document.body.appendChild(tempSpanRef.current);
+          setTextWidth(tempSpanRef.current.offsetWidth);
+          document.body.removeChild(tempSpanRef.current);
+        }
+      }
+    } else if (hoveredElement !== null) {
+      setHoveredElement(null);
+      setTextWidth(0);
+    }
+  }, [mousePosition.x, mousePosition.y, hoveredElement]);
 
   if (!isCursorVisible) return null;
-
-  const cursorVariants = {
-    default: {
-      width: 16,
-      height: 16,
-      borderRadius: 99,
-      scale: 1,
-      opacity: 0.5,
-    },
-    hovered: {
-      width: textWidth + 20,
-      height: 22,
-      borderRadius: 99,
-      scale: 1,
-      opacity: 0.9,
-    },
-    text: {
-      width: 4,
-      height: textHeight,
-      borderRadius: 99,
-      scale: 1,
-      opacity: 0.5,
-    },
-    clickable: {
-      width: 16,
-      height: 16,
-      borderRadius: 2,
-      scale: 1.2,
-      opacity: 0.5,
-    },
-  };
-
-  const textVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-    },
-  };
-
-  const getCursorVariant = () => {
-    if (hoveredElement?.hovered) return "hovered";
-    if (isClickable) return "clickable";
-    if (isOverText) return "text";
-    return "default";
-  };
 
   return (
     <>
@@ -138,9 +200,6 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute inset-0 flex items-center justify-center text-background text-xs whitespace-nowrap"
           >
-            <div ref={textRef} className="invisible absolute">
-              {hoveredElement.name}
-            </div>
             {hoveredElement.name}
           </motion.div>
         )}
