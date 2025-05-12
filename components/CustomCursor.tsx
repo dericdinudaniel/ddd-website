@@ -11,6 +11,27 @@ import { motion, useSpring } from "motion/react";
 import { useCustomCursor } from "./providers/CustomCursorProvider";
 import { GlowEffect } from "./motion-primitives/glow-effect";
 
+// Custom debounce hook
+const useDebounce = <T extends (...args: unknown[]) => void>(
+  callback: T,
+  delay: number
+) => {
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  return useCallback(
+    (...args: Parameters<T>) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
+        callback(...args);
+      }, delay);
+    },
+    [callback, delay]
+  );
+};
+
 const CustomCursor: React.FC = () => {
   const { isCursorVisible } = useCustomCursor();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -31,6 +52,8 @@ const CustomCursor: React.FC = () => {
   const [isSubcursorOverText, setIsSubcursorOverText] = useState(false);
 
   const tempSpanRef = useRef<HTMLSpanElement | null>(null);
+  const rafRef = useRef<number | undefined>(undefined);
+  const mousePositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   // Create spring animations for smooth transitions
   const springConfig = { stiffness: 800, damping: 35, mass: 0.2 };
@@ -186,7 +209,8 @@ const CustomCursor: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
+  // Memoize the element detection logic
+  const detectElements = useCallback(() => {
     if (typeof window === "undefined") return;
 
     const element = document.elementFromPoint(mousePosition.x, mousePosition.y);
@@ -333,10 +357,25 @@ const CustomCursor: React.FC = () => {
     }
   }, [mousePosition.x, mousePosition.y, hoveredTooltip]);
 
+  // Create debounced version of detectElements
+  const debouncedDetectElements = useDebounce(detectElements, 6); // ~60fps
+
+  // Update the effect to use the debounced function
+  useEffect(() => {
+    debouncedDetectElements();
+  }, [debouncedDetectElements]);
+
   // Add mouse position and clickable state handlers
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mousePositionRef.current = { x: e.clientX, y: e.clientY };
+
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(() => {
+          setMousePosition(mousePositionRef.current);
+          rafRef.current = undefined;
+        });
+      }
     };
 
     const handleHoverChange = (e: MouseEvent) => {
@@ -375,6 +414,9 @@ const CustomCursor: React.FC = () => {
       window.removeEventListener("mouseout", handleHoverChange);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
   }, [scale, subcursorScale, isOverSubcursor]);
 
