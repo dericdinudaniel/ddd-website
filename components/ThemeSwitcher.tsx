@@ -158,7 +158,7 @@ const ThemeSwitcher = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
-                  className="w-44 rounded-lg bg-background border border-border shadow-md p-1 z-50"
+                  className="w-44 rounded-lg bg-background border border-border shadow-md p-1 z-70"
                 >
                   {themeOptions.map(({ key, label, icon }) => (
                     <DropdownMenu.Item

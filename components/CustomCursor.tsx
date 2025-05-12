@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useCustomCursor } from "./providers/CustomCursorProvider";
 
@@ -7,10 +7,6 @@ interface CustomCursorProps {
   hoveredElement: { name: string; hovered: boolean } | null;
   textWidth: number;
   isClickable: boolean;
-  isOverName: boolean;
-  isOverSubText: boolean;
-  nameHeight: number;
-  subTextHeight: number;
   textRef: RefObject<HTMLDivElement | null>;
 }
 
@@ -19,13 +15,30 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
   hoveredElement,
   textWidth,
   isClickable,
-  isOverName,
-  isOverSubText,
-  nameHeight,
-  subTextHeight,
   textRef,
 }) => {
   const { isCursorVisible } = useCustomCursor();
+  const [isOverText, setIsOverText] = useState(false);
+  const [textHeight, setTextHeight] = useState(0);
+
+  useEffect(() => {
+    const element = document.elementFromPoint(mousePosition.x, mousePosition.y);
+    if (!element) {
+      setIsOverText(false);
+      return;
+    }
+
+    // Check if the element or any of its parents has the data-text-cursor attribute
+    const textElement = element.closest("[data-text-cursor]");
+    const shouldBeTextMode = !!textElement;
+    setIsOverText(shouldBeTextMode);
+
+    if (shouldBeTextMode && textElement instanceof HTMLElement) {
+      setTextHeight(textElement.offsetHeight);
+    } else {
+      setTextHeight(0);
+    }
+  }, [mousePosition.x, mousePosition.y]);
 
   if (!isCursorVisible) return null;
 
@@ -44,16 +57,9 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       scale: 1,
       opacity: 0.9,
     },
-    name: {
+    text: {
       width: 4,
-      height: nameHeight,
-      borderRadius: 99,
-      scale: 1,
-      opacity: 0.5,
-    },
-    subText: {
-      width: 4,
-      height: subTextHeight,
+      height: textHeight,
       borderRadius: 99,
       scale: 1,
       opacity: 0.5,
@@ -81,8 +87,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
   const getCursorVariant = () => {
     if (hoveredElement?.hovered) return "hovered";
     if (isClickable) return "clickable";
-    if (isOverName) return "name";
-    if (isOverSubText) return "subText";
+    if (isOverText) return "text";
     return "default";
   };
 

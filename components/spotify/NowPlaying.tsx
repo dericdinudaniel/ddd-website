@@ -32,7 +32,9 @@ const NowPlayingContent = ({
     return (
       <div className="flex items-center space-x-4 py-1.5 px-3 md:py-2 md:px-4">
         <BsSpotify className="text-2xl sm:text-3xl" />
-        <p className="text-sm sm:text-base">Not currently playing</p>
+        <p className="text-sm sm:text-base" data-text-cursor>
+          Not currently playing
+        </p>
       </div>
     );
   }
@@ -41,7 +43,9 @@ const NowPlayingContent = ({
     return (
       <div className="flex items-center space-x-4 py-1.5 px-3 md:py-2 md:px-4">
         <BsSpotify className="text-2xl sm:text-3xl" />
-        <p className="text-sm sm:text-base">Spotify API not accessible</p>
+        <p className="text-sm sm:text-base" data-text-cursor>
+          Spotify API not accessible
+        </p>
       </div>
     );
   }

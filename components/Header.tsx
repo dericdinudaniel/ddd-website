@@ -20,7 +20,10 @@ const Logo = ({
   const { customCursorNoneTW } = useCustomCursor();
 
   return (
-    <div className="flex items-center gap-x-0 sm:gap-x-1 pl-5">
+    <Link
+      href="/"
+      className={`flex items-center gap-x-0 sm:gap-x-1 pl-5 ${customCursorNoneTW}`}
+    >
       <motion.div
         // Initial styles set via Tailwind using CSS variables for consistency before/without JS
         // and for the non-scrolled state.
@@ -39,12 +42,11 @@ const Logo = ({
           delay: formationDelayDuration,
         }}
       >
-        <Link href="/">
-          <Terminal className={`w-full h-full ${customCursorNoneTW}`} />
-        </Link>
+        <Terminal className="w-full h-full" />
       </motion.div>
 
       <motion.h2
+        data-text-cursor
         // Initial font size set via Tailwind using CSS variable.
         className="font-bold text-[var(--logo-text-size-not-scrolled)] select-none"
         initial={false}
@@ -60,7 +62,7 @@ const Logo = ({
       >
         DDD
       </motion.h2>
-    </div>
+    </Link>
   );
 };
 
