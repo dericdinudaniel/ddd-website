@@ -5,6 +5,7 @@ import SpotifyNowPlaying from "./spotify/NowPlaying";
 import { motion, useScroll } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -71,8 +72,10 @@ export default function Footer() {
     [formationDelayDuration, effectDelayDuration]
   );
 
+  const { customCursorNoneTW } = useCustomCursor();
+
   return (
-    <div className="relative flex justify-center">
+    <div className={`relative flex justify-center ${customCursorNoneTW}`}>
       {isIndex && (
         <div
           className={`fixed bottom-[70px] flex justify-center w-full transition-opacity duration-300 ${

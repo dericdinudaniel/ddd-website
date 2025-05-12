@@ -6,6 +6,7 @@ import { motion, useScroll, useMotionValueEvent } from "motion/react"; // Import
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
+import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 const Logo = ({
   isScrolled,
@@ -16,6 +17,8 @@ const Logo = ({
   animationDuration: number;
   formationDelayDuration: number;
 }) => {
+  const { customCursorNoneTW } = useCustomCursor();
+
   return (
     <div className="flex items-center gap-x-0 sm:gap-x-1 pl-5">
       <motion.div
@@ -37,11 +40,11 @@ const Logo = ({
         }}
       >
         <Link href="/">
-          <Terminal className="w-full h-full" />
+          <Terminal className={`w-full h-full ${customCursorNoneTW}`} />
         </Link>
       </motion.div>
 
-      <motion.h1
+      <motion.h2
         // Initial font size set via Tailwind using CSS variable.
         className="font-bold text-[var(--logo-text-size-not-scrolled)] select-none"
         initial={false}
@@ -56,7 +59,7 @@ const Logo = ({
         }}
       >
         DDD
-      </motion.h1>
+      </motion.h2>
     </div>
   );
 };
@@ -102,8 +105,10 @@ export default function Header() {
     [formationDelayDuration, effectDelayDuration]
   );
 
+  const { customCursorNoneTW } = useCustomCursor();
+
   return (
-    <div className="relative w-full">
+    <div className={`relative w-full ${customCursorNoneTW}`}>
       {/* Placeholder to maintain layout space */}
       {/* <div className="h-20" /> */}
 

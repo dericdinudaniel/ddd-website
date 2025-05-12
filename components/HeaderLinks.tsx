@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import React from "react";
+import { useCustomCursor } from "./providers/CustomCursorProvider";
 
 const links = [
   { href: "/", label: "Home" },
@@ -17,6 +18,8 @@ const HeaderLinks = ({
   animationDuration: number;
   formationDelayDuration: number;
 }) => {
+  const { customCursorNoneTW } = useCustomCursor();
+
   return (
     <div className="flex items-center gap-x-2 sm:gap-x-3">
       {links.map((link) => (
@@ -34,7 +37,10 @@ const HeaderLinks = ({
             delay: formationDelayDuration,
           }}
         >
-          <Link href={link.href} className="underline-fade">
+          <Link
+            href={link.href}
+            className={`underline-fade ${customCursorNoneTW}`}
+          >
             {link.label}
           </Link>
         </motion.span>

@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
+import { CustomCursorProvider } from "@/components/providers/CustomCursorProvider";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -36,9 +37,11 @@ export default function RootLayout({
       >
         <ThemeProvider enableSystem={true} disableTransitionOnChange={true}>
           <PostHogProvider>
-            <Header />
-            {children}
-            <Footer />
+            <CustomCursorProvider>
+              <Header />
+              {children}
+              <Footer />
+            </CustomCursorProvider>
           </PostHogProvider>
         </ThemeProvider>
       </body>

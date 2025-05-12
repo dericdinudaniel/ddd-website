@@ -1,5 +1,7 @@
 import SpotifyImageDisplay from "./SpotifyImageDisplay";
 import ScrollingText from "../ScrollingText";
+import Link from "next/link";
+import { useCustomCursor } from "../providers/CustomCursorProvider";
 
 type SongDisplayProps = {
   title: string;
@@ -20,16 +22,18 @@ export default function SongDisplay({
   maxWidth = 150,
   pauseDuration = 1,
 }: SongDisplayProps) {
+  const { customCursorNoneTW } = useCustomCursor();
+
   const artistList = artists.map((artist, index) => (
     <span key={artist.url}>
-      <a
+      <Link
         href={artist.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-xs md:text-sm xl:text-base underline-fade"
+        className={`text-xs md:text-sm xl:text-base underline-fade ${customCursorNoneTW}`}
       >
         {artist.name}
-      </a>
+      </Link>
       {index < artists.length - 1 && ", "}
     </span>
   ));
@@ -49,14 +53,14 @@ export default function SongDisplay({
           enableUnderlineFade={true}
           className="font-bold text-left text-sm md:text-base xl:text-lg"
         >
-          <a
+          <Link
             href={songUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-bold text-left text-sm md:text-base xl:text-lg"
+            className={`font-bold text-left text-sm md:text-base xl:text-lg ${customCursorNoneTW}`}
           >
             {title}
-          </a>
+          </Link>
         </ScrollingText>
         <div
           className="text-sm text-muted text-left overflow-hidden whitespace-nowrap relative"
