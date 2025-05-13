@@ -49,7 +49,7 @@ const MacApps: MacApp[] = [
   },
   {
     name: "Notion Calendar",
-    link: "",
+    link: "https://www.notion.com/product/calendar",
     description:
       "Best simple calendar app that works with multiple accounts on all platforms.",
   },
@@ -65,7 +65,7 @@ const MacApps: MacApp[] = [
   },
   {
     name: "Al Dente",
-    link: "",
+    link: "https://apphousekitchen.com/aldente-overview/",
     description: "Limit charging to preserve long-term battery health.",
   },
 ];
@@ -79,6 +79,8 @@ const DisplayMacApp: React.FC<DisplayMacAppProps> = ({ app }) => {
     <div>
       <Link
         href={link}
+        target="_blank"
+        rel="noopener noreferrer"
         className="underline text-primary font-semibold"
         data-text-cursor
       >

@@ -50,6 +50,8 @@ const CustomCursor: React.FC = () => {
   const [genericBorderRadius, setGenericBorderRadius] = useState<number>(15);
   const [isOverSubcursor, setIsOverSubcursor] = useState(false);
   const [isSubcursorOverText, setIsSubcursorOverText] = useState(false);
+  const [cursorOpacity, setCursorOpacity] = useState(0.5);
+  const [subcursorOpacity, setSubcursorOpacity] = useState(0.85);
 
   const tempSpanRef = useRef<HTMLSpanElement | null>(null);
   const rafRef = useRef<number | undefined>(undefined);
@@ -84,6 +86,49 @@ const CustomCursor: React.FC = () => {
     }
   }, [mousePosition, headerLinkRect, genericHoverRect, x, y]);
 
+  // Add blinking animation effect
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const blink = () => {
+      if (isOverText) {
+        setCursorOpacity(0.5); // Turn on
+        timeoutId = setTimeout(() => {
+          setCursorOpacity(0); // Turn off
+          timeoutId = setTimeout(blink, 300); // Wait _ms before next cycle
+        }, 700); // Stay on for _ms
+      } else {
+        setCursorOpacity(0.5);
+      }
+    };
+
+    blink();
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isOverText]);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const blink = () => {
+      if (isSubcursorOverText) {
+        setSubcursorOpacity(0.85); // Turn on
+        timeoutId = setTimeout(() => {
+          setSubcursorOpacity(0); // Turn off
+          timeoutId = setTimeout(blink, 300); // Wait _ms before next cycle
+        }, 700); // Stay on for _ms
+      } else {
+        setSubcursorOpacity(0.85);
+      }
+    };
+
+    blink();
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isSubcursorOverText]);
+
   // Memoize the cursor variants to prevent unnecessary recalculations
   const cursorVariants = useMemo(
     () => ({
@@ -106,7 +151,7 @@ const CustomCursor: React.FC = () => {
         height: textHeight,
         borderRadius: 99,
         scale: 1,
-        opacity: 0.5,
+        opacity: cursorOpacity,
       },
       clickableText: {
         width: 4,
@@ -141,14 +186,14 @@ const CustomCursor: React.FC = () => {
         height: 12,
         borderRadius: 99,
         scale: 1,
-        opacity: 0.95,
+        opacity: 0.85,
       },
       subcursorText: {
         width: 4,
         height: textHeight,
         borderRadius: 99,
         scale: 1,
-        opacity: 0.95,
+        opacity: subcursorOpacity,
       },
     }),
     [
@@ -157,6 +202,8 @@ const CustomCursor: React.FC = () => {
       headerLinkRect,
       genericHoverRect,
       genericBorderRadius,
+      cursorOpacity,
+      subcursorOpacity,
     ]
   );
 
@@ -545,7 +592,7 @@ const CustomCursor: React.FC = () => {
       </motion.div>
       {isOverSubcursor && (
         <motion.div
-          className="fixed pointer-events-none z-[999] transform -translate-x-1/2 -translate-y-1/2 bg-background"
+          className="fixed pointer-events-none z-[999] transform -translate-x-1/2 -translate-y-1/2 bg-foreground"
           style={{
             left: mousePosition.x,
             top: mousePosition.y,
