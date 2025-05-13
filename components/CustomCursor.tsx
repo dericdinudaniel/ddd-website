@@ -224,9 +224,30 @@ const CustomCursor: React.FC = () => {
       return;
     }
 
-    // Check for subcursor elements
+    // Check for subcursor elements with improved Safari handling
     const subcursorElement = element.closest("[data-cursor-subcursor]");
-    setIsOverSubcursor(!!subcursorElement);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (isSafari) {
+      // For Safari, use a more reliable method to detect if we're over the element
+      if (subcursorElement instanceof HTMLElement) {
+        const rect = subcursorElement.getBoundingClientRect();
+        const isOver =
+          mousePosition.x >= rect.left &&
+          mousePosition.x <= rect.right &&
+          mousePosition.y >= rect.top &&
+          mousePosition.y <= rect.bottom;
+
+        // Only update if the state would change
+        if (isOver !== isOverSubcursor) {
+          setIsOverSubcursor(isOver);
+        }
+      } else {
+        setIsOverSubcursor(false);
+      }
+    } else {
+      setIsOverSubcursor(!!subcursorElement);
+    }
 
     // Check if subcursor is over text cursor element
     const textElement = element.closest("[data-text-cursor]");
@@ -297,7 +318,6 @@ const CustomCursor: React.FC = () => {
               };
             }
           } catch (e) {
-            // On error, use default padding
             console.error("Failed to parse padding configuration:", e);
             padding = { top: 10, right: 10, bottom: 10, left: 10 };
           }
@@ -368,13 +388,21 @@ const CustomCursor: React.FC = () => {
   // Add mouse position and clickable state handlers
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      mousePositionRef.current = { x: e.clientX, y: e.clientY };
+      // Update mouse position immediately for Safari
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
+      if (isSafari) {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      } else {
+        mousePositionRef.current = { x: e.clientX, y: e.clientY };
 
-      if (!rafRef.current) {
-        rafRef.current = requestAnimationFrame(() => {
-          setMousePosition(mousePositionRef.current);
-          rafRef.current = undefined;
-        });
+        if (!rafRef.current) {
+          rafRef.current = requestAnimationFrame(() => {
+            setMousePosition(mousePositionRef.current);
+            rafRef.current = undefined;
+          });
+        }
       }
     };
 
@@ -402,6 +430,14 @@ const CustomCursor: React.FC = () => {
       }
     };
 
+    // Add pointer events for better Safari support
+    window.addEventListener("pointermove", handleMouseMove);
+    window.addEventListener("pointerover", handleHoverChange);
+    window.addEventListener("pointerout", handleHoverChange);
+    window.addEventListener("pointerdown", handleMouseDown);
+    window.addEventListener("pointerup", handleMouseUp);
+
+    // Keep mouse events for other browsers
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseover", handleHoverChange);
     window.addEventListener("mouseout", handleHoverChange);
@@ -409,6 +445,11 @@ const CustomCursor: React.FC = () => {
     window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
+      window.removeEventListener("pointermove", handleMouseMove);
+      window.removeEventListener("pointerover", handleHoverChange);
+      window.removeEventListener("pointerout", handleHoverChange);
+      window.removeEventListener("pointerdown", handleMouseDown);
+      window.removeEventListener("pointerup", handleMouseUp);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseover", handleHoverChange);
       window.removeEventListener("mouseout", handleHoverChange);
