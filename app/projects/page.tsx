@@ -189,12 +189,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </div>
         </div>
         {date && (
-          <p className="text-xs text-muted-foreground mb-2" data-text-cursor>
+          <p
+            className="text-xs text-muted-foreground mb-2 w-fit"
+            data-text-cursor
+          >
             {formatProjectDate(date)}
           </p>
         )}
         <p
-          className="text-sm text-foreground mb-4 line-clamp-3 flex-grow"
+          className="text-sm text-foreground mb-4 line-clamp-3 flex-grow w-fit"
           data-text-cursor
         >
           {shortDescription}
@@ -210,7 +213,7 @@ export default function Home() {
   return (
     <section className="min-h-screen bg-background text-foreground flex flex-col items-center justify-start pt-20 px-8">
       <h1
-        className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]"
+        className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem]"
         data-text-cursor
       >
         Projects

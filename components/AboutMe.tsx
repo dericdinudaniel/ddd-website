@@ -26,23 +26,27 @@ const AboutMe = () => {
 
       <div className="mt-0 sm:mt-1 px-2 w-95 sm:w-120 md:w-83 lg:w-100 xl:w-120 text-sm sm:text-base md:text-base lg:text-lg 2xl:text-xl">
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
-          <p data-text-cursor>
+          <p data-text-cursor className="w-fit">
             I&apos;m a software engineer & music producer based in Ann Arbor,
             MI.
           </p>
         </SlideFadeIn>
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
-          <p data-text-cursor>
+          <p data-text-cursor className="w-fit">
             I&apos;m interested in almost everything in computing:
             microarchitecure/chip design, OS/kernel, embedded systems, and
             distributed systems.
           </p>
         </SlideFadeIn>
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
-          <p data-text-cursor>I&apos;m also into audio SW & ML.</p>
+          <p data-text-cursor className="w-fit">
+            I&apos;m also into audio SW & ML.
+          </p>
         </SlideFadeIn>
         <SlideFadeIn direction={direction} inMargin="-100px" outMargin="-80px">
-          <p data-text-cursor>I am not a frontend dev.</p>
+          <p data-text-cursor className="w-fit">
+            I am not a frontend dev.
+          </p>
         </SlideFadeIn>
       </div>
     </div>

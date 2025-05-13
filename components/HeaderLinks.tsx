@@ -21,7 +21,7 @@ const HeaderLinks = ({
     <div className="flex items-center gap-x-2 sm:gap-x-3">
       {links.map((link) => (
         <motion.span
-          data-cursor-generic-padded="7"
+          data-cursor-generic-padded='{"top": 4, "right": 7, "bottom": 7, "left": 7}'
           key={link.href}
           className="font-semibold text-[var(--headerlinks-text-size-scrolled)] select-none"
           initial={false}
