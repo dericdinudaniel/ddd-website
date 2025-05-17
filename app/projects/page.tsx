@@ -202,7 +202,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         >
           {shortDescription}
         </p>
-        <SmallTextPills pills={tags} />
+        <SmallTextPills pills={tags} subcursor={true} />
       </div>
     </div>
   );

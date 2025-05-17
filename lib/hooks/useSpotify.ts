@@ -45,7 +45,12 @@ const fetcher = async (url: string) => {
 export const useNowPlaying = () => {
   const { data, error, isLoading } = useSWR<NowPlaying>(
     "/api/spotify/now-playing",
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 10000,
+      revalidateOnFocus: true,
+      dedupingInterval: 5000,
+    }
   );
   return {
     data: data || fallbackNowPlaying,
@@ -57,7 +62,13 @@ export const useNowPlaying = () => {
 export const useTopTracks = () => {
   const { data, error, isLoading } = useSWR<SpotifyTrack[]>(
     "/api/spotify/top-tracks",
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 86400000, // 24 hours (1 day)
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      dedupingInterval: 86400000,
+    }
   );
   return {
     data: data || fallbackTracks,
@@ -69,7 +80,13 @@ export const useTopTracks = () => {
 export const useTopArtists = () => {
   const { data, error, isLoading } = useSWR<SpotifyArtist[]>(
     "/api/spotify/top-artists",
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 86400000, // 24 hours (1 day)
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      dedupingInterval: 86400000,
+    }
   );
   return {
     data: data || fallbackArtists,

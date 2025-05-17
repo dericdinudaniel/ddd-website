@@ -52,20 +52,30 @@ const CustomCursor: React.FC = () => {
   const [isSubcursorOverText, setIsSubcursorOverText] = useState(false);
   const [cursorOpacity, setCursorOpacity] = useState(0.5);
   const [subcursorOpacity, setSubcursorOpacity] = useState(0.85);
+  const [subcursorGenericRect, setSubcursorGenericRect] =
+    useState<DOMRect | null>(null);
+  const [subcursorGenericBorderRadius, setSubcursorGenericBorderRadius] =
+    useState<number>(15);
 
   const tempSpanRef = useRef<HTMLSpanElement | null>(null);
-  const rafRef = useRef<number | undefined>(undefined);
-  const mousePositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   // Create spring animations for smooth transitions
   const springConfig = { stiffness: 800, damping: 35, mass: 0.2 };
-  const x = useSpring(mousePosition.x, springConfig);
-  const y = useSpring(mousePosition.y, springConfig);
+  const x = useSpring(mousePosition.x, { ...springConfig, mass: 0.005 });
+  const y = useSpring(mousePosition.y, { ...springConfig, mass: 0.005 });
   const scale = useSpring(1, { stiffness: 1000, damping: 50, mass: 0.1 });
   const subcursorScale = useSpring(1, {
     stiffness: 1000,
     damping: 50,
     mass: 0.1,
+  });
+  const subcursorX = useSpring(mousePosition.x, {
+    ...springConfig,
+    mass: 0.005,
+  });
+  const subcursorY = useSpring(mousePosition.y, {
+    ...springConfig,
+    mass: 0.005,
   });
 
   // Update spring values when mouse position or link changes
@@ -84,7 +94,29 @@ const CustomCursor: React.FC = () => {
       x.set(mousePosition.x);
       y.set(mousePosition.y);
     }
-  }, [mousePosition, headerLinkRect, genericHoverRect, x, y]);
+
+    // Update subcursor position
+    if (subcursorGenericRect) {
+      const targetX =
+        subcursorGenericRect.left + subcursorGenericRect.width / 2;
+      const targetY =
+        subcursorGenericRect.top + subcursorGenericRect.height / 2;
+      subcursorX.set(targetX);
+      subcursorY.set(targetY);
+    } else {
+      subcursorX.set(mousePosition.x);
+      subcursorY.set(mousePosition.y);
+    }
+  }, [
+    mousePosition,
+    headerLinkRect,
+    genericHoverRect,
+    subcursorGenericRect,
+    x,
+    y,
+    subcursorX,
+    subcursorY,
+  ]);
 
   // Add blinking animation effect
   useEffect(() => {
@@ -195,6 +227,13 @@ const CustomCursor: React.FC = () => {
         scale: 1,
         opacity: subcursorOpacity,
       },
+      subcursorGeneric: {
+        width: subcursorGenericRect ? subcursorGenericRect.width : 12,
+        height: subcursorGenericRect ? subcursorGenericRect.height : 12,
+        borderRadius: subcursorGenericBorderRadius,
+        scale: 1,
+        opacity: 0.3,
+      },
     }),
     [
       textWidth,
@@ -204,6 +243,8 @@ const CustomCursor: React.FC = () => {
       genericBorderRadius,
       cursorOpacity,
       subcursorOpacity,
+      subcursorGenericRect,
+      subcursorGenericBorderRadius,
     ]
   );
 
@@ -238,6 +279,13 @@ const CustomCursor: React.FC = () => {
     isOverText,
   ]);
 
+  // Add a new function to get subcursor variant
+  const getSubcursorVariant = useCallback(() => {
+    if (subcursorGenericRect) return "subcursorGeneric";
+    if (isSubcursorOverText) return "subcursorText";
+    return "subcursor";
+  }, [subcursorGenericRect, isSubcursorOverText]);
+
   // Create temp span element after mount
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -268,6 +316,8 @@ const CustomCursor: React.FC = () => {
       setGenericBorderRadius(15);
       setIsOverSubcursor(false);
       setIsSubcursorOverText(false);
+      setSubcursorGenericRect(null);
+      setSubcursorGenericBorderRadius(15);
       return;
     }
 
@@ -299,6 +349,21 @@ const CustomCursor: React.FC = () => {
     // Check if subcursor is over text cursor element
     const textElement = element.closest("[data-text-cursor]");
     setIsSubcursorOverText(!!textElement);
+
+    // Handle subcursor generic hover elements
+    const subcursorGenericElement = element.closest("[data-subcursor-generic]");
+    if (subcursorGenericElement instanceof HTMLElement) {
+      const rect = subcursorGenericElement.getBoundingClientRect();
+      setSubcursorGenericRect(rect);
+
+      const computedStyle = window.getComputedStyle(subcursorGenericElement);
+      const borderRadius = computedStyle.borderRadius;
+      const radiusValue = parseFloat(borderRadius.split(" ")[0]);
+      setSubcursorGenericBorderRadius(radiusValue || 15);
+    } else {
+      setSubcursorGenericRect(null);
+      setSubcursorGenericBorderRadius(15);
+    }
 
     // Check if the element or any of its parents has the data-text-cursor attribute
     const shouldBeTextMode = !!textElement;
@@ -435,22 +500,7 @@ const CustomCursor: React.FC = () => {
   // Add mouse position and clickable state handlers
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Update mouse position immediately for Safari
-      const isSafari = /^((?!chrome|android).)*safari/i.test(
-        navigator.userAgent
-      );
-      if (isSafari) {
-        setMousePosition({ x: e.clientX, y: e.clientY });
-      } else {
-        mousePositionRef.current = { x: e.clientX, y: e.clientY };
-
-        if (!rafRef.current) {
-          rafRef.current = requestAnimationFrame(() => {
-            setMousePosition(mousePositionRef.current);
-            rafRef.current = undefined;
-          });
-        }
-      }
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleHoverChange = (e: MouseEvent) => {
@@ -502,9 +552,6 @@ const CustomCursor: React.FC = () => {
       window.removeEventListener("mouseout", handleHoverChange);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
     };
   }, [scale, subcursorScale, isOverSubcursor]);
 
@@ -594,16 +641,23 @@ const CustomCursor: React.FC = () => {
         <motion.div
           className="fixed pointer-events-none z-[999] transform -translate-x-1/2 -translate-y-1/2 bg-foreground"
           style={{
-            left: mousePosition.x,
-            top: mousePosition.y,
+            left: subcursorX,
+            top: subcursorY,
             scale: subcursorScale,
           }}
           variants={cursorVariants}
           initial="subcursor"
-          animate={isSubcursorOverText ? "subcursorText" : "subcursor"}
+          animate={getSubcursorVariant()}
           transition={{
-            duration: 0.1,
+            duration: 0.2,
             ease: "easeOut",
+            borderRadius: { duration: 0.2, ease: "easeOut" },
+            ...(subcursorGenericRect && {
+              type: "spring",
+              stiffness: 150,
+              damping: 15,
+              mass: 0.8,
+            }),
           }}
         />
       )}
