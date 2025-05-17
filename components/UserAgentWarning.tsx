@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SlideFadeIn } from "./SlideFadeIn";
 
 const UserAgentWarning = () => {
   const [showWarning, setShowWarning] = useState(false);

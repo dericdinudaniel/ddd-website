@@ -487,7 +487,7 @@ const CustomCursor: React.FC = () => {
       setHoveredTooltip(null);
       setTextWidth(0);
     }
-  }, [mousePosition.x, mousePosition.y, hoveredTooltip]);
+  }, [mousePosition.x, mousePosition.y, hoveredTooltip, isOverSubcursor]);
 
   // Create debounced version of detectElements
   const debouncedDetectElements = useDebounce(detectElements, 6); // ~60fps
