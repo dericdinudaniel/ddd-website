@@ -527,6 +527,11 @@ const CustomCursor: React.FC = () => {
       }
     };
 
+    const handleScroll = () => {
+      // Re-detect elements at current mouse position when scrolling
+      detectElements();
+    };
+
     // Add pointer events for better Safari support
     window.addEventListener("pointermove", handleMouseMove);
     window.addEventListener("pointerover", handleHoverChange);
@@ -541,6 +546,10 @@ const CustomCursor: React.FC = () => {
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
 
+    // Add scroll event listeners
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener("pointermove", handleMouseMove);
       window.removeEventListener("pointerover", handleHoverChange);
@@ -552,8 +561,10 @@ const CustomCursor: React.FC = () => {
       window.removeEventListener("mouseout", handleHoverChange);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", handleScroll);
     };
-  }, [scale, subcursorScale, isOverSubcursor]);
+  }, [scale, subcursorScale, isOverSubcursor, detectElements]);
 
   if (!isCursorVisible) return null;
 
