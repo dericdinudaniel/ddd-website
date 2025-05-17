@@ -19,6 +19,7 @@
   --color-shadow_c: var(--shadow);
   --color-header: var(--header);
   --color-pill: var(--pill);
+  --color-destructive: var(--destructive);
 }
 
 @layer base {
@@ -33,6 +34,7 @@
     --shadow: color-mix(in hsl, var(--foreground) 38%, white);
     --pill: hsl(0 0% 95% / 0.346);
     --fully-transparent: hsl(0 0% 95% / 0);
+    --destructive: hsl(0, 100%, 70%);
   }
   html[data-theme="dark"] {
     --background: hsl(0, 0%, 5%);
@@ -45,6 +47,7 @@
     --shadow: color-mix(in hsl, var(--foreground) 30%, black);
     --pill: hsl(0 0% 23.9% / 0.346);
     --fully-transparent: hsl(0 0% 5% / 0);
+    --destructive: hsl(0, 94%, 20%);
   }
 }
 
