@@ -60,22 +60,22 @@ const CustomCursor: React.FC = () => {
   const tempSpanRef = useRef<HTMLSpanElement | null>(null);
 
   // Create spring animations for smooth transitions
-  const springConfig = { stiffness: 800, damping: 35, mass: 0.2 };
-  const x = useSpring(mousePosition.x, { ...springConfig, mass: 0.005 });
-  const y = useSpring(mousePosition.y, { ...springConfig, mass: 0.005 });
-  const scale = useSpring(1, { stiffness: 1000, damping: 50, mass: 0.1 });
+  const springConfig = { stiffness: 800, damping: 25, mass: 0.1 };
+  const x = useSpring(mousePosition.x, { ...springConfig, mass: 0.001 });
+  const y = useSpring(mousePosition.y, { ...springConfig, mass: 0.001 });
+  const scale = useSpring(1, { stiffness: 1000, damping: 30, mass: 0.05 });
   const subcursorScale = useSpring(1, {
     stiffness: 1000,
-    damping: 50,
-    mass: 0.1,
+    damping: 30,
+    mass: 0.05,
   });
   const subcursorX = useSpring(mousePosition.x, {
     ...springConfig,
-    mass: 0.005,
+    mass: 0.001,
   });
   const subcursorY = useSpring(mousePosition.y, {
     ...springConfig,
-    mass: 0.005,
+    mass: 0.001,
   });
 
   // Update spring values when mouse position or link changes
