@@ -126,9 +126,9 @@ const CustomCursor: React.FC = () => {
       if (isOverText) {
         setCursorOpacity(0.5); // Turn on
         timeoutId = setTimeout(() => {
-          setCursorOpacity(0); // Turn off
+          setCursorOpacity(0.1); // Turn off
           timeoutId = setTimeout(blink, 300); // Wait _ms before next cycle
-        }, 700); // Stay on for _ms
+        }, 800); // Stay on for _ms
       } else {
         setCursorOpacity(0.5);
       }
@@ -147,9 +147,9 @@ const CustomCursor: React.FC = () => {
       if (isSubcursorOverText) {
         setSubcursorOpacity(0.85); // Turn on
         timeoutId = setTimeout(() => {
-          setSubcursorOpacity(0); // Turn off
+          setSubcursorOpacity(0.1); // Turn off
           timeoutId = setTimeout(blink, 300); // Wait _ms before next cycle
-        }, 700); // Stay on for _ms
+        }, 800); // Stay on for _ms
       } else {
         setSubcursorOpacity(0.85);
       }
