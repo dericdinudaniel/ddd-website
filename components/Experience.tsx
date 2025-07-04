@@ -42,7 +42,7 @@ const companies = [
     name: "Apple – Silicon Engineering Group",
     site: "https://www.apple.com",
     logoPath: "/company-logos/apple-logo.svg",
-    position: "Incoming SoC Embedded Software Engineer",
+    position: "SoC Embedded Software Engineer",
     size: "size-6 sm:size-8 md:size-10",
     invertOnDark: true,
   },
