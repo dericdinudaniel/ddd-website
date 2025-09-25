@@ -1,11 +1,38 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SpotifyNowPlaying from "./spotify/NowPlaying";
+import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isIndex = pathname === "/";
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="relative flex justify-center">
+      {isIndex && (
+        <div
+          className={`fixed bottom-[70px] flex justify-center w-full transition-opacity duration-300 ${
+            isScrolled ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <ChevronDown
+            className="flex items-center text-muted animate-bounce"
+            size={24}
+          />
+        </div>
+      )}
       <div
         className="fixed bottom-2 sm:bottom-3 z-50"
         style={{

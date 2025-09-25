@@ -9,6 +9,7 @@ type ScrollDotsProps = {
 
 export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
   const [isMobile, setIsMobile] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
     const updateSize = () => {
       setIsMobile(window.innerWidth < 640);
@@ -18,12 +19,17 @@ export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const refs = isMobile ? sectionRefs : sectionRefs.slice(0, -1);
 
   const [activeSection, setActiveSection] = useState<number>(0);
   const [activeProgress, setActiveProgress] = useState<number>(0);
 
   useEffect(() => {
+    if (isMobile) return; // Avoid adding listeners on mobile
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const viewH = window.innerHeight;
@@ -64,14 +70,17 @@ export default function ScrollDots({ sectionRefs }: ScrollDotsProps) {
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // init on mount
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [refs]);
+  }, [refs, isMobile]);
 
   const scrollTo = (i: number) => {
     refs[i].current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Avoid rendering on mobile and before mount to prevent flicker
+  if (!hasMounted || isMobile) return null;
+
   return (
-    <div className="fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 flex flex-col items-center z-40 pointer-events-none">
+    <div className="fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 hidden sm:flex flex-col items-center z-40 pointer-events-none">
       {refs.map((_, idx) => {
         const isActive = idx === activeSection;
         return (
