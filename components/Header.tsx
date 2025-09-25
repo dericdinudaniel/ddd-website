@@ -46,9 +46,9 @@ export default function Header() {
       <header
         className="fixed top-0 left-0 right-0 z-50 mx-auto py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
         style={{
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: isMobile ? "95%" : "80%",
+          // left: "50%",
+          // transform: "translateX(-50%)",
+          width: isMobile ? "95%" : "60%",
           borderRadius: "70px",
           boxShadow: "0px 5px 15px var(--shadow)",
           backgroundColor: "var(--pill)",

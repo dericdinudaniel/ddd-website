@@ -620,7 +620,7 @@ const CustomCursor: React.FC = () => {
             }),
           }}
         >
-          <GlowEffect
+          {/* <GlowEffect
             colors={[
               "#ff0000",
               "#ff8000",
@@ -634,7 +634,7 @@ const CustomCursor: React.FC = () => {
             duration={4}
             scale={1}
             className="h-full w-full"
-          />
+          /> */}
         </motion.div>
         {hoveredTooltip?.hovered && (
           <motion.div
