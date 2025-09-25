@@ -37,10 +37,10 @@ export function GlowEffect({
   scale = 1,
   duration = 5,
 }: GlowEffectProps) {
-  const BASE_TRANSITION = {
+  const BASE_TRANSITION: Transition = {
     repeat: Infinity,
     duration: duration,
-    ease: 'linear',
+    ease: (t: number) => t,
   };
 
   const animations = {

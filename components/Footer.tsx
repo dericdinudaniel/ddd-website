@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import SpotifyNowPlaying from "./spotify/NowPlaying";
 import { motion, useScroll } from "motion/react";
+import type { Transition } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -53,9 +54,9 @@ export default function Footer() {
   const effectDelayDuration = isScrolled ? 0.2 : 0;
   const formationDelayDuration = isScrolled ? 0 : 0.2;
 
-  const transition = useMemo(
+  const transition: Transition = useMemo(
     () => ({
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 30,
       delay: formationDelayDuration,
