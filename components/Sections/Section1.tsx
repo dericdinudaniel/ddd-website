@@ -49,7 +49,10 @@ const Section1 = ({ className = "", ref }: SectionProps) => {
   return (
     <Section className={`${className}`} ref={ref}>
       <div>
-        <Background className="flex flex-col justify-center items-center align-middle">
+        <div
+          className="flex flex-col justify-center items-center align-middle"
+          // wrapChildren={true}
+        >
           <h1
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-9xl font-bold font-header tracking-[.1rem] flex gap-x-2 md:gap-x-3 xl:gap-x-4"
             data-text-cursor
@@ -62,7 +65,7 @@ const Section1 = ({ className = "", ref }: SectionProps) => {
           <SubText />
 
           <SocialLinks />
-        </Background>
+        </div>
       </div>
     </Section>
   );

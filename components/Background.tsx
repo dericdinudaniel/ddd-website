@@ -77,9 +77,11 @@ void main() {
 const Background = ({
   children,
   className = "",
+  wrapChildren = true,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
+  wrapChildren?: boolean;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef<[number, number]>([0.5, 0.5]);
@@ -296,17 +298,33 @@ const Background = ({
   }, []);
 
   return (
-    <div className="absolute inset-0">
+    <div className={`${wrapChildren ? "absolute" : "fixed"} inset-0`}>
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none z-0"
         style={{ willChange: "transform" }}
       />
-      <div className={`relative w-full h-full z-10 ${className}`}>
-        {children}
-      </div>
+      {wrapChildren && (
+        <div className={`relative w-full h-full z-10 ${className}`}>
+          {children}
+        </div>
+      )}
     </div>
   );
+
+  // original code to use as wrapper around children
+  // return (
+  //   <div className="absolute inset-0">
+  //     <canvas
+  //       ref={canvasRef}
+  //       className="absolute inset-0 w-full h-full pointer-events-none z-0"
+  //       style={{ willChange: "transform" }}
+  //     />
+  //     <div className={`relative w-full h-full z-10 ${className}`}>
+  //       {children}
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default Background;
