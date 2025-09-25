@@ -63,12 +63,16 @@ body {
   color: var(--foreground);
   font-family: var(--font-jetbrains-mono), monospace, Arial, Helvetica,
     sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
-html {
+/* html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-}
+} */
 
 ::selection {
   background-color: var(--primary);
@@ -99,32 +103,16 @@ html {
   background-position: 0 100%; /* You can animate this too if needed */
 }
 
+/* Default (mobile-first) values */
 :root {
-  /* Default (mobile-first) values */
-  --logo-icon-width-not-scrolled: 28px;
-  --logo-icon-width-scrolled: 25px;
-
-  --logo-text-size-not-scrolled: 1.4rem; /* 24px */
-  --logo-text-size-scrolled: 1.2rem; /* 19.2px */
-
-  /* Values that were not dependent on isMobile in the original code */
-  --logo-icon-height-not-scrolled: 45px;
-  --logo-icon-height-scrolled: 35px;
-
-  --headerlinks-text-size-scrolled: 0.75rem;
-  --headerlinks-text-size-not-scrolled: 0.9rem;
+  --ddd-responsive-text-font-size: 0.875rem;
+  --ddd-responsive-text-line-height: 1.25rem;
 }
 
 /* Desktop overrides (Tailwind's 'sm' breakpoint is 640px) */
 @media (min-width: 640px) {
   :root {
-    --logo-icon-width-not-scrolled: 45px;
-    --logo-icon-width-scrolled: 33px;
-
-    --logo-text-size-not-scrolled: 2rem; /* 32px */
-    --logo-text-size-scrolled: 1.5rem; /* 24px */
-
-    --headerlinks-text-size-scrolled: 1rem;
-    --headerlinks-text-size-not-scrolled: 1.3rem;
+    --ddd-responsive-text-font-size: 1.5rem;
+    --ddd-responsive-text-line-height: 2rem;
   }
 }
