@@ -104,15 +104,11 @@ body {
 }
 
 /* Default (mobile-first) values */
-:root {
-  --ddd-responsive-text-font-size: 0.875rem;
-  --ddd-responsive-text-line-height: 1.25rem;
-}
+/* :root {
+} */
 
 /* Desktop overrides (Tailwind's 'sm' breakpoint is 640px) */
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   :root {
-    --ddd-responsive-text-font-size: 1.5rem;
-    --ddd-responsive-text-line-height: 2rem;
   }
-}
+} */

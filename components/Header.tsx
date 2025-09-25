@@ -19,11 +19,7 @@ const Logo = () => {
 
       <h2
         data-text-cursor
-        className="font-bold select-none"
-        style={{
-          fontSize: "var(--ddd-responsive-text-font-size)",
-          lineHeight: "var(--ddd-responsive-text-line-height)",
-        }}
+        className="font-bold select-none text-base sm:text-2xl pb-[1px]"
       >
         DDD
       </h2>
