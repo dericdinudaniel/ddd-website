@@ -83,6 +83,8 @@ const Background = ({
   className?: string;
   wrapChildren?: boolean;
 }) => {
+  // return <div>{children}</div>;
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef<[number, number]>([0.5, 0.5]);
   const prevMouseRef = useRef<[number, number]>([0.5, 0.5]);

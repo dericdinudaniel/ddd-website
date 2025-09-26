@@ -25,6 +25,8 @@ export function SlideFadeIn({
   direction?: SlideDirection;
   slideOffset?: number;
 }) {
+  // return <div>{children}</div>;
+
   const ref = useRef(null);
   const isInView = useInView(ref, {
     margin:

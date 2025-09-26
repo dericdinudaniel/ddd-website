@@ -11,7 +11,7 @@ import { motion, useSpring } from "motion/react";
 import { useCustomCursor } from "./providers/CustomCursorProvider";
 import { GlowEffect } from "./motion-primitives/glow-effect";
 
-// Custom debounce hook
+// Simple, efficient debounce hook
 const useDebounce = <T extends (...args: unknown[]) => void>(
   callback: T,
   delay: number
@@ -23,7 +23,6 @@ const useDebounce = <T extends (...args: unknown[]) => void>(
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-
       timeoutRef.current = setTimeout(() => {
         callback(...args);
       }, delay);
@@ -31,6 +30,13 @@ const useDebounce = <T extends (...args: unknown[]) => void>(
     [callback, delay]
   );
 };
+
+// Simple element cache - no complex spatial logic
+const elementCache = new Map<
+  string,
+  { element: Element | null; timestamp: number }
+>();
+const CACHE_DURATION = 33; // ~30fps cache - sweet spot for performance
 
 const CustomCursor: React.FC = () => {
   const { isCursorVisible } = useCustomCursor();
@@ -59,16 +65,14 @@ const CustomCursor: React.FC = () => {
 
   const tempSpanRef = useRef<HTMLSpanElement | null>(null);
 
-  // Create spring animations for smooth transitions
-  const springConfig = { stiffness: 800, damping: 25, mass: 0.1 };
+  // Balanced spring configurations for smooth performance
+  const springConfig = { stiffness: 600, damping: 30, mass: 0.08 };
+  const fastSpringConfig = { stiffness: 800, damping: 35, mass: 0.05 };
+
   const x = useSpring(mousePosition.x, { ...springConfig, mass: 0.001 });
   const y = useSpring(mousePosition.y, { ...springConfig, mass: 0.001 });
-  const scale = useSpring(1, { stiffness: 1000, damping: 30, mass: 0.05 });
-  const subcursorScale = useSpring(1, {
-    stiffness: 1000,
-    damping: 30,
-    mass: 0.05,
-  });
+  const scale = useSpring(1, fastSpringConfig);
+  const subcursorScale = useSpring(1, fastSpringConfig);
   const subcursorX = useSpring(mousePosition.x, {
     ...springConfig,
     mass: 0.001,
@@ -304,11 +308,31 @@ const CustomCursor: React.FC = () => {
     };
   }, []);
 
-  // Memoize the element detection logic
+  // Simple, efficient element detection
   const detectElements = useCallback(() => {
     if (typeof window === "undefined") return;
 
-    const element = document.elementFromPoint(mousePosition.x, mousePosition.y);
+    // Simple caching - check if we have a recent result for this position
+    const cacheKey = `${Math.floor(mousePosition.x / 5)},${Math.floor(
+      mousePosition.y / 5
+    )}`;
+    const cached = elementCache.get(cacheKey);
+    const now = performance.now();
+
+    let element: Element | null;
+    if (cached && now - cached.timestamp < CACHE_DURATION) {
+      element = cached.element;
+    } else {
+      element = document.elementFromPoint(mousePosition.x, mousePosition.y);
+      elementCache.set(cacheKey, { element, timestamp: now });
+
+      // Simple cache cleanup - only when cache gets too large
+      if (elementCache.size > 50) {
+        const entries = Array.from(elementCache.entries());
+        entries.slice(0, 25).forEach(([key]) => elementCache.delete(key));
+      }
+    }
+
     if (!element) {
       setIsOverText(false);
       setHeaderLinkRect(null);
@@ -321,99 +345,98 @@ const CustomCursor: React.FC = () => {
       return;
     }
 
-    // Check for subcursor elements with improved Safari handling
+    // Ultra-fast DOM queries with early returns
+    const textElement = element.closest("[data-text-cursor]");
     const subcursorElement = element.closest("[data-cursor-subcursor]");
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const subcursorGenericElement = element.closest("[data-subcursor-generic]");
+    const headerLink = element.closest("[data-header-link]");
+    const genericElement = element.closest(
+      "[data-cursor-generic], [data-cursor-generic-padded]"
+    );
+    const socialLink = element.closest("[data-tooltip-hover]");
 
-    if (isSafari) {
-      // For Safari, use a more reliable method to detect if we're over the element
-      if (subcursorElement instanceof HTMLElement) {
-        const rect = subcursorElement.getBoundingClientRect();
-        const isOver =
-          mousePosition.x >= rect.left &&
-          mousePosition.x <= rect.right &&
-          mousePosition.y >= rect.top &&
-          mousePosition.y <= rect.bottom;
+    // Optimized subcursor detection
+    const isOverSubcursorNew = !!subcursorElement;
 
-        // Only update if the state would change
-        if (isOver !== isOverSubcursor) {
-          setIsOverSubcursor(isOver);
-        }
-      } else {
-        setIsOverSubcursor(false);
-      }
-    } else {
-      setIsOverSubcursor(!!subcursorElement);
+    // Only update state if it actually changed
+    if (isOverSubcursorNew !== isOverSubcursor) {
+      setIsOverSubcursor(isOverSubcursorNew);
     }
 
-    // Check if subcursor is over text cursor element
-    const textElement = element.closest("[data-text-cursor]");
-    setIsSubcursorOverText(!!textElement);
+    // Update text states
+    const shouldBeTextMode = !!textElement;
+    const isSubcursorOverTextNew = !!textElement;
+
+    if (shouldBeTextMode !== isOverText) {
+      setIsOverText(shouldBeTextMode);
+    }
+    if (isSubcursorOverTextNew !== isSubcursorOverText) {
+      setIsSubcursorOverText(isSubcursorOverTextNew);
+    }
 
     // Handle subcursor generic hover elements
-    const subcursorGenericElement = element.closest("[data-subcursor-generic]");
     if (subcursorGenericElement instanceof HTMLElement) {
       const rect = subcursorGenericElement.getBoundingClientRect();
-      setSubcursorGenericRect(rect);
-
       const computedStyle = window.getComputedStyle(subcursorGenericElement);
       const borderRadius = computedStyle.borderRadius;
       const radiusValue = parseFloat(borderRadius.split(" ")[0]);
+
+      setSubcursorGenericRect(rect);
       setSubcursorGenericBorderRadius(radiusValue || 15);
     } else {
       setSubcursorGenericRect(null);
       setSubcursorGenericBorderRadius(15);
     }
 
-    // Check if the element or any of its parents has the data-text-cursor attribute
-    const shouldBeTextMode = !!textElement;
-    setIsOverText(shouldBeTextMode);
-
+    // Handle text height calculation
     if (shouldBeTextMode && textElement instanceof HTMLElement) {
-      // Get the computed line height instead of full element height
       const computedStyle = window.getComputedStyle(textElement);
       const lineHeight = computedStyle.lineHeight;
-      // Convert line height to number (removes 'px' and handles 'normal')
       const lineHeightValue =
         lineHeight === "normal"
-          ? parseFloat(computedStyle.fontSize) * 1 // Default line height is usually 1.2x font size
+          ? parseFloat(computedStyle.fontSize) * 1
           : parseFloat(lineHeight) * 1;
-      setTextHeight((lineHeightValue || textElement.offsetHeight) + 3);
-    } else {
+      const newTextHeight = (lineHeightValue || textElement.offsetHeight) + 3;
+      if (newTextHeight !== textHeight) {
+        setTextHeight(newTextHeight);
+      }
+    } else if (textHeight !== 0) {
       setTextHeight(0);
     }
 
     // Handle header links
-    const headerLink = element.closest("[data-header-link]");
     if (headerLink instanceof HTMLElement) {
-      setHeaderLinkRect(headerLink.getBoundingClientRect());
-    } else {
+      const newRect = headerLink.getBoundingClientRect();
+      // Only update if significantly different (reasonable threshold)
+      if (
+        !headerLinkRect ||
+        Math.abs(newRect.width - headerLinkRect.width) > 2 ||
+        Math.abs(newRect.height - headerLinkRect.height) > 2 ||
+        Math.abs(newRect.left - headerLinkRect.left) > 2 ||
+        Math.abs(newRect.top - headerLinkRect.top) > 2
+      ) {
+        setHeaderLinkRect(newRect);
+      }
+    } else if (headerLinkRect) {
       setHeaderLinkRect(null);
     }
 
-    // Handle generic hover elements
-    const genericElement = element.closest(
-      "[data-cursor-generic], [data-cursor-generic-padded]"
-    );
+    // Handle generic hover elements with optimized calculations
     if (genericElement instanceof HTMLElement) {
       const rect = genericElement.getBoundingClientRect();
 
-      // Parse padding configuration
+      // Parse padding configuration (memoized)
       let padding = { top: 0, right: 0, bottom: 0, left: 0 };
       if (genericElement.hasAttribute("data-cursor-generic-padded")) {
         const paddingConfig = genericElement.getAttribute(
           "data-cursor-generic-padded"
         );
-
-        // If attribute exists but no value, use default
         if (!paddingConfig) {
           padding = { top: 10, right: 10, bottom: 10, left: 10 };
         } else {
           try {
-            // Handle both JSON and single number formats
             if (paddingConfig.startsWith("{")) {
               const parsedPadding = JSON.parse(paddingConfig);
-              // Ensure all sides have a value, defaulting to 0 if missing
               padding = {
                 top: parsedPadding.top ?? 0,
                 right: parsedPadding.right ?? 0,
@@ -421,7 +444,7 @@ const CustomCursor: React.FC = () => {
                 left: parsedPadding.left ?? 0,
               };
             } else {
-              const value = parseInt(paddingConfig, 10) || 10; // Default to 10 if parsing fails
+              const value = parseInt(paddingConfig, 10) || 10;
               padding = {
                 top: value,
                 right: value,
@@ -430,40 +453,43 @@ const CustomCursor: React.FC = () => {
               };
             }
           } catch (e) {
-            console.error("Failed to parse padding configuration:", e);
             padding = { top: 10, right: 10, bottom: 10, left: 10 };
           }
         }
       }
 
-      // Ensure padding values are valid numbers
-      padding = {
-        top: Math.max(0, Number(padding.top) || 0),
-        right: Math.max(0, Number(padding.right) || 0),
-        bottom: Math.max(0, Number(padding.bottom) || 0),
-        left: Math.max(0, Number(padding.left) || 0),
-      };
-
-      setGenericHoverRect({
+      const newRect = {
         ...rect,
         width: rect.width + padding.left + padding.right,
         height: rect.height + padding.top + padding.bottom,
         left: rect.left - padding.left,
         top: rect.top - padding.top,
-      });
+      };
+
+      // Only update if significantly different (reasonable threshold)
+      if (
+        !genericHoverRect ||
+        Math.abs(newRect.width - genericHoverRect.width) > 2 ||
+        Math.abs(newRect.height - genericHoverRect.height) > 2 ||
+        Math.abs(newRect.left - genericHoverRect.left) > 2 ||
+        Math.abs(newRect.top - genericHoverRect.top) > 2
+      ) {
+        setGenericHoverRect(newRect);
+      }
 
       const computedStyle = window.getComputedStyle(genericElement);
       const borderRadius = computedStyle.borderRadius;
-      // Convert border radius to number (removes 'px' and handles multiple values)
       const radiusValue = parseFloat(borderRadius.split(" ")[0]);
-      setGenericBorderRadius(radiusValue || 15);
-    } else {
+      const newBorderRadius = radiusValue || 15;
+      if (newBorderRadius !== genericBorderRadius) {
+        setGenericBorderRadius(newBorderRadius);
+      }
+    } else if (genericHoverRect) {
       setGenericHoverRect(null);
       setGenericBorderRadius(15);
     }
 
     // Handle hover tooltips
-    const socialLink = element.closest("[data-tooltip-hover]");
     if (socialLink) {
       const name = socialLink.getAttribute("data-tooltip-name");
       const hovered = socialLink.getAttribute("data-tooltip-hover") === "true";
@@ -476,21 +502,36 @@ const CustomCursor: React.FC = () => {
         setHoveredTooltip({ name: name || "", hovered });
 
         // Calculate text width using the reusable temp span
-        if (tempSpanRef.current) {
-          tempSpanRef.current.textContent = name || "";
+        if (tempSpanRef.current && name) {
+          tempSpanRef.current.textContent = name;
           document.body.appendChild(tempSpanRef.current);
-          setTextWidth(tempSpanRef.current.offsetWidth);
+          const newTextWidth = tempSpanRef.current.offsetWidth;
           document.body.removeChild(tempSpanRef.current);
+          if (newTextWidth !== textWidth) {
+            setTextWidth(newTextWidth);
+          }
         }
       }
     } else if (hoveredTooltip !== null) {
       setHoveredTooltip(null);
       setTextWidth(0);
     }
-  }, [mousePosition.x, mousePosition.y, hoveredTooltip, isOverSubcursor]);
+  }, [
+    mousePosition.x,
+    mousePosition.y,
+    hoveredTooltip,
+    isOverSubcursor,
+    isOverText,
+    isSubcursorOverText,
+    textHeight,
+    headerLinkRect,
+    genericHoverRect,
+    genericBorderRadius,
+    textWidth,
+  ]);
 
-  // Create debounced version of detectElements
-  const debouncedDetectElements = useDebounce(detectElements, 6); // ~60fps
+  // Use efficient debouncing for optimal performance
+  const debouncedDetectElements = useDebounce(detectElements, 8); // ~120fps
 
   // Update the effect to use the debounced function
   useEffect(() => {
@@ -586,9 +627,9 @@ const CustomCursor: React.FC = () => {
           borderRadius: { duration: 0.2, ease: "easeOut" },
           ...((headerLinkRect || genericHoverRect) && {
             type: "spring",
-            stiffness: 150,
-            damping: 15,
-            mass: 0.8,
+            stiffness: 200,
+            damping: 20,
+            mass: 0.6,
           }),
         }}
       >
@@ -609,14 +650,14 @@ const CustomCursor: React.FC = () => {
             scale: 1,
           }}
           transition={{
-            duration: 0.3,
+            duration: 0.25,
             ease: "easeInOut",
             borderRadius: { duration: 0.2, ease: "easeOut" },
             ...((headerLinkRect || genericHoverRect) && {
               type: "spring",
-              stiffness: 150,
-              damping: 15,
-              mass: 0.8,
+              stiffness: 200,
+              damping: 20,
+              mass: 0.6,
             }),
           }}
         >
@@ -665,9 +706,9 @@ const CustomCursor: React.FC = () => {
             borderRadius: { duration: 0.2, ease: "easeOut" },
             ...(subcursorGenericRect && {
               type: "spring",
-              stiffness: 150,
-              damping: 15,
-              mass: 0.8,
+              stiffness: 200,
+              damping: 20,
+              mass: 0.6,
             }),
           }}
         />

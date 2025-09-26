@@ -28,7 +28,7 @@ export default function Footer() {
           }`}
         >
           <ChevronDown
-            className="flex items-center text-muted animate-bounce"
+            className="flex items-center text-muted animate-bounce mb-2"
             size={24}
           />
         </div>
