@@ -5,6 +5,7 @@ import { Terminal } from "lucide-react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
+import LiquidGlass from "./LiquidGlass";
 
 const Logo = () => {
   return (
@@ -44,42 +45,43 @@ export default function Header() {
       {/* <div className="h-20" /> */}
 
       <header
-        className="fixed top-0 left-0 right-0 z-50 mx-auto py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
+        className="fixed top-0 left-0 right-0 z-50 mx-auto translate-y-[8px] sm:translate-y-[10px]"
         style={{
           // left: "50%",
           // transform: "translateX(-50%)",
           width: isMobile ? "95%" : "60%",
-          borderRadius: "70px",
-          boxShadow: "0px 5px 15px var(--shadow)",
-          backgroundColor: "var(--pill)",
-          backdropFilter: "blur(.7rem)",
         }}
       >
-        {/* Background Border */}
-        <div className="absolute inset-0 ring-[1px] ring-border rounded-[inherit] opacity-95" />
+        <LiquidGlass
+          className="rounded-[70px]"
+          vars={{ baseStrength: 20, extraBlur: 4, softness: 16 }}
+        >
+          {/* Background Border */}
+          <div className="absolute inset-0 ring-[1px] ring-border rounded-[inherit] opacity-95" />
 
-        {/* Content */}
-        <div className="relative z-10 flex items-center">
-          {/* Left region */}
-          <div className="flex basis-0 flex-1 items-center gap-x-[.1rem]">
-            <Logo />
-          </div>
+          {/* Content */}
+          <div className="relative z-10 flex items-center py-1 sm:py-1.5">
+            {/* Left region */}
+            <div className="flex basis-0 flex-1 items-center gap-x-[.1rem]">
+              <Logo />
+            </div>
 
-          {/* Center region */}
-          <div className="flex basis-0 flex-1 justify-center">
-            <HeaderLinks />
-          </div>
+            {/* Center region */}
+            <div className="flex basis-0 flex-1 justify-center">
+              <HeaderLinks />
+            </div>
 
-          {/* Right region */}
-          <div className="flex basis-0 flex-1 justify-end">
-            <ThemeSwitcher
-              isScrolled={true}
-              isMobile={isMobile}
-              animationDuration={0.2}
-              formationDelayDuration={0}
-            />
+            {/* Right region */}
+            <div className="flex basis-0 flex-1 justify-end">
+              <ThemeSwitcher
+                isScrolled={true}
+                isMobile={isMobile}
+                animationDuration={0.2}
+                formationDelayDuration={0}
+              />
+            </div>
           </div>
-        </div>
+        </LiquidGlass>
       </header>
     </div>
   );

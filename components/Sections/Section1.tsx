@@ -5,6 +5,7 @@ import Section from "./Section";
 import SocialLinks from "../SocialLinks";
 import { SlideFadeIn } from "../SlideFadeIn";
 import Background from "../Background";
+import LiquidGlass from "../LiquidGlass";
 
 type SectionProps = {
   className?: string;
@@ -48,7 +49,7 @@ const SubText = () => {
 const Section1 = ({ className = "", ref }: SectionProps) => {
   return (
     <Section className={`${className}`} ref={ref}>
-      <div>
+      <LiquidGlass className="p-10 rounded-[24px]">
         <div
           className="flex flex-col justify-center items-center align-middle"
           // wrapChildren={true}
@@ -66,7 +67,7 @@ const Section1 = ({ className = "", ref }: SectionProps) => {
 
           <SocialLinks />
         </div>
-      </div>
+      </LiquidGlass>
     </Section>
   );
 };

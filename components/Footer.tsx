@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import SpotifyNowPlaying from "./spotify/NowPlaying";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
+import LiquidGlass from "./LiquidGlass";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -33,28 +34,19 @@ export default function Footer() {
           />
         </div>
       )}
-      <div
-        className="fixed bottom-2 sm:bottom-3 z-50"
-        style={{
-          boxShadow: "0px 2px 12px var(--shadow)",
-          backgroundColor: "var(--pill)",
-          backdropFilter: "blur(.7rem)",
-          borderRadius: "50px",
-          willChange:
-            "padding, borderRadius, boxShadow, backgroundColor, transform",
-          pointerEvents: "auto",
-        }}
-      >
-        {/* Background Border */}
-        <div
-          className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]"
-          style={{ opacity: 0.95 }}
-        />
+      <div className="fixed bottom-2 sm:bottom-3 z-50 pointer-events-auto">
+        <LiquidGlass className="rounded-[50px]">
+          {/* Background Border */}
+          <div
+            className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]"
+            style={{ opacity: 0.95 }}
+          />
 
-        {/* Content */}
-        <div className="relative z-10 flex items-center justify-center pointer-events-auto">
-          <SpotifyNowPlaying />
-        </div>
+          {/* Content */}
+          <div className="relative z-10 flex items-center justify-center">
+            <SpotifyNowPlaying />
+          </div>
+        </LiquidGlass>
       </div>
     </div>
   );

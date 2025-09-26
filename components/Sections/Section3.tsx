@@ -4,6 +4,7 @@ import Section from "./Section";
 import TopArtists from "../spotify/TopArtists";
 import TopTracks from "../spotify/TopTracks";
 import { useEffect, useState } from "react";
+import LiquidGlass from "../LiquidGlass";
 
 type SectionProps = {
   className?: string;
@@ -24,37 +25,29 @@ const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
 
   if (layout === "together") {
     return (
-      <Section
-        className={`${className} border-t`}
-        ref={ref}
-        sectionName="Spotify"
-      >
-        <div className="flex flex-row justify-center gap-x-6 w-full px-10">
-          <div className="min-h-fit max-w-[600px] w-1/2">
+      <Section className={`${className}`} ref={ref} sectionName="Spotify">
+        <div className="flex flex-row justify-center gap-x-6 px-10">
+          <LiquidGlass className="min-h-fit max-w-[600px] w-full p-2 rounded-[24px]">
             <TopTracks />
-          </div>
-          <div className="min-h-fit max-w-[600px] w-1/2">
+          </LiquidGlass>
+          <LiquidGlass className="min-h-fit max-w-[600px] w-1/2 p-2 rounded-[24px]">
             <TopArtists />
-          </div>
+          </LiquidGlass>
         </div>
       </Section>
     );
   } else {
     return (
       <>
-        <Section
-          className={`${className} border-t`}
-          ref={ref}
-          sectionName="Tracks"
-        >
-          <TopTracks />
+        <Section className={`${className}`} ref={ref} sectionName="Tracks">
+          <LiquidGlass className="p-2 rounded-[24px]">
+            <TopTracks />
+          </LiquidGlass>
         </Section>
-        <Section
-          className={`${className} border-t`}
-          ref={ref2}
-          sectionName="Artists"
-        >
-          <TopArtists />
+        <Section className={`${className}`} ref={ref2} sectionName="Artists">
+          <LiquidGlass className="p-2 rounded-[24px]">
+            <TopArtists />
+          </LiquidGlass>
         </Section>
       </>
     );
