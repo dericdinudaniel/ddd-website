@@ -1,82 +1,54 @@
-import React from "react";
+import { useBrowserInfo } from "@/lib/hooks/useBrowserInfo";
+import React, { useEffect, useState } from "react";
 
 // https://www.tonnitools.com/liquid-glass/
 
 type LiquidGlassProps = {
   children: React.ReactNode;
   className?: string;
-  vars?: {
-    cornerRadius?: string | number;
-    baseStrength?: string | number;
-    extraBlur?: string | number;
-    softness?: string | number;
-    tintAmount?: string | number;
-    tintSaturation?: string | number;
-    tintHue?: string | number;
-    contrast?: string | number;
-    brightness?: string | number;
-    invert?: string | number;
-  };
-  variant?: "full" | "lite";
 };
 
-const LiquidGlass = ({
-  children,
-  className = "",
-  vars = {},
-  variant = "lite",
-}: LiquidGlassProps) => {
+const LiquidGlass = ({ children, className = "" }: LiquidGlassProps) => {
+  const [isClient, setIsClient] = useState(false);
+  const browserInfo = useBrowserInfo();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const addUnit = (value: string | number | undefined, unit: string) => {
     if (value === undefined) return undefined;
     if (typeof value === "number") return `${value}${unit}`;
     return value;
   };
 
-  // return <div>{children}</div>;
-
-  const styleVars = {
-    ...(vars.cornerRadius !== undefined && {
-      ["--corner-radius"]: addUnit(vars.cornerRadius, "px"),
-    }),
-    ...(vars.baseStrength !== undefined && {
-      ["--base-strength"]: addUnit(vars.baseStrength, "px"),
-    }),
-    ...(vars.extraBlur !== undefined && {
-      ["--extra-blur"]: addUnit(vars.extraBlur, "px"),
-    }),
-    ...(vars.softness !== undefined && {
-      ["--softness"]: addUnit(vars.softness, "px"),
-    }),
-    ...(vars.tintAmount !== undefined && {
-      ["--tint-amount"]: vars.tintAmount,
-    }),
-    ...(vars.tintSaturation !== undefined && {
-      ["--tint-saturation"]: vars.tintSaturation,
-    }),
-    ...(vars.tintHue !== undefined && {
-      ["--tint-hue"]: addUnit(vars.tintHue, "deg"),
-    }),
-    ...(vars.contrast !== undefined && { ["--contrast"]: vars.contrast }),
-    ...(vars.brightness !== undefined && { ["--brightness"]: vars.brightness }),
-    ...(vars.invert !== undefined && {
-      ["--invert"]: addUnit(vars.invert, "%"),
-    }),
-  } as unknown as React.CSSProperties;
+  if (!isClient || browserInfo.isMobile || browserInfo.browser != "chrome") {
+    return (
+      <div
+        className={`relative shadow-[0px_0px_10px_var(--shadow)] ${className}`}
+      >
+        {/* Glass material with backdrop blur */}
+        <div className="absolute inset-0 backdrop-blur-[3px] rounded-[inherit] bg-white/10 dark:bg-white/10" />
+        {/* Content */}
+        <div className="relative z-10">{children}</div>
+      </div>
+    );
+  }
 
   return (
     <div
       className={`GlassContainer shadow-[0px_0px_20px_var(--shadow)] ${className}`}
-      style={styleVars}
     >
-      <div className="GlassContent">{children}</div>
+      <div className="GlassContent ">{children}</div>
       <div className="GlassMaterial">
-        {variant === "full" && <div className="GlassEdgeReflection"></div>}
-        {variant === "full" && <div className="GlassEmbossReflection"></div>}
-        {variant === "full" && <div className="GlassRefraction"></div>}
-        {variant === "lite" && <div className="GlassBlur"></div>}
-        {variant === "lite" && <div className="BlendLayers"></div>}
-        {variant === "lite" && <div className="BlendEdge"></div>}
-        {variant === "full" && <div className="Highlight"></div>}
+        {/* <div className="GlassEdgeReflection"></div> */}
+        <div className="GlassEmbossReflection"></div>
+        {/* <div className="GlassRefraction"></div> */}
+        <div className="backdrop-blur-[3px]"></div>
+        {/* <Zdiv className="GlassBlur"></Zdiv> */}
+        <div className="BlendLayers"></div>
+        <div className="BlendEdge"></div>
+        <div className="Highlight"></div>
       </div>
     </div>
   );

@@ -52,12 +52,9 @@ export default function Header() {
           width: isMobile ? "95%" : "60%",
         }}
       >
-        <LiquidGlass
-          className="rounded-[70px]"
-          vars={{ baseStrength: 20, extraBlur: 4, softness: 16 }}
-        >
+        <LiquidGlass className="rounded-[24px]">
           {/* Background Border */}
-          <div className="absolute inset-0 ring-[1px] ring-border rounded-[inherit] opacity-95" />
+          <div className="absolute inset-0 ring-[1px] ring-border rounded-[24px] opacity-95" />
 
           {/* Content */}
           <div className="relative z-10 flex items-center py-1 sm:py-1.5">

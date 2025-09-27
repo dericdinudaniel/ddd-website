@@ -14,7 +14,7 @@ const HeaderLinks = () => {
         <span
           data-cursor-generic-padded='{"top": 4, "right": 7, "bottom": 7, "left": 7}'
           key={link.href}
-          className="font-semibold text-xs sm:text-sm lg:text-base select-none"
+          className="font-semibold text-xs sm:text-base md:text-lg lg:text-lg select-none"
         >
           <Link href={link.href} className="underline-fade">
             {link.label}

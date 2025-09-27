@@ -35,10 +35,10 @@ export default function Footer() {
         </div>
       )}
       <div className="fixed bottom-2 sm:bottom-3 z-50 pointer-events-auto">
-        <LiquidGlass className="rounded-[50px]">
+        <LiquidGlass className="rounded-[24px]">
           {/* Background Border */}
           <div
-            className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]"
+            className="absolute inset-0 ring-[1px] ring-border rounded-[24px]"
             style={{ opacity: 0.95 }}
           />
 

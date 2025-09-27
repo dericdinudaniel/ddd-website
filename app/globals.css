@@ -109,7 +109,7 @@ body {
 
 /* Desktop overrides (Tailwind's 'sm' breakpoint is 640px) */
 /* @media (min-width: 640px) {
-  :root {
+  :root {0
   }
 } */
 
@@ -138,7 +138,7 @@ body {
   position: relative;
   display: block;
   z-index: 100;
-  overflow: hidden;
+  overflow: visible;
   border-radius: var(--corner-radius);
   pointer-events: auto;
 }

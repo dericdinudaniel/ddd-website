@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { motion, useSpring } from "motion/react";
 import { useCustomCursor } from "./providers/CustomCursorProvider";
-import { GlowEffect } from "./motion-primitives/glow-effect";
+// import { GlowEffect } from "./motion-primitives/glow-effect";
 
 // Simple, efficient debounce hook
 const useDebounce = <T extends (...args: unknown[]) => void>(
