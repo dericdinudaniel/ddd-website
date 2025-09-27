@@ -48,7 +48,7 @@ const SubText = () => {
 const Section1 = ({ className = "", ref }: SectionProps) => {
   return (
     <Section className={`${className}`} ref={ref}>
-      <LiquidGlass className="p-6 sm:p-8 md:p-10 rounded-[24px]">
+      <LiquidGlass className="p-6 sm:p-8 md:p-10">
         <div
           className="flex flex-col justify-center items-center align-middle"
           // wrapChildren={true}

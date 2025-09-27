@@ -6,9 +6,14 @@ import React, { useEffect, useState } from "react";
 type LiquidGlassProps = {
   children: React.ReactNode;
   className?: string;
+  roundness?: number; // in pixels
 };
 
-const LiquidGlass = ({ children, className = "" }: LiquidGlassProps) => {
+const LiquidGlass = ({
+  children,
+  className = "",
+  roundness = 24,
+}: LiquidGlassProps) => {
   const [isClient, setIsClient] = useState(false);
   const browserInfo = useBrowserInfo();
 
@@ -26,21 +31,32 @@ const LiquidGlass = ({ children, className = "" }: LiquidGlassProps) => {
     return (
       <div
         className={`relative shadow-[0px_0px_10px_var(--shadow)] ${className}`}
+        style={{ borderRadius: `${roundness}px` }}
       >
         {/* Glass material with backdrop blur */}
-        <div className="absolute inset-0 backdrop-blur-[3px] rounded-[inherit] bg-white/10 dark:bg-white/10" />
+        <div
+          className="absolute inset-0 backdrop-blur-[3px] bg-white/10 dark:bg-white/10"
+          style={{ borderRadius: `${roundness}px` }}
+        />
         {/* Content */}
         <div className="relative z-10">{children}</div>
       </div>
     );
   }
 
+  // chrome desktop
   return (
     <div
       className={`GlassContainer shadow-[0px_0px_20px_var(--shadow)] ${className}`}
+      style={
+        {
+          borderRadius: `${roundness}px`,
+          "--corner-radius": `${roundness}px`,
+        } as React.CSSProperties
+      }
     >
       <div className="GlassContent ">{children}</div>
-      <div className="GlassMaterial">
+      <div className="GlassMaterial" style={{ borderRadius: `${roundness}px` }}>
         {/* <div className="GlassEdgeReflection"></div> */}
         <div className="GlassEmbossReflection"></div>
         {/* <div className="GlassRefraction"></div> */}

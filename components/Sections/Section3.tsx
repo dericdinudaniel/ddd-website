@@ -27,10 +27,10 @@ const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
     return (
       <Section className={`${className}`} ref={ref} sectionName="Spotify">
         <div className="flex flex-row justify-center gap-x-6 px-10">
-          <LiquidGlass className="min-h-fit max-w-[600px] w-full p-2 rounded-[24px]">
+          <LiquidGlass className="min-h-fit max-w-[600px] w-full p-2">
             <TopTracks />
           </LiquidGlass>
-          <LiquidGlass className="min-h-fit max-w-[600px] w-1/2 p-2 rounded-[24px]">
+          <LiquidGlass className="min-h-fit max-w-[600px] w-1/2 p-2">
             <TopArtists />
           </LiquidGlass>
         </div>
@@ -40,12 +40,12 @@ const Section3 = ({ className = "", ref, ref2 }: SectionProps) => {
     return (
       <>
         <Section className={`${className}`} ref={ref} sectionName="Tracks">
-          <LiquidGlass className="p-2 rounded-[24px]">
+          <LiquidGlass className="p-2">
             <TopTracks />
           </LiquidGlass>
         </Section>
         <Section className={`${className}`} ref={ref2} sectionName="Artists">
-          <LiquidGlass className="p-2 rounded-[24px]">
+          <LiquidGlass className="p-2">
             <TopArtists />
           </LiquidGlass>
         </Section>

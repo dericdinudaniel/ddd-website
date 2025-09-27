@@ -29,7 +29,7 @@ const Section2 = ({ className = "", ref }: SectionProps) => {
   return (
     <Section className={`${className}`} ref={ref} sectionName="About">
       <div className="flex flex-col w-full md:flex-row justify-center items-center gap-x-10 gap-y-3 px-4">
-        <LiquidGlass className="flex flex-col items-center p-2 w-fit rounded-[24px]">
+        <LiquidGlass className="flex flex-col items-center p-2 w-fit">
           <Experience />
           {direction == "right" && (
             <SlideFadeIn>
@@ -37,7 +37,7 @@ const Section2 = ({ className = "", ref }: SectionProps) => {
             </SlideFadeIn>
           )}
         </LiquidGlass>
-        <LiquidGlass className="flex flex-col items-center gap-y-3 p-2 w-fit rounded-[24px]">
+        <LiquidGlass className="flex flex-col items-center gap-y-3 p-2 w-fit">
           <Education />
           <AboutMe />
           {direction == "left" && (
