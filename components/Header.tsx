@@ -62,8 +62,8 @@ export default function Header() {
 
   const transition = useMemo(
     () => ({
-      type: "tween",
-      ease: "easeInOut",
+      type: "tween" as const,
+      ease: "easeInOut" as const,
       delay: formationDelayDuration,
       boxShadow: {
         duration: animationDuration,
@@ -74,7 +74,7 @@ export default function Header() {
         duration: animationDuration,
       },
     }),
-    [formationDelayDuration, effectDelayDuration]
+    [formationDelayDuration, effectDelayDuration, animationDuration]
   );
 
   return (

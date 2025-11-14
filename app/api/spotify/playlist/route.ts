@@ -6,6 +6,9 @@ import { loadPlaylistBackup } from "@/lib/playlist-backup";
 const PLAYLIST_ID = "3Fpf3LeKFu8mrPR0XeBuM4";
 // const PLAYLIST_ID = "5p1igBiEnqxgH8oZQQHhXU";
 
+// Mark as dynamic since we use request.url
+export const dynamic = "force-dynamic";
+
 // Cache the response for 5 minutes (playlist data doesn't change frequently)
 export const revalidate = 300; // 5 minutes in seconds
 

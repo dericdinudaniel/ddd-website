@@ -1,4 +1,5 @@
 import querystring from "querystring";
+import type { SpotifyPlaylistItem } from "./playlist-backup";
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -176,11 +177,13 @@ export const getPlaylistTracks = async (playlistId: string) => {
         endTime - startTime
       ).toFixed(2)}ms`
     );
-    return (firstData.items || []).filter((item: any) => item.track !== null);
+    return (firstData.items || []).filter(
+      (item: SpotifyPlaylistItem) => item.track !== null
+    );
   }
 
   // Fetch remaining pages in parallel
-  const pagePromises: Promise<any>[] = [];
+  const pagePromises: Promise<{ items?: SpotifyPlaylistItem[] }>[] = [];
   for (let offset = 100; offset < total; offset += limit) {
     const pageUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=${limit}&offset=${offset}&fields=${encodeURIComponent(
       fields
@@ -222,12 +225,14 @@ export const getPlaylistTracks = async (playlistId: string) => {
   const pageResults = await Promise.all(pagePromises);
 
   // Combine all tracks
-  const allTracks: any[] = [];
+  const allTracks: SpotifyPlaylistItem[] = [];
 
   // Add first page tracks
   if (firstData.items) {
     allTracks.push(
-      ...firstData.items.filter((item: any) => item.track !== null)
+      ...firstData.items.filter(
+        (item: SpotifyPlaylistItem) => item.track !== null
+      )
     );
   }
 
@@ -235,7 +240,9 @@ export const getPlaylistTracks = async (playlistId: string) => {
   for (const pageData of pageResults) {
     if (pageData.items) {
       allTracks.push(
-        ...pageData.items.filter((item: any) => item.track !== null)
+        ...pageData.items.filter(
+          (item: SpotifyPlaylistItem) => item.track !== null
+        )
       );
     }
   }

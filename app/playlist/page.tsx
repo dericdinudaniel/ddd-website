@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { usePlaylistSearch } from "@/lib/hooks/useSpotify";
 import PlaylistSearch from "@/components/spotify/PlaylistSearch";
 
-export default function PlaylistPage() {
+function PlaylistPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
@@ -59,7 +59,7 @@ export default function PlaylistPage() {
         className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem] mb-8"
         data-text-cursor
       >
-        Search the "Deric" Playlist
+        Search the &quot;Deric&quot; Playlist
       </h1>
 
       <PlaylistSearch
@@ -77,5 +77,25 @@ export default function PlaylistPage() {
       />
       <div className="h-10 block" />
     </section>
+  );
+}
+
+export default function PlaylistPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="min-h-screen bg-background text-foreground flex flex-col items-center justify-start pt-24 px-4 sm:px-6 md:px-8 pb-20">
+          <h1
+            className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-header tracking-[.1rem] mb-8"
+            data-text-cursor
+          >
+            Search the &quot;Deric&quot; Playlist
+          </h1>
+          <div>Loading...</div>
+        </section>
+      }
+    >
+      <PlaylistPageContent />
+    </Suspense>
   );
 }

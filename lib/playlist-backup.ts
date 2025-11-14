@@ -10,16 +10,40 @@ export interface BackupMetadata {
   trackCount: number;
 }
 
+// Spotify API response structure for playlist items
+export interface SpotifyPlaylistItem {
+  added_at?: string;
+  track: {
+    id?: string;
+    name?: string;
+    uri?: string;
+    external_urls?: {
+      spotify?: string;
+    };
+    duration_ms?: number;
+    album?: {
+      images?: Array<{ url?: string }>;
+      name?: string;
+    };
+    artists?: Array<{
+      name?: string;
+      external_urls?: {
+        spotify?: string;
+      };
+    }>;
+  } | null;
+}
+
 export interface PlaylistBackup {
   metadata: BackupMetadata;
-  tracks: any[];
+  tracks: SpotifyPlaylistItem[];
 }
 
 /**
  * Save playlist tracks to backup file
  */
 export async function savePlaylistBackup(
-  tracks: any[],
+  tracks: SpotifyPlaylistItem[],
   playlistId: string
 ): Promise<void> {
   try {
@@ -39,7 +63,7 @@ export async function savePlaylistBackup(
     console.log(
       `[Backup] Saved ${tracks.length} tracks to ${BACKUP_FILE} at ${backup.metadata.savedAt}`
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("[Backup] Failed to save backup:", error);
     throw error;
   }
@@ -56,8 +80,13 @@ export async function loadPlaylistBackup(): Promise<PlaylistBackup | null> {
       `[Backup] Loaded ${backup.metadata.trackCount} tracks from backup (saved at ${backup.metadata.savedAt})`
     );
     return backup;
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
+  } catch (error) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "ENOENT"
+    ) {
       console.log("[Backup] No backup file found");
       return null;
     }

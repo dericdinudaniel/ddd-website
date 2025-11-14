@@ -64,7 +64,7 @@ const fetcher = async (url: string) => {
     }
 
     return data;
-  } catch (error: any) {
+  } catch (error) {
     // Re-throw error so SWR can handle it properly
     console.error("Fetcher error:", error);
     throw error;
