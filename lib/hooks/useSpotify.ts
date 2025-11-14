@@ -15,6 +15,19 @@ type SpotifyTrack = {
   }>;
 };
 
+export type PlaylistTrack = {
+  title: string;
+  songUrl: string;
+  albumImageUrl: string;
+  album?: string;
+  artists: Array<{
+    name: string;
+    url: string;
+  }>;
+  duration?: number;
+  addedAt?: string;
+};
+
 type SpotifyArtist = {
   name: string;
   imageUrl: string;
@@ -33,12 +46,28 @@ type NowPlaying = {
 const fetcher = async (url: string) => {
   try {
     const res = await fetch(url);
-    if (!res.ok) {
+    const data = await res.json().catch(() => {
+      // If response is not JSON, return null
       return null;
+    });
+
+    if (!res.ok) {
+      // If we have error data, use it; otherwise use status text
+      const errorMessage =
+        data?.error || res.statusText || `HTTP error! status: ${res.status}`;
+      throw new Error(errorMessage);
     }
-    return res.json();
-  } catch {
-    return null;
+
+    // If data is null or invalid, throw an error
+    if (!data || typeof data !== "object") {
+      throw new Error("Invalid response data");
+    }
+
+    return data;
+  } catch (error: any) {
+    // Re-throw error so SWR can handle it properly
+    console.error("Fetcher error:", error);
+    throw error;
   }
 };
 
@@ -92,5 +121,52 @@ export const useTopArtists = () => {
     data: data || fallbackArtists,
     isLoading,
     isError: error,
+  };
+};
+
+const playlistFetcher = async (url: string) => {
+  const startTime = performance.now();
+  try {
+    const result = await fetcher(url);
+    const endTime = performance.now();
+    const duration = endTime - startTime;
+    console.log(
+      `[usePlaylistSearch] Spotify API call took ${duration.toFixed(2)}ms`
+    );
+    return result;
+  } catch (error) {
+    const endTime = performance.now();
+    const duration = endTime - startTime;
+    console.log(
+      `[usePlaylistSearch] Spotify API call failed after ${duration.toFixed(
+        2
+      )}ms`
+    );
+    throw error;
+  }
+};
+
+export const usePlaylistSearch = (searchQuery: string = "") => {
+  const url = searchQuery.trim()
+    ? `/api/spotify/playlist?search=${encodeURIComponent(searchQuery)}`
+    : `/api/spotify/playlist`;
+
+  const { data, error, isLoading, mutate } = useSWR<{
+    tracks: PlaylistTrack[];
+    total: number;
+    originalTotal: number;
+  }>(url, playlistFetcher, {
+    refreshInterval: 0, // Don't auto-refresh, user will search manually
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+
+  return {
+    tracks: data?.tracks || [],
+    total: data?.total || 0,
+    originalTotal: data?.originalTotal || 0,
+    isLoading,
+    isError: error,
+    mutate,
   };
 };

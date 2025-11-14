@@ -7,59 +7,31 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
 
-const Logo = ({
-  isScrolled,
-  animationDuration,
-  formationDelayDuration,
-}: {
-  isScrolled: boolean;
-  animationDuration: number;
-  formationDelayDuration: number;
-}) => {
+const Logo = () => {
   return (
     <Link
       data-cursor-generic
       href="/"
       className="flex items-center gap-x-0 sm:gap-x-1 ml-3 rounded-xl px-2"
     >
-      <motion.div
+      <div
         // Initial styles set via Tailwind using CSS variables for consistency before/without JS
         // and for the non-scrolled state.
-        className="h-[var(--logo-icon-height-not-scrolled)] w-[var(--logo-icon-width-not-scrolled)]"
-        initial={false} // No animation on initial render; adopts animate state directly
-        animate={{
-          width: isScrolled
-            ? "var(--logo-icon-width-scrolled)"
-            : "var(--logo-icon-width-not-scrolled)",
-          height: isScrolled
-            ? "var(--logo-icon-height-scrolled)"
-            : "var(--logo-icon-height-not-scrolled)",
-        }}
-        transition={{
-          duration: animationDuration,
-          delay: formationDelayDuration,
+        className="h-[45px] w-[28px]"
+        style={{
+          width: "33px",
+          height: "35px",
         }}
       >
         <Terminal className="w-full h-full" />
-      </motion.div>
+      </div>
 
-      <motion.h2
+      <h2
         data-text-cursor
-        // Initial font size set via Tailwind using CSS variable.
-        className="font-bold text-[var(--logo-text-size-not-scrolled)] select-none"
-        initial={false}
-        animate={{
-          fontSize: isScrolled
-            ? "var(--logo-text-size-scrolled)"
-            : "var(--logo-text-size-not-scrolled)",
-        }}
-        transition={{
-          duration: animationDuration,
-          delay: formationDelayDuration,
-        }}
+        className="font-bold text-xl md:text-2xl select-none"
       >
         DDD
-      </motion.h2>
+      </h2>
     </Link>
   );
 };
@@ -114,15 +86,11 @@ export default function Header() {
         className="fixed top-0 left-0 right-0 z-50 mx-auto py-1 sm:py-1.5 translate-y-[8px] sm:translate-y-[10px]"
         initial={false}
         animate={{
-          width: isScrolled ? (isMobile ? "95%" : "80%") : "100%",
-          borderRadius: isScrolled ? "70px" : "0px",
-          boxShadow: isScrolled
-            ? "0px 5px 15px var(--shadow)"
-            : "0px 0px 0px var(--shadow)",
-          backgroundColor: isScrolled
-            ? "var(--pill)"
-            : "var(--fully-transparent)",
-          backdropFilter: isScrolled ? "blur(.7rem)" : "blur(0rem)",
+          width: isMobile ? "95%" : "60%",
+          borderRadius: "70px",
+          boxShadow: "0px 5px 15px var(--shadow)",
+          backgroundColor: "var(--pill)",
+          backdropFilter: "blur(.7rem)",
         }}
         transition={transition}
         style={{
@@ -137,7 +105,7 @@ export default function Header() {
           className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]"
           initial={false}
           animate={{
-            opacity: isScrolled ? 0.95 : 0,
+            opacity: 0.95,
           }}
           transition={{
             duration: animationDuration,
@@ -149,20 +117,12 @@ export default function Header() {
         <div className="relative z-10 flex items-center">
           {/* Left region */}
           <div className="flex basis-0 flex-1 items-center gap-x-[.1rem]">
-            <Logo
-              isScrolled={isScrolled}
-              animationDuration={animationDuration}
-              formationDelayDuration={formationDelayDuration}
-            />
+            <Logo />
           </div>
 
           {/* Center region */}
           <div className="flex basis-0 flex-1 justify-center">
-            <HeaderLinks
-              isScrolled={isScrolled}
-              animationDuration={animationDuration}
-              formationDelayDuration={formationDelayDuration + 0.08}
-            />
+            <HeaderLinks />
           </div>
 
           {/* Right region */}

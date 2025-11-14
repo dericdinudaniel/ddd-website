@@ -11,30 +11,10 @@ export default function Footer() {
   const isIndex = pathname === "/";
 
   const { scrollY } = useScroll();
-  const [isScrollable, setIsScrollable] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
-  // 1) Re–compute "scrollable" on mount, on resize, AND on every pathname change
-  useEffect(() => {
-    const checkScrollable = () => {
-      const docHeight = document.documentElement.scrollHeight;
-      const viewH = window.innerHeight;
-      setIsScrollable(docHeight > viewH);
-    };
-
-    checkScrollable();
-    window.addEventListener("resize", checkScrollable);
-    return () => window.removeEventListener("resize", checkScrollable);
-  }, [pathname]);
 
   // 2) Subscribe to scrollY, _or_ override `isScrolled` immediately
   useEffect(() => {
-    // if page isn't tall enough, never scrolled
-    if (!isScrollable) {
-      setIsScrolled(false);
-      return;
-    }
-
     // if you're off "/" _and_ the page _is_ scrollable → force scrolled
     if (!isIndex) {
       setIsScrolled(true);
@@ -47,7 +27,7 @@ export default function Footer() {
       setIsScrolled(y > 10);
     });
     return unsubscribe;
-  }, [isIndex, isScrollable, scrollY]);
+  }, [isIndex, scrollY]);
 
   const animationDuration = 0.2;
   const effectDelayDuration = isScrolled ? 0.2 : 0;
@@ -75,7 +55,7 @@ export default function Footer() {
     <div className="relative flex justify-center">
       {isIndex && (
         <div
-          className={`fixed bottom-[70px] flex justify-center w-full transition-opacity duration-300 ${
+          className={`fixed bottom-[82px] flex justify-center w-full transition-opacity duration-300 ${
             isScrolled ? "opacity-0" : "opacity-100"
           }`}
         >
@@ -89,13 +69,9 @@ export default function Footer() {
         className="fixed bottom-2 sm:bottom-3 z-50"
         initial={false}
         animate={{
-          boxShadow: isScrolled
-            ? "0px 2px 12px var(--shadow)"
-            : "0px 0px 0px var(--shadow)",
-          backgroundColor: isScrolled
-            ? "var(--pill)"
-            : "var(--fully-transparent)",
-          backdropFilter: isScrolled ? "blur(.7rem)" : "blur(0rem)",
+          boxShadow: "0px 2px 12px var(--shadow)",
+          backgroundColor: "var(--pill)",
+          backdropFilter: "blur(.7rem)",
         }}
         transition={transition}
         style={{
@@ -110,7 +86,7 @@ export default function Footer() {
           className="absolute inset-0 ring-[1px] ring-border rounded-[inherit]"
           initial={false}
           animate={{
-            opacity: isScrolled ? 0.95 : 0,
+            opacity: 0.95,
           }}
           transition={{
             duration: animationDuration,

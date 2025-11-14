@@ -10,6 +10,7 @@ type SongDisplayProps = {
   size?: "small" | "medium" | "large";
   maxWidth?: number;
   pauseDuration?: number;
+  addedAt?: string;
 };
 
 export default function SongDisplay({
@@ -20,20 +21,49 @@ export default function SongDisplay({
   size = "medium",
   maxWidth = 150,
   pauseDuration = 1,
+  addedAt,
 }: SongDisplayProps) {
-  const artistList = artists.map((artist, index) => (
-    <span key={artist.url}>
-      <Link
-        href={artist.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs md:text-sm xl:text-base underline-fade"
-      >
-        {artist.name}
-      </Link>
-      {index < artists.length - 1 && ", "}
-    </span>
-  ));
+  // Ensure artists is an array and filter out invalid artists
+  const validArtists = (artists || []).filter(
+    (artist) => artist && artist.name
+  );
+
+  const artistList =
+    validArtists.length > 0 ? (
+      validArtists.map((artist, index) => (
+        <span key={`${artist.url || index}-${artist.name}`}>
+          <Link
+            href={artist.url || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs md:text-sm xl:text-base underline-fade"
+          >
+            {artist.name}
+          </Link>
+          {index < validArtists.length - 1 && ", "}
+        </span>
+      ))
+    ) : (
+      <span>Unknown Artist</span>
+    );
+
+  // Format the added date
+  const formatAddedDate = (dateString?: string) => {
+    if (!dateString) return null;
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return null;
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  const formattedDate = formatAddedDate(addedAt);
 
   return (
     <div className="flex items-center space-x-4">
@@ -72,6 +102,11 @@ export default function SongDisplay({
             <p data-text-cursor>{artistList}</p>
           </ScrollingText>
         </div>
+        {formattedDate && (
+          <div className="text-xs text-muted text-left mt-0.5">
+            <span data-text-cursor>Added: {formattedDate}</span>
+          </div>
+        )}
       </div>
     </div>
   );

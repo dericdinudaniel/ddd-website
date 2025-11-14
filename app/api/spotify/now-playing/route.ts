@@ -7,6 +7,18 @@ export async function GET() {
 
   if (!response.ok || response.status === 204) {
     // If no content (204) or response not ok, return not playing
+    if (response.status !== 204) {
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: "Failed to parse error response" }));
+      const retryAfter = response.headers.get("Retry-After");
+      console.error("[Now Playing API] Error response:", {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData,
+        ...(retryAfter && { retryAfter }),
+      });
+    }
     return NextResponse.json({ isPlaying: false }, { status: 200 });
   }
 
