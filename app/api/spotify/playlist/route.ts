@@ -21,9 +21,9 @@ export async function GET(request: Request) {
     // Fetch all tracks from the playlist
     let tracks;
     try {
-      tracks = await getPlaylistTracks(PLAYLIST_ID);
       // test backup
       throw new Error("test backup");
+      // tracks = await getPlaylistTracks(PLAYLIST_ID);
     } catch (error: any) {
       console.error(
         "[Playlist API] Error fetching playlist tracks from Spotify:",
