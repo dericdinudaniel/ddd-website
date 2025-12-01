@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
-import { getPlaylistTracks } from "@/lib/spotify";
+// import { getPlaylistTracks } from "@/lib/spotify";
 import { loadPlaylistBackup } from "@/lib/playlist-backup";
 
 const PLAYLIST_ID = "3Fpf3LeKFu8mrPR0XeBuM4";
